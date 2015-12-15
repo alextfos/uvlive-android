@@ -2,6 +2,7 @@ package com.example.atraverf.uvlive.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -10,8 +11,9 @@ import com.android.volley.VolleyError;
 import com.example.atraverf.uvlive.R;
 import com.example.atraverf.uvlive.UVLiveApplication;
 import com.example.atraverf.uvlive.gateway.form.LoginForm;
-import com.example.atraverf.uvlive.gateway.model.LoginModel;
+import com.example.atraverf.uvlive.gateway.response.LoginResponse;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
@@ -33,6 +35,13 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        ButterKnife.inject(this);
+        /*mLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login();
+            }
+        });*/
     }
 
     /*
@@ -44,11 +53,11 @@ public class LoginActivity extends Activity {
     public void login(){
         LoginForm request = new LoginForm();
         request.setUser(mUser.getText().toString());
-        request.setPassword(mPassword.getText().toString());
+        //request.setPassword(mPassword.getText().toString());
 
-        Response.Listener<LoginModel> responseListener = new Response.Listener<LoginModel>(){
+        Response.Listener<LoginResponse> responseListener = new Response.Listener<LoginResponse>(){
             @Override
-            public void onResponse(LoginModel loginResponse) {
+            public void onResponse(LoginResponse loginResponse) {
 
             }
         };

@@ -2,67 +2,67 @@
 <items version="2" >
 
     <item
-        jar="/Users/atraverf/UVLive-android/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/jars/classes.jar"
+        jar="/Users/atraverf/uvlive-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="379471b2bd17d9737c050345c08e8c7d16589784">
-        <dex dex="/Users/atraverf/UVLive-android/app/build/intermediates/pre-dexed/debug/classes-3c811dca2299a396ab4de14fb6728ab1557cdf11.jar" />
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="/Users/atraverf/uvlive-android/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1-bc9de05205dcdbf69ab8fa8b0cd744acd4b6753f.jar" />
     </item>
     <item
-        jar="/Users/atraverf/UVLive-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
+        jar="/Users/atraverf/uvlive-android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars/classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
-        <dex dex="/Users/atraverf/UVLive-android/app/build/intermediates/pre-dexed/debug/classes-49ae91fef9f3bb4da7b74bdb8a4cb15617884acc.jar" />
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="/Users/atraverf/uvlive-android/app/build/intermediates/pre-dexed/debug/classes-c0a490fb824a7dab2b8eea96dfc52e10f1231dd1.jar" />
+    </item>
+    <item
+        jar="/Users/atraverf/uvlive-android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
+        <dex dex="/Users/atraverf/uvlive-android/app/build/intermediates/pre-dexed/debug/classes-83900b5b2634e0e60f03101320dfb6af2428db69.jar" />
     </item>
     <item
         jar="/Users/atraverf/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="a60a5e993c98c864010053cb901b7eab25306568">
-        <dex dex="/Users/atraverf/UVLive-android/app/build/intermediates/pre-dexed/debug/gson-2.2.4-2221117bea6f1bb792b75c6eece9fae61e7ae66b.jar" />
+        <dex dex="/Users/atraverf/uvlive-android/app/build/intermediates/pre-dexed/debug/gson-2.2.4-2221117bea6f1bb792b75c6eece9fae61e7ae66b.jar" />
     </item>
     <item
-        jar="/Users/atraverf/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar"
+        jar="/Users/atraverf/uvlive-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
         jumboMode="false"
         revision="23.0.2"
-        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
-        <dex dex="/Users/atraverf/UVLive-android/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.1-b2a82f738ec344487dc1b2b7fb7fea6a5382211b.jar" />
-    </item>
-    <item
-        jar="/Users/atraverf/UVLive-android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
-        <dex dex="/Users/atraverf/UVLive-android/app/build/intermediates/pre-dexed/debug/classes-d2f0119d0a4b5f7e0cbcc3be758444a366b5c514.jar" />
-    </item>
-    <item
-        jar="/Users/atraverf/UVLive-android/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="09c5e804bc67fc0580360043dff067df574a60d4">
-        <dex dex="/Users/atraverf/UVLive-android/app/build/intermediates/pre-dexed/debug/classes-ed6cf7bf2d18fb66d8dccd4559724cab6e47fcb0.jar" />
-    </item>
-    <item
-        jar="/Users/atraverf/UVLive-android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
-        <dex dex="/Users/atraverf/UVLive-android/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1-fafa492d9f01c3fea3fdfd80fc072a8edb01242d.jar" />
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="/Users/atraverf/uvlive-android/app/build/intermediates/pre-dexed/debug/classes-6cb787f09a1c29fc409bd309ce671862d5cc1881.jar" />
     </item>
     <item
         jar="/Users/atraverf/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife/6.1.0/63735f48b82bcd24cdd33821342428252eb1ca5a/butterknife-6.1.0.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="63735f48b82bcd24cdd33821342428252eb1ca5a">
-        <dex dex="/Users/atraverf/UVLive-android/app/build/intermediates/pre-dexed/debug/butterknife-6.1.0-e034dd9a309ae66b9e759452e854fe2982d4c74a.jar" />
+        <dex dex="/Users/atraverf/uvlive-android/app/build/intermediates/pre-dexed/debug/butterknife-6.1.0-e034dd9a309ae66b9e759452e854fe2982d4c74a.jar" />
     </item>
     <item
-        jar="/Users/atraverf/UVLive-android/app/libs/volley.jar"
+        jar="/Users/atraverf/uvlive-android/app/libs/volley.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="7ac965cc4306e8769dae72f6029206ba797f92fa">
-        <dex dex="/Users/atraverf/UVLive-android/app/build/intermediates/pre-dexed/debug/volley-a198e883357f512be31899468e715d562ff38eec.jar" />
+        <dex dex="/Users/atraverf/uvlive-android/app/build/intermediates/pre-dexed/debug/volley-15f02791329b291e99b76c1cc9d133398d92ba98.jar" />
+    </item>
+    <item
+        jar="/Users/atraverf/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="/Users/atraverf/uvlive-android/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.1-b2a82f738ec344487dc1b2b7fb7fea6a5382211b.jar" />
+    </item>
+    <item
+        jar="/Users/atraverf/uvlive-android/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="379471b2bd17d9737c050345c08e8c7d16589784">
+        <dex dex="/Users/atraverf/uvlive-android/app/build/intermediates/pre-dexed/debug/classes-f98695bf32e1a1b01bdada15e37368822dd4cbfc.jar" />
     </item>
 
 </items>
