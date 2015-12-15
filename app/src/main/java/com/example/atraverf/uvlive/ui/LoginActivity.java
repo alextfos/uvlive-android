@@ -2,6 +2,7 @@ package com.example.atraverf.uvlive.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,7 +59,7 @@ public class LoginActivity extends Activity {
         Response.Listener<LoginResponse> responseListener = new Response.Listener<LoginResponse>(){
             @Override
             public void onResponse(LoginResponse loginResponse) {
-
+                Log.d("proves", "vuelta del servidor");
             }
         };
 

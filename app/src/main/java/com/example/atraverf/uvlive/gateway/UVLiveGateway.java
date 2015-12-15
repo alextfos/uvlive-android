@@ -34,7 +34,7 @@ public class UVLiveGateway {
 
     public void login(LoginForm form ,Response.Listener<LoginResponse> responseListener ,Response.ErrorListener errorListener) {
         //añadir a la lista
-        String stringRequest = GSON_CREATOR.toJson(responseListener);
+        String stringRequest = GSON_CREATOR.toJson(form);
         GsonRequest<LoginResponse> peticion = new GsonRequest<LoginResponse>(environment+sLoginUrl,
                 LoginResponse.class,stringRequest,responseListener,errorListener);
         Log.d("proves",peticion.toString());

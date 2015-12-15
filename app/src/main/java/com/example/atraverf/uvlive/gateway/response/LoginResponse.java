@@ -8,10 +8,11 @@ import android.os.Parcelable;
  */
 public class LoginResponse implements Parcelable {
 
+    private String user;
     public LoginResponse(){}
 
     public LoginResponse(Parcel in){
-
+        this.user = in.readString();
     }
     @Override
     public int describeContents() {
@@ -20,7 +21,7 @@ public class LoginResponse implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeString(this.user);
     }
 
     public static final Creator<LoginResponse> CREATOR = new Creator<LoginResponse>() {

@@ -62,6 +62,8 @@ public class GsonRequest<T> extends Request<T> {
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
+            Map<String, String> asdf = response.headers;
+            String str=  new String(response.data);
             String json = new String(
                     response.data,
                     HttpHeaderParser.parseCharset(response.headers));
