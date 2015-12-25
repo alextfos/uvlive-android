@@ -11,5 +11,6 @@ public class NavigationUtils {
     }
 
     public static void navigateToActivity() {
+
     }
 }

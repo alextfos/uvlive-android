@@ -63,7 +63,8 @@ public class LoginActivity extends Activity {
             @Override
             public void onResponse(LoginResponse loginResponse) {
                 Log.d("proves", "vuelta del servidor");
-                startActivity(new Intent(LoginActivity.this,ItemListActivity.class));
+                //startActivity(new Intent(LoginActivity.this,ItemListActivity.class));
+                sendResult();
             }
         };
 
@@ -73,7 +74,13 @@ public class LoginActivity extends Activity {
 
             }
         };
+        UVLiveApplication.getUVLiveGateway().login(request, responseListener, errorListener);
+    }
 
-        UVLiveApplication.getUVLiveGateway().login(request,responseListener,errorListener);
+    private void sendResult(){
+        Intent intent = this.getIntent();
+        intent.putExtra("SOMETHING", "EXTRAS");
+        this.setResult(RESULT_OK, intent);
+        finish();
     }
 }
