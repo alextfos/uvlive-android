@@ -9,4 +9,7 @@ public class NavigationUtils {
     public static void navigateToFragment(Activity activity){
 
     }
+
+    public static void navigateToActivity() {
+    }
 }

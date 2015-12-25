@@ -23,7 +23,7 @@ public class UVLiveGateway {
     private static final String CURRENT_ACCEPT_LANGUAGE_HEADER_VALUE = "es";
     private static String sLoginUrl = "/login";
 
-    private static String environment = "http://192.168.0.154:8080/uvlive-api";
+    private static String environment = "http://192.168.1.131:8080/uvlive-api";
     public static final Gson GSON_CREATOR = new GsonBuilder().create();
 
     private RequestQueue mRequestQueue;

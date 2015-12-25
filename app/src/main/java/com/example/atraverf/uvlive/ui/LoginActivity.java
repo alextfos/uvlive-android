@@ -1,6 +1,8 @@
 package com.example.atraverf.uvlive.ui;
 
 import android.app.Activity;
+import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +15,7 @@ import com.example.atraverf.uvlive.R;
 import com.example.atraverf.uvlive.UVLiveApplication;
 import com.example.atraverf.uvlive.gateway.form.LoginForm;
 import com.example.atraverf.uvlive.gateway.response.LoginResponse;
+import com.example.atraverf.uvlive.utils.NavigationUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -60,6 +63,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onResponse(LoginResponse loginResponse) {
                 Log.d("proves", "vuelta del servidor");
+                startActivity(new Intent(LoginActivity.this,ItemListActivity.class));
             }
         };
 

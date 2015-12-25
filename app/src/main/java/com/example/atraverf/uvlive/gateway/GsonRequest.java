@@ -62,6 +62,7 @@ public class GsonRequest<T> extends Request<T> {
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
+            //TODO: Si esta la cabecera set-cookie, capturar la cookie y enviarla en sucesivas peticiones
             Map<String, String> asdf = response.headers;
             String str=  new String(response.data);
             String json = new String(
