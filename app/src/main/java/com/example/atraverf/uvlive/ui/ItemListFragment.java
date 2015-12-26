@@ -2,6 +2,7 @@ package com.example.atraverf.uvlive.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -36,6 +37,10 @@ public class ItemListFragment extends ListFragment {
      * The current activated item position. Only used on tablets.
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
+
+    public static ItemListFragment newInstance() {
+        return new ItemListFragment();
+    }
 
     /**
      * A callback interface that all activities containing this fragment must
