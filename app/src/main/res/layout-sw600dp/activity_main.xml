@@ -25,12 +25,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:baselineAligned="false"
         android:divider="?android:attr/dividerHorizontal"
         android:orientation="horizontal"
-        android:showDividers="middle">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <!--
         This layout is a two-pane layout for the Items
