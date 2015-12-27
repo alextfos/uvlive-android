@@ -26,6 +26,8 @@ public class ListContentManager {
     private static final int COUNT = 25;
 
     public static void setListItems() {
+        //TODO: Buscar en el almacenamiento las conversaciones disponibles, si no hay hacer consulta
+        //al servicio
         // Add some sample items.
         for (int i = 1; i <= COUNT; i++) {
             addItem(createDummyItem(i));
