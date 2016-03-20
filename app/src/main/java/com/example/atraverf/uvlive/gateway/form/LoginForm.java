@@ -10,11 +10,13 @@ import android.text.Editable;
 public class LoginForm implements Parcelable {
 
     private String userName;
-    //private String password;
+    private String password;
+    private String loginType;
 
     public LoginForm(Parcel in){
         userName = in.readString();
-        //password = in.readString();
+        password = in.readString();
+        loginType = in.readString();
     }
 
     public LoginForm(){
@@ -28,7 +30,8 @@ public class LoginForm implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(userName);
-        //dest.writeString(password);
+        dest.writeString(password);
+        dest.writeString(loginType);
     }
 
     public static final Creator<LoginForm> CREATOR = new Creator<LoginForm>() {
@@ -45,7 +48,11 @@ public class LoginForm implements Parcelable {
         this.userName = userName;
     }
 
-    /*public void setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
-    }*/
+    }
+
+    public void setTypeLogin(String type) {
+        this.loginType = type;
+    }
 }

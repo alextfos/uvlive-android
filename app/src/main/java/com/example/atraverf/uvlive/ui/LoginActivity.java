@@ -6,8 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -35,11 +38,18 @@ public class LoginActivity extends Activity {
     @InjectView(R.id.login_password_et)
     EditText mPassword;
 
+    @InjectView(R.id.login_spinner)
+    Spinner mSpinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         ButterKnife.inject(this);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,R.array.type_login_array,R.layout.support_simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        mSpinner.setAdapter(adapter);
         /*mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,8 +66,9 @@ public class LoginActivity extends Activity {
     @OnClick(R.id.login_b)
     public void login(){
         LoginForm request = new LoginForm();
+        request.setTypeLogin((String)mSpinner.getSelectedItem());
         request.setUser(mUser.getText().toString());
-        //request.setPassword(mPassword.getText().toString());
+        request.setPassword(mPassword.getText().toString());
 
         Response.Listener<LoginResponse> responseListener = new Response.Listener<LoginResponse>(){
             @Override
@@ -71,7 +82,7 @@ public class LoginActivity extends Activity {
         Response.ErrorListener errorListener = new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-
+                Log.d("proves","Error de respuesta en el login");
             }
         };
         UVLiveApplication.getUVLiveGateway().login(request, responseListener, errorListener);
@@ -79,8 +90,8 @@ public class LoginActivity extends Activity {
 
     private void sendResult(){
         Intent intent = this.getIntent();
-        intent.putExtra("SOMETHING", "EXTRAS");
-        this.setResult(RESULT_OK, intent);
+        //intent.putExtra("SOMETHING", "EXTRAS");
+        this.setResult(Activity.RESULT_OK, intent);
         finish();
     }
 }

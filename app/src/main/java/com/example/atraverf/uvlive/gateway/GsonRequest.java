@@ -7,6 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.example.atraverf.uvlive.utils.StringUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -18,6 +19,7 @@ public class GsonRequest<T> extends Request<T> {
     private final Gson gson = new Gson();
     private final Class<T> clazz;
     private static HashMap<String, String> headers= new HashMap<>();
+    private static final String HEADER_COOKIE = "Set-Cookie";
     private final Response.Listener<T> listener;
     private String mRequestBody;
     static{
@@ -63,8 +65,11 @@ public class GsonRequest<T> extends Request<T> {
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
             //TODO: Si esta la cabecera set-cookie, capturar la cookie y enviarla en sucesivas peticiones
-            Map<String, String> asdf = response.headers;
-            String str=  new String(response.data);
+            Map<String, String> headers = response.headers;
+            if (!StringUtils.isBlank(headers.get(HEADER_COOKIE))) {
+                UVLiveGateway.setCookie(headers.get(HEADER_COOKIE));
+            }
+            //String str=  new String(response.data);
             String json = new String(
                     response.data,
                     HttpHeaderParser.parseCharset(response.headers));
