@@ -2,15 +2,18 @@ package com.example.atraverf.uvlive.ui;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -65,8 +68,11 @@ public class LoginActivity extends Activity {
         */
     @OnClick(R.id.login_b)
     public void login(){
+
+        hideKeyboard();
+
         LoginForm request = new LoginForm();
-        request.setTypeLogin((String)mSpinner.getSelectedItem());
+        request.setTypeLogin((String) mSpinner.getSelectedItem());
         request.setUser(mUser.getText().toString());
         request.setPassword(mPassword.getText().toString());
 
@@ -83,6 +89,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Log.d("proves","Error de respuesta en el login");
+                Toast.makeText(UVLiveApplication.getInstance(),"Ha habido un problema con el login",Toast.LENGTH_LONG).show();
             }
         };
         UVLiveApplication.getUVLiveGateway().login(request, responseListener, errorListener);
@@ -93,5 +100,13 @@ public class LoginActivity extends Activity {
         //intent.putExtra("SOMETHING", "EXTRAS");
         this.setResult(Activity.RESULT_OK, intent);
         finish();
+    }
+
+    private void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

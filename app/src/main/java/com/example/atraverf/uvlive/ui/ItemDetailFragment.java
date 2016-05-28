@@ -4,20 +4,27 @@ import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.atraverf.uvlive.R;
+import com.example.atraverf.uvlive.UVLiveApplication;
+import com.example.atraverf.uvlive.gateway.form.MessagesForm;
+import com.example.atraverf.uvlive.gateway.response.LoginResponse;
+import com.example.atraverf.uvlive.gateway.response.MessagesResponse;
 import com.example.atraverf.uvlive.ui.adapter.ListContentManager;
 
-/**
- * A fragment representing a single Item detail screen.
- * This fragment is either contained in a {@link ItemListActivity}
- * in two-pane mode (on tablets) or a {@link ItemDetailActivity}
- * on handsets.
- */
+import butterknife.InjectView;
+
+
 public class ItemDetailFragment extends Fragment {
     /**
      * The fragment argument representing the item ID that this fragment
@@ -29,6 +36,8 @@ public class ItemDetailFragment extends Fragment {
      * The dummy content this fragment is presenting.
      */
     private ListContentManager.ListItem mItem;
+    //@InjectView(R.id.recycler_view)
+    //private RecyclerView mRecyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -36,11 +45,21 @@ public class ItemDetailFragment extends Fragment {
      */
     public ItemDetailFragment() {
     }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_item_detail, container, false);
+        // Show the dummy content as text in a TextView.
+        /*if (mItem != null) {
+            ((TextView) rootView.findViewById(R.id.item_detail)).setText(mItem.toString());
+        }*/
+
+        return rootView;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
@@ -53,18 +72,29 @@ public class ItemDetailFragment extends Fragment {
                 appBarLayout.setTitle(mItem.content);
             }*/
         }
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_item_detail, container, false);
+        //mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //Se consultan los últimos mensajes almacenados y se solicita el resto con
+        //una llamada al servicio
+        /*MessagesForm messagesForm = new MessagesForm();
+        messagesForm.setIdConversation(mItem.getIdConversation());
 
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.item_detail)).setText(mItem.details);
-        }
+        Response.Listener<MessagesResponse> responseListener = new Response.Listener<MessagesResponse>(){
+            @Override
+            public void onResponse(MessagesResponse messagesResponse) {
+                Log.d("proves", "vuelta del servidor");
+            }
+        };
 
-        return rootView;
+        Response.ErrorListener errorListener = new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d("proves","Error de respuesta en el login");
+                Toast.makeText(UVLiveApplication.getInstance(), "Ha habido un problema con el login", Toast.LENGTH_LONG).show();
+            }
+        };
+
+        UVLiveApplication.getUVLiveGateway().messages(messagesForm,responseListener,errorListener);*/
+
     }
 }

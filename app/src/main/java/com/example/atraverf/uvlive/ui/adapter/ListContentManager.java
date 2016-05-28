@@ -1,5 +1,14 @@
 package com.example.atraverf.uvlive.ui.adapter;
 
+import android.util.Log;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.example.atraverf.uvlive.UVLiveApplication;
+import com.example.atraverf.uvlive.gateway.form.ConversationsForm;
+import com.example.atraverf.uvlive.gateway.response.ConversationResponse;
+import com.example.atraverf.uvlive.gateway.response.ConversationsListResponse;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,21 +26,43 @@ public class ListContentManager {
      * An array of sample (dummy) items.
      */
     private static List<ListItem> ITEMS = new ArrayList<ListItem>();
-
     /**
      * A map of sample (dummy) items, by ID.
      */
     private static Map<String, ListItem> ITEM_MAP = new HashMap<String, ListItem>();
 
-    private static final int COUNT = 25;
+    private static int mCount = 0;
 
     public static void setListItems() {
-        //TODO: Buscar en el almacenamiento las conversaciones disponibles, si no hay hacer consulta
-        //al servicio
+        //TODO: Buscar en el almacenamiento las conversaciones disponibles, si no hay hacer consulta al servicio
         // Add some sample items.
+        ConversationsForm request = new ConversationsForm();
+        request.setId("46821342");
+        Response.Listener<ConversationsListResponse> responseListener = new Response.Listener<ConversationsListResponse>(){
+            @Override
+            public void onResponse(ConversationsListResponse conversationsListResponse) {
+                Log.d("proves", "Conversaciones - Vuelta del servidor");
+                //Recorrer tod el array e instanciar los ListItems
+
+                for(ConversationResponse conv: conversationsListResponse.getConversations()) {
+                    ListItem item = new ListItem(Integer.toString(mCount++), conv.getId(), conv.getName());
+                    addItem(item);
+                }
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d("proves", "Conversaciones - Error");
+            }
+        };
+        UVLiveApplication.getUVLiveGateway().conversations(request, responseListener, errorListener);
+
+        /*
         for (int i = 1; i <= COUNT; i++) {
             addItem(createDummyItem(i));
-        }
+        }*/
     }
 
     public static List<ListItem> getListItems(){
@@ -44,10 +75,6 @@ public class ListContentManager {
     private static void addItem(ListItem item) {
         ITEMS.add(item);
         ITEM_MAP.put(item.id, item);
-    }
-
-    private static ListItem createDummyItem(int position) {
-        return new ListItem(String.valueOf(position), "Item " + position, makeDetails(position));
     }
 
     private static String makeDetails(int position) {
@@ -63,19 +90,27 @@ public class ListContentManager {
      * A dummy item representing a piece of content.
      */
     public static class ListItem {
-        public String id;
-        public String content;
-        public String details;
+        private String id;
+        private int idConversation;
+        private String name;
 
-        public ListItem(String id, String content, String details) {
+        public ListItem(String id, int idConversation, String name) {
             this.id = id;
-            this.content = content;
-            this.details = details;
+            this.idConversation = idConversation;
+            this.name=name;
         }
 
         @Override
         public String toString() {
-            return content;
+            return name;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public int getIdConversation () {
+            return idConversation;
         }
     }
 }

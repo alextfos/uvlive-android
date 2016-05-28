@@ -7,6 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.example.atraverf.uvlive.UVLiveApplication;
 import com.example.atraverf.uvlive.utils.StringUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -42,6 +43,10 @@ public class GsonRequest<T> extends Request<T> {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
+        String cookie = UVLiveGateway.getCookie();
+        if (cookie != null) {
+            headers.put("Cookie", cookie);
+        }
         return headers != null ? headers : super.getHeaders();
     }
 

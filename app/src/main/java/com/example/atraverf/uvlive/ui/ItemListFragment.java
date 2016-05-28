@@ -84,6 +84,7 @@ public class ItemListFragment extends ListFragment {
         setListAdapter(mArrayAdapter);
     }
 
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -121,7 +122,7 @@ public class ItemListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(ListContentManager.getListItems().get(position).id);
+        mCallbacks.onItemSelected(ListContentManager.getListItems().get(position).getId());
     }
 
     @Override
