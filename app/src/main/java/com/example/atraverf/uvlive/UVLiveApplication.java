@@ -2,8 +2,11 @@ package com.example.atraverf.uvlive;
 
 import android.app.Activity;
 import android.app.Application;
+import android.os.SystemClock;
 
 import com.example.atraverf.uvlive.gateway.UVLiveGateway;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by atraverf on 17/11/15.
@@ -21,6 +24,8 @@ public class UVLiveApplication extends Application {
         //SingletonPattern
         mInstance=this;
         mUvLiveGateway = new UVLiveGateway(this);
+        // Don't do this! This is just so cold launches take some time
+        SystemClock.sleep(TimeUnit.SECONDS.toMillis(3));
     }
 
     public static UVLiveGateway getUVLiveGateway(){

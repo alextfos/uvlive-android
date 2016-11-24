@@ -6,12 +6,15 @@ import android.os.Parcelable;
 /**
  * Created by atraverf on 21/11/15.
  */
-public class LoginResponse implements Parcelable {
+public class LoginResponse extends BaseResponse {
 
     private String user;
-    public LoginResponse(){}
+    public LoginResponse(){
+        super();
+    }
 
     public LoginResponse(Parcel in){
+        super(in);
         this.user = in.readString();
     }
     @Override

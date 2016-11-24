@@ -13,7 +13,7 @@ import com.example.atraverf.uvlive.R;
 /**
  * Created by atraverf on 25/12/15.
  */
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
     implements ItemListFragment.Callbacks
 {
 
