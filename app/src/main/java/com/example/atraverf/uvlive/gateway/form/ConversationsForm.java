@@ -10,11 +10,11 @@ public class ConversationsForm implements Parcelable {
 
     private String id;
 
-    public ConversationsForm(Parcel in){
+    public ConversationsForm(Parcel in) {
         id = in.readString();
     }
 
-    public ConversationsForm(){
+    public ConversationsForm() {
 
     }
     @Override

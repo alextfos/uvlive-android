@@ -25,7 +25,7 @@ public class UVLiveGateway {
     private static String sLoginUrl = "/login";
     private static String sConversationsUrl ="/conversations";
 
-    private static String environment = "http://192.168.137.229:8080/uvlive-api-1.0-SNAPSHOT/";
+    private static String environment = "http://10.0.2.2:8080/uvlive-api-1.0-SNAPSHOT";
     public static final Gson GSON_CREATOR = new GsonBuilder().create();
 
     private RequestQueue mRequestQueue;

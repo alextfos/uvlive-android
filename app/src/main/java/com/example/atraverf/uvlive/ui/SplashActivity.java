@@ -12,8 +12,14 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
+        // TODO make a status request and call
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    protected void initializePresenter() {
+
     }
 }

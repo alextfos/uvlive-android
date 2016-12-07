@@ -21,6 +21,8 @@ import com.example.atraverf.uvlive.R;
 import com.example.atraverf.uvlive.UVLiveApplication;
 import com.example.atraverf.uvlive.gateway.form.LoginForm;
 import com.example.atraverf.uvlive.gateway.response.LoginResponse;
+import com.example.atraverf.uvlive.presenter.SessionPresenter;
+import com.example.atraverf.uvlive.ui.actions.SessionActions;
 import com.example.atraverf.uvlive.utils.NavigationUtils;
 
 import butterknife.ButterKnife;
@@ -30,10 +32,7 @@ import butterknife.OnClick;
 /**
  * Created by atraverf on 17/11/15.
  */
-public class LoginActivity extends Activity {
-
-    @InjectView(R.id.login_b)
-    Button mLoginButton;
+public class LoginActivity extends BaseActivity implements SessionActions {
 
     @InjectView(R.id.login_user_et)
     EditText mUser;
@@ -44,6 +43,8 @@ public class LoginActivity extends Activity {
     @InjectView(R.id.login_spinner)
     Spinner mSpinner;
 
+    private SessionPresenter sessionPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,53 +54,30 @@ public class LoginActivity extends Activity {
                 this,R.array.type_login_array,R.layout.support_simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         mSpinner.setAdapter(adapter);
-        /*mLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login();
-            }
-        });*/
     }
 
-    /*
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
-            return inflater.inflate(R.layout.login,container,false);
-        }
-        */
+    @Override
+    protected void initializePresenter() {
+        sessionPresenter = new SessionPresenter(this);
+    }
+
     @OnClick(R.id.login_b)
-    public void login(){
-
+    public void login() {
         hideKeyboard();
-
-        LoginForm request = new LoginForm();
-        request.setTypeLogin((String) mSpinner.getSelectedItem());
-        request.setUser(mUser.getText().toString());
-        request.setPassword(mPassword.getText().toString());
-
-        Response.Listener<LoginResponse> responseListener = new Response.Listener<LoginResponse>(){
-            @Override
-            public void onResponse(LoginResponse loginResponse) {
-                Log.d("proves", "vuelta del servidor");
-                //startActivity(new Intent(LoginActivity.this,ItemListActivity.class));
-                sendResult();
-            }
-        };
-
-        Response.ErrorListener errorListener = new Response.ErrorListener(){
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.d("proves","Error de respuesta en el login");
-                Toast.makeText(UVLiveApplication.getInstance(),"Ha habido un problema con el login",Toast.LENGTH_LONG).show();
-            }
-        };
-        UVLiveApplication.getUVLiveGateway().login(request, responseListener, errorListener);
+        sessionPresenter.login(mUser.getText().toString(),mPassword.getText().toString(),
+                (String) mSpinner.getSelectedItem());
     }
 
-    private void sendResult(){
+    @Override
+    public void loginOk() {
         Intent intent = this.getIntent();
-        //intent.putExtra("SOMETHING", "EXTRAS");
         this.setResult(Activity.RESULT_OK, intent);
         finish();
+    }
+
+    @Override
+    public void loginError() {
+        Toast.makeText(this,"Ha habido un problema con el login",Toast.LENGTH_LONG).show();
     }
 
     private void hideKeyboard() {

@@ -1,10 +1,10 @@
 package com.example.atraverf.uvlive.ui;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -14,7 +14,6 @@ import com.example.atraverf.uvlive.R;
  * Created by atraverf on 25/12/15.
  */
 public class MainActivity extends BaseActivity
-    implements ItemListFragment.Callbacks
 {
 
     private boolean mTwoPane=false;
@@ -38,9 +37,6 @@ public class MainActivity extends BaseActivity
         });
 
 
-
-
-
         if (findViewById(R.id.item_detail_container) != null) {
             mTwoPane=true;
         }
@@ -54,6 +50,11 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
+    protected void initializePresenter() {
+
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==LOGIN_REQUEST_CODE) {
@@ -64,7 +65,7 @@ public class MainActivity extends BaseActivity
             }else{
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .add(R.id.frameLayout, ItemListFragment.newInstance(), "list")
+                        .add(R.id.frameLayout, ConversationListFragment.newInstance(), "list")
                         .commit();
             }
             //startActivity(new Intent(MainActivity.this, ItemListActivity.class));
@@ -72,22 +73,13 @@ public class MainActivity extends BaseActivity
     }
 
 
-    /**
-     * Callback method from {@link ItemListFragment.Callbacks}
-     * indicating that the item with the given ID was selected.
-     */
-    @Override
-    public void onItemSelected(String id) {
+    public void onItemSelected(int id) {
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putString(ItemDetailFragment.ARG_ITEM_ID, id);
-            ItemDetailFragment fragment = new ItemDetailFragment();
-            fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.item_detail_container, fragment)
+                    .replace(R.id.item_detail_container, ItemDetailFragment.newInstance(id))
                     .commit();
 
         } else {
@@ -97,13 +89,9 @@ public class MainActivity extends BaseActivity
             detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
             */
-            Bundle arguments = new Bundle();
-            arguments.putString(ItemDetailFragment.ARG_ITEM_ID, id);
-            ItemDetailFragment fragment = new ItemDetailFragment();
-            fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frameLayout, fragment)
-                    .addToBackStack(id)
+                    .replace(R.id.frameLayout, ItemDetailFragment.newInstance(id))
+                    .addToBackStack(null)
                     .commit();
             //getSupportFragmentManager().executePendingTransactions();
 
