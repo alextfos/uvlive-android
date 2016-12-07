@@ -1,23 +1,16 @@
 package com.example.atraverf.uvlive.ui;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.NoCopySpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.example.atraverf.uvlive.R;
-import com.example.atraverf.uvlive.UVLiveApplication;
-import com.example.atraverf.uvlive.gateway.form.ConversationsForm;
-import com.example.atraverf.uvlive.gateway.response.ConversationsListResponse;
+import com.example.atraverf.uvlive.data.gateway.response.ConversationsListResponse;
 import com.example.atraverf.uvlive.presenter.ConversationsPresenter;
 import com.example.atraverf.uvlive.ui.actions.ConversationsActions;
 import com.example.atraverf.uvlive.ui.adapter.ConversationsAdapter;

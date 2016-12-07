@@ -1,4 +1,4 @@
-package com.example.atraverf.uvlive.gateway;
+package com.example.atraverf.uvlive.data.gateway;
 
 import android.content.Context;
 import android.util.Log;
@@ -6,12 +6,12 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.android.volley.RequestQueue;
-import com.example.atraverf.uvlive.gateway.form.ConversationsForm;
-import com.example.atraverf.uvlive.gateway.form.LoginForm;
-import com.example.atraverf.uvlive.gateway.form.MessagesForm;
-import com.example.atraverf.uvlive.gateway.response.ConversationsListResponse;
-import com.example.atraverf.uvlive.gateway.response.LoginResponse;
-import com.example.atraverf.uvlive.gateway.response.MessagesResponse;
+import com.example.atraverf.uvlive.data.gateway.form.ConversationsForm;
+import com.example.atraverf.uvlive.data.gateway.form.LoginForm;
+import com.example.atraverf.uvlive.data.gateway.form.MessagesForm;
+import com.example.atraverf.uvlive.data.gateway.response.ConversationsListResponse;
+import com.example.atraverf.uvlive.data.gateway.response.LoginResponse;
+import com.example.atraverf.uvlive.data.gateway.response.MessagesResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

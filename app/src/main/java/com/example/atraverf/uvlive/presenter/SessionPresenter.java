@@ -1,21 +1,17 @@
 package com.example.atraverf.uvlive.presenter;
 
-import android.content.pm.PackageInstaller;
-import android.util.Log;
-import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.atraverf.uvlive.UVLiveApplication;
-import com.example.atraverf.uvlive.gateway.form.LoginForm;
-import com.example.atraverf.uvlive.gateway.response.LoginResponse;
+import com.example.atraverf.uvlive.data.gateway.form.LoginForm;
+import com.example.atraverf.uvlive.data.gateway.response.LoginResponse;
 import com.example.atraverf.uvlive.ui.actions.SessionActions;
 
 /**
  * Created by alextfos on 01/12/2016.
  */
 
-public class SessionPresenter {
+public class SessionPresenter extends BasePresenter {
 
     private SessionActions sessionActions;
 

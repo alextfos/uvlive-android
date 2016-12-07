@@ -5,9 +5,9 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.atraverf.uvlive.UVLiveApplication;
-import com.example.atraverf.uvlive.gateway.form.ConversationsForm;
-import com.example.atraverf.uvlive.gateway.response.ConversationResponse;
-import com.example.atraverf.uvlive.gateway.response.ConversationsListResponse;
+import com.example.atraverf.uvlive.data.gateway.form.ConversationsForm;
+import com.example.atraverf.uvlive.data.gateway.response.ConversationResponse;
+import com.example.atraverf.uvlive.data.gateway.response.ConversationsListResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;

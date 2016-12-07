@@ -1,4 +1,4 @@
-package com.example.atraverf.uvlive.gateway;
+package com.example.atraverf.uvlive.data.gateway;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -7,7 +7,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.example.atraverf.uvlive.UVLiveApplication;
 import com.example.atraverf.uvlive.utils.StringUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;

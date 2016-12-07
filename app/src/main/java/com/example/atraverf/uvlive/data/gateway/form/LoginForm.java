@@ -1,8 +1,7 @@
-package com.example.atraverf.uvlive.gateway.form;
+package com.example.atraverf.uvlive.data.gateway.form;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.Editable;
 
 /**
  * Created by atraverf on 21/11/15.

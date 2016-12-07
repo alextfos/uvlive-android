@@ -1,10 +1,9 @@
 package com.example.atraverf.uvlive;
 
-import android.app.Activity;
 import android.app.Application;
 import android.os.SystemClock;
 
-import com.example.atraverf.uvlive.gateway.UVLiveGateway;
+import com.example.atraverf.uvlive.data.gateway.UVLiveGateway;
 
 import java.util.concurrent.TimeUnit;
 

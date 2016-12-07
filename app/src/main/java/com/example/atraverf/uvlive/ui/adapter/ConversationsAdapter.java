@@ -3,7 +3,7 @@ package com.example.atraverf.uvlive.ui.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import com.example.atraverf.uvlive.gateway.response.ConversationsListResponse;
+import com.example.atraverf.uvlive.data.gateway.response.ConversationsListResponse;
 import com.example.atraverf.uvlive.ui.adapter.viewholder.ConversationViewHolder;
 
 /**

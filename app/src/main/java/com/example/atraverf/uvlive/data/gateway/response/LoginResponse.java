@@ -1,7 +1,6 @@
-package com.example.atraverf.uvlive.gateway.response;
+package com.example.atraverf.uvlive.data.gateway.response;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
  * Created by atraverf on 21/11/15.

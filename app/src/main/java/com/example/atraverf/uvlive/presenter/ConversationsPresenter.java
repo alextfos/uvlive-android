@@ -5,15 +5,15 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.atraverf.uvlive.UVLiveApplication;
-import com.example.atraverf.uvlive.gateway.form.ConversationsForm;
-import com.example.atraverf.uvlive.gateway.response.ConversationsListResponse;
+import com.example.atraverf.uvlive.data.gateway.form.ConversationsForm;
+import com.example.atraverf.uvlive.data.gateway.response.ConversationsListResponse;
 import com.example.atraverf.uvlive.ui.actions.ConversationsActions;
 
 /**
  * Created by alextfos on 07/12/2016.
  */
 
-public class ConversationsPresenter {
+public class ConversationsPresenter extends BasePresenter {
 
     private ConversationsActions conversationsActions;
 
