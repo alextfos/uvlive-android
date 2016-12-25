@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "236839864613",
+    "firebase_url": "https://uvlive-37903.firebaseio.com",
+    "project_id": "uvlive-37903",
+    "storage_bucket": "uvlive-37903.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236839864613:android:6d883beb4c7d4251",
+        "android_client_info": {
+          "package_name": "es.uv.uvlive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236839864613-gof81e3e33avvtbubpda34e13cck6bu9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4wBwYO7Y4MGuxBZeqyR0go51Ads5KlRs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

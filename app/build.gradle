@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 24
+    buildToolsVersion "24"
 
     defaultConfig {
-        applicationId "com.example.atraverf.uvlive"
+        applicationId "es.uv.uvlive"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
     }
@@ -19,13 +19,15 @@ android {
     }
 }
 
-def supportLibVersion = '23.1.1'
+def supportLibVersion = '24.2.1'
+def googleServicesVersion = '10.0.1'
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
     compile "com.android.support:support-v4:${supportLibVersion}"
     compile "com.android.support:design:${supportLibVersion}"
+    compile "com.google.firebase:firebase-messaging:$googleServicesVersion"
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.google.code.gson:gson:2.2.4'
     compile files('libs/volley.jar')
@@ -36,3 +38,5 @@ dependencies {
     //compile project(':picasso-2.3.4')
     compile 'com.squareup.picasso:picasso:2.3.4'
 }
+
+apply plugin: 'com.google.gms.google-services'
