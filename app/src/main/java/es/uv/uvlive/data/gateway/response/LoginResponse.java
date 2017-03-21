@@ -1,38 +1,63 @@
 package es.uv.uvlive.data.gateway.response;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by atraverf on 21/11/15.
  */
-public class LoginResponse extends BaseResponse {
+public class LoginResponse extends BaseResponse implements Parcelable {
 
     private String user;
-    public LoginResponse(){
+    private String token;
+
+    public LoginResponse() {
         super();
     }
 
-    public LoginResponse(Parcel in){
+    protected LoginResponse(Parcel in) {
         super(in);
-        this.user = in.readString();
+        user = in.readString();
+        token = in.readString();
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(user);
+        dest.writeString(token);
+    }
+
     @Override
     public int describeContents() {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.user);
-    }
-
     public static final Creator<LoginResponse> CREATOR = new Creator<LoginResponse>() {
-        public LoginResponse createFromParcel(Parcel source) {
-            return new LoginResponse(source);
+        @Override
+        public LoginResponse createFromParcel(Parcel in) {
+            return new LoginResponse(in);
         }
 
+        @Override
         public LoginResponse[] newArray(int size) {
             return new LoginResponse[size];
         }
     };
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

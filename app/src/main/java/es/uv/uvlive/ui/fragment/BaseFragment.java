@@ -1,4 +1,5 @@
-package es.uv.uvlive.ui;
+package es.uv.uvlive.ui.fragment;
+
 
 import android.support.v4.app.Fragment;
 

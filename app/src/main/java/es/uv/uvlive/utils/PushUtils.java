@@ -10,7 +10,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.example.atraverf.uvlive.R;
 
-import es.uv.uvlive.ui.MainActivity;
+import es.uv.uvlive.ui.activity.MainActivity;
 
 /**
  * Created by alextfos on 19/12/2016.

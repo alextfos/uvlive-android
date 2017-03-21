@@ -1,4 +1,4 @@
-package es.uv.uvlive.ui;
+package es.uv.uvlive.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import com.example.atraverf.uvlive.R;
 import es.uv.uvlive.data.gateway.response.ConversationsListResponse;
 import es.uv.uvlive.presenter.ConversationsPresenter;
+import es.uv.uvlive.ui.activity.MainActivity;
 import es.uv.uvlive.ui.actions.ConversationsActions;
 import es.uv.uvlive.ui.adapter.ConversationsAdapter;
 import es.uv.uvlive.ui.adapter.ListContentManager;
@@ -56,7 +57,7 @@ public class ConversationListFragment extends BaseFragment implements Conversati
 
     @Override
     public void onConversationItemClicked(int position) {
-        if (getActivity() instanceof  MainActivity) {
+        if (getActivity() instanceof MainActivity) {
             ((MainActivity)getActivity()).onItemSelected(conversationsListResponse.getConversations().get(position).getId());
         }
     }

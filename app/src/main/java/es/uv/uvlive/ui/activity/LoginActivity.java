@@ -1,7 +1,5 @@
-package es.uv.uvlive.ui;
+package es.uv.uvlive.ui.activity;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +10,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.atraverf.uvlive.R;
-import es.uv.uvlive.presenter.SessionPresenter;
+import es.uv.uvlive.presenter.LoginPresenter;
 import es.uv.uvlive.ui.actions.SessionActions;
 
 import butterknife.ButterKnife;
@@ -33,7 +31,7 @@ public class LoginActivity extends BaseActivity implements SessionActions {
     @InjectView(R.id.login_spinner)
     Spinner mSpinner;
 
-    private SessionPresenter sessionPresenter;
+    private LoginPresenter loginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,20 +46,21 @@ public class LoginActivity extends BaseActivity implements SessionActions {
 
     @Override
     protected void initializePresenter() {
-        sessionPresenter = new SessionPresenter(this);
+        loginPresenter = new LoginPresenter(this);
     }
 
     @OnClick(R.id.login_b)
     public void login() {
         hideKeyboard();
-        sessionPresenter.login(mUser.getText().toString(),mPassword.getText().toString(),
-                (String) mSpinner.getSelectedItem());
+        loginPresenter.login(mUser.getText().toString(),mPassword.getText().toString(),
+                ((String) mSpinner.getSelectedItem()).toLowerCase());
     }
 
     @Override
     public void loginOk() {
-        Intent intent = this.getIntent();
-        this.setResult(Activity.RESULT_OK, intent);
+//        Intent intent = this.getIntent();
+//        this.setResult(RESULT_OK, intent);
+        startActivity(new Intent(this,MainActivity.class));
         finish();
     }
 
@@ -73,7 +72,7 @@ public class LoginActivity extends BaseActivity implements SessionActions {
     private void hideKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }

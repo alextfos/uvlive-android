@@ -23,9 +23,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingBottom="0dp">
-                <view
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_view"
-                    class="android.support.v7.widget.RecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true" />

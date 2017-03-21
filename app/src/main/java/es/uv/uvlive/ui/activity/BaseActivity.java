@@ -1,4 +1,4 @@
-package es.uv.uvlive.ui;
+package es.uv.uvlive.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

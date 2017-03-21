@@ -7,6 +7,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
+
+import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.utils.StringUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -19,7 +21,7 @@ public class GsonRequest<T> extends Request<T> {
     private final Gson gson = new Gson();
     private final Class<T> clazz;
     private static HashMap<String, String> headers= new HashMap<>();
-    private static final String HEADER_COOKIE = "Set-Cookie";
+    private static String token;
     private final Response.Listener<T> listener;
     private String mRequestBody;
     static{
@@ -40,11 +42,18 @@ public class GsonRequest<T> extends Request<T> {
         mRequestBody=requestBody;
     }
 
+    public static void setToken(String token) {
+        GsonRequest.token = token;
+    }
+
+    public static void removeToken() {
+        token = null;
+    }
+
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        String cookie = UVLiveGateway.getCookie();
-        if (cookie != null) {
-            headers.put("Cookie", cookie);
+        if (token != null) {
+            headers.put("Authorization", "Bearer " + token);
         }
         return headers != null ? headers : super.getHeaders();
     }
@@ -70,9 +79,9 @@ public class GsonRequest<T> extends Request<T> {
         try {
             //TODO: Si esta la cabecera set-cookie, capturar la cookie y enviarla en sucesivas peticiones
             Map<String, String> headers = response.headers;
-            if (!StringUtils.isBlank(headers.get(HEADER_COOKIE))) {
-                UVLiveGateway.setCookie(headers.get(HEADER_COOKIE));
-            }
+//            if (!StringUtils.isBlank(headers.get(HEADER_COOKIE))) {
+//                UVLiveGateway.setCookie(headers.get(HEADER_COOKIE));
+//            }
             //String str=  new String(response.data);
             String json = new String(
                     response.data,

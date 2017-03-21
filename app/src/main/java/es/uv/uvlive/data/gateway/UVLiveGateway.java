@@ -11,65 +11,72 @@ import es.uv.uvlive.data.gateway.form.LoginForm;
 import es.uv.uvlive.data.gateway.form.MessagesForm;
 import es.uv.uvlive.data.gateway.response.ConversationsListResponse;
 import es.uv.uvlive.data.gateway.response.LoginResponse;
-import es.uv.uvlive.data.gateway.response.MessagesResponse;
+import es.uv.uvlive.data.gateway.response.MessageListResponse;
+import es.uv.uvlive.data.gateway.response.MessageResponse;
+import es.uv.uvlive.data.gateway.response.StatusResponse;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.ArrayList;
 
 /**
  * Created by atraverf on 17/11/15.
  */
 public class UVLiveGateway {
 
-    private static final String CURRENT_ACCEPT_LANGUAGE_HEADER_VALUE = "es";
-    private static String headerCookie;
-    private static String sLoginUrl = "/login";
-    private static String sConversationsUrl ="/conversations";
+    private static final String TAG = "UVLiveGateway";
+    private static final String sLoginUrl = "/login";
+    private static final String sConversationsUrl ="/conversations";
+    private static final String sStatus = "/status";
 
-    private static String environment = "http://10.0.2.2:8080/uvlive-api-1.0-SNAPSHOT";
-    public static final Gson GSON_CREATOR = new GsonBuilder().create();
+//    private static final String environment = "http://10.0.2.2:8080/uvlive-api-1.0-SNAPSHOT";
+    private static final String environment = "http://10.0.3.2:8080/uvlive-api-1.0-SNAPSHOT";
+    private static final Gson GSON_CREATOR = new GsonBuilder().create();
 
     private RequestQueue mRequestQueue;
 
-    public UVLiveGateway(Context context){
+    public UVLiveGateway(Context context) {
         mRequestQueue = Volley.newRequestQueue(context);
     }
 
-    public void login(LoginForm form ,Response.Listener<LoginResponse> responseListener ,Response.ErrorListener errorListener) {
-        //add to list
-        String stringRequest = GSON_CREATOR.toJson(form);
-        GsonRequest<LoginResponse> peticion = new GsonRequest<>(environment+sLoginUrl,
-                LoginResponse.class,stringRequest,responseListener,errorListener);
-        Log.d("GATEWAY - REQUEST: ",peticion.toString());
+    public void status(Response.Listener<StatusResponse> responseListener, Response.ErrorListener errorListener) {
+        GsonRequest<StatusResponse> peticion = new GsonRequest<>(environment+sStatus,
+                StatusResponse.class,"{}",responseListener,errorListener);
         mRequestQueue.add(peticion);
     }
 
-    public void conversations(ConversationsForm form ,Response.Listener<ConversationsListResponse> responseListener ,Response.ErrorListener errorListener) {
+    public void login(LoginForm form, Response.Listener<LoginResponse> responseListener, Response.ErrorListener errorListener) {
+        String stringRequest = GSON_CREATOR.toJson(form);
+        GsonRequest<LoginResponse> peticion = new GsonRequest<>(environment+sLoginUrl,
+                LoginResponse.class,stringRequest,responseListener,errorListener);
+        mRequestQueue.add(peticion);
+    }
+
+    public void conversations(ConversationsForm form, Response.Listener<ConversationsListResponse>
+            responseListener, Response.ErrorListener errorListener) {
         //add to list
         String stringRequest = GSON_CREATOR.toJson(form);
         GsonRequest<ConversationsListResponse> peticion = new GsonRequest<>(environment+sConversationsUrl,
                 ConversationsListResponse.class,stringRequest,responseListener,errorListener);
-        Log.d("GATEWAY - REQUEST: ",peticion.toString());
-        mRequestQueue.add(peticion);
+        addRequestToQueue(peticion);
     }
 
-    public void messages(MessagesForm form, Response.Listener<MessagesResponse> responseLinster, Response.ErrorListener errorListener) {
-
-    }
-
-    public static void setCookie(String cookie) {
-        headerCookie = cookie;
-    }
-
-    public static String getCookie() {
-        return headerCookie;
-    }
-    /*
-    private <T> void addRequestToQueue(Request<T> request){
-        if (request instanceof IDKGsonRequest) {
-            ((IDKGsonRequest) request)
-                    .setCurrentAcceptLanguageHeaderValue(CURRENT_ACCEPT_LANGUAGE_HEADER_VALUE);
+    public void messages(MessagesForm form, Response.Listener<MessageListResponse> responseLinster, Response.ErrorListener errorListener) {
+        MessageListResponse listResponse = new MessageListResponse();
+        ArrayList<MessageResponse> list = new ArrayList<>();
+        for (int i=0 ; i<1000 ; i++) {
+            MessageResponse response = new MessageResponse();
+            response.setMessage("Message "+i);
+            response.setTimestamp(i);
+            list.add(response);
         }
+        listResponse.setMessageResponse(list);
+        responseLinster.onResponse(listResponse);
+    }
+
+    private <T> void addRequestToQueue(GsonRequest<T> request) {
+        Log.d(TAG,"GATEWAY:"+request.toString());
         mRequestQueue.add(request);
     }
-    */
 }

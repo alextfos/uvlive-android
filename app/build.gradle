@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 24
@@ -12,6 +13,12 @@ android {
         versionName "1.0"
     }
     buildTypes {
+        debug {
+
+        }
+        integration {
+            initWith buildTypes.debug
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -19,13 +26,19 @@ android {
     }
 }
 
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 def supportLibVersion = '24.2.1'
-def googleServicesVersion = '10.0.1'
+def googleServicesVersion = '10.2.0'
 dependencies {
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
+        transitive = true;
+    } // Crashlytics
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
-    compile "com.android.support:support-v4:${supportLibVersion}"
     compile "com.android.support:design:${supportLibVersion}"
     compile "com.google.firebase:firebase-messaging:$googleServicesVersion"
     compile 'com.jakewharton:butterknife:6.1.0'
@@ -36,7 +49,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:${supportLibVersion}"
     compile "com.android.support:cardview-v7:${supportLibVersion}"
     //compile project(':picasso-2.3.4')
-    compile 'com.squareup.picasso:picasso:2.3.4'
+//    compile 'com.squareup.picasso:picasso:2.3.4'
 }
 
 apply plugin: 'com.google.gms.google-services'
