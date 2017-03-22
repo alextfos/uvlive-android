@@ -59,6 +59,7 @@ dependencies {
     apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflowVersion}"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflowVersion}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflowVersion}"
+    compile 'com.scottyab:aescrypt:0.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

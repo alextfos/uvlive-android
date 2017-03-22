@@ -3,16 +3,13 @@ package es.uv.uvlive.presenter;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import es.uv.uvlive.UVLiveApplication;
+import es.uv.uvlive.data.gateway.GsonRequest;
 import es.uv.uvlive.data.gateway.form.LoginForm;
 import es.uv.uvlive.data.gateway.response.LoginResponse;
 import es.uv.uvlive.session.Admin;
 import es.uv.uvlive.session.Student;
 import es.uv.uvlive.session.Teacher;
 import es.uv.uvlive.ui.actions.SessionActions;
-
-/**
- * Created by alextfos on 01/12/2016.
- */
 
 public class LoginPresenter extends BasePresenter {
 
@@ -31,7 +28,7 @@ public class LoginPresenter extends BasePresenter {
         Response.Listener<LoginResponse> responseListener = new Response.Listener<LoginResponse>() {
             @Override
             public void onResponse(LoginResponse loginResponse) {
-                if (loginResponse.getErrorCode()==0) {
+                if (loginResponse.getErrorCode() == 0) {
                     LoginModel loginModel = Binder.bindSession(loginResponse);
                     switch (typeLogin) {
                         case "Alumno":
@@ -45,6 +42,8 @@ public class LoginPresenter extends BasePresenter {
                             break;
                     }
                     currentUser.setToken(loginResponse.getToken());
+                    GsonRequest.setToken(loginResponse.getToken());
+                    saveUser();
                     sessionActions.loginOk(); // le pasamos el loginmodel
                 } else {
                     sessionActions.loginError();
@@ -64,10 +63,9 @@ public class LoginPresenter extends BasePresenter {
     private static class Binder {
         public static LoginModel bindSession(LoginResponse loginResponse) {
 
-            if (loginResponse.getToken()== null) {
+            if (loginResponse.getToken() == null) {
                 return null;
             }
-
 
             LoginModel loginModel = new LoginModel();
             loginModel.setName(loginResponse.getUser());

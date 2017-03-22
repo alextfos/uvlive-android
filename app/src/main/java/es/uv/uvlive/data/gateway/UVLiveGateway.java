@@ -6,7 +6,6 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.android.volley.RequestQueue;
-import es.uv.uvlive.data.gateway.form.ConversationsForm;
 import es.uv.uvlive.data.gateway.form.LoginForm;
 import es.uv.uvlive.data.gateway.form.MessagesForm;
 import es.uv.uvlive.data.gateway.response.ConversationsListResponse;
@@ -55,12 +54,10 @@ public class UVLiveGateway {
         mRequestQueue.add(peticion);
     }
 
-    public void conversations(ConversationsForm form, Response.Listener<ConversationsListResponse>
+    public void conversations(Response.Listener<ConversationsListResponse>
             responseListener, Response.ErrorListener errorListener) {
-        //add to list
-        String stringRequest = GSON_CREATOR.toJson(form);
         GsonRequest<ConversationsListResponse> peticion = new GsonRequest<>(environment+sConversationsUrl,
-                ConversationsListResponse.class,stringRequest,responseListener,errorListener);
+                ConversationsListResponse.class,"",responseListener,errorListener);
         addRequestToQueue(peticion);
     }
 

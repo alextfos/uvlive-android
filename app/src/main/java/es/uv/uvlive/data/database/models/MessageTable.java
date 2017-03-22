@@ -10,17 +10,12 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import es.uv.uvlive.data.database.UVLiveDB;
 
-/**
- * Created by atraver on 21/03/17.
- */
 @Table(database = UVLiveDB.class)
 public class MessageTable extends BaseModel {
 
     @PrimaryKey(autoincrement = true)
     long id;
 
-    @NotNull
-    @Unique
     @Column
     long timeStamp;
 
@@ -29,6 +24,9 @@ public class MessageTable extends BaseModel {
 
     @ForeignKey(tableClass = ConversationTable.class)
     long idConversation;
+
+    @Column
+    boolean sended;
 
     public long getTimeStamp() {
         return timeStamp;
@@ -52,5 +50,13 @@ public class MessageTable extends BaseModel {
 
     public void setIdConversation(long idConversation) {
         this.idConversation = idConversation;
+    }
+
+    public boolean isSended() {
+        return sended;
+    }
+
+    public void setSended(boolean sended) {
+        this.sended = sended;
     }
 }

@@ -2,14 +2,14 @@ package es.uv.uvlive.data.gateway.form;
 
 public class MessagesForm {
 
-    private int idConversation;
-    private int lastMessage;
+    private long idConversation;
+    private long lastMessage;
 
-    public void setIdConversation(int idConversation) {
+    public void setIdConversation(long idConversation) {
         this.idConversation = idConversation;
     }
 
-    public void setLastMessage(int lastMessage){
+    public void setLastMessage(long lastMessage){
         this.lastMessage = lastMessage;
     }
 }

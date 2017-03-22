@@ -3,19 +3,15 @@ package es.uv.uvlive.ui.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import es.uv.uvlive.data.gateway.response.MessageResponse;
+import es.uv.uvlive.session.MessageModel;
 import es.uv.uvlive.ui.adapter.viewholder.MessageViewHolder;
 
-/**
- * Created by alextfos on 01/03/2017.
- */
-
 public class MessageListAdapter extends RecyclerView.Adapter<MessageViewHolder> {
-    private ArrayList<MessageResponse> list;
+    private List<MessageModel> list;
 
-    public MessageListAdapter(ArrayList<MessageResponse> list) {
+    public MessageListAdapter(List<MessageModel> list) {
         this.list = list;
     }
 
@@ -28,6 +24,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageViewHolder> 
     public void onBindViewHolder(MessageViewHolder holder, int position) {
         if (position != RecyclerView.NO_POSITION) {
             holder.setText(list.get(position).getMessage());
+            holder.setFeedback(list.get(position).isSended());
         }
     }
 

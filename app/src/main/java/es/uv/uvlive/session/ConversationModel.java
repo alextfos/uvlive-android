@@ -57,9 +57,6 @@ public class ConversationModel {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj!= null && obj instanceof ConversationModel) {
-            return ((ConversationModel) obj).id == id && ((ConversationModel) obj).name.equals(name);
-        }
-        return false;
+        return obj != null && obj instanceof ConversationModel && ((ConversationModel) obj).id == id && ((ConversationModel) obj).name.equals(name);
     }
 }

@@ -7,6 +7,9 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.scottyab.aescrypt.AESCrypt;
+
+import java.security.GeneralSecurityException;
 
 import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.session.User;
@@ -19,7 +22,7 @@ public class UVLivePreferences {
 
     private static final String BASE_KEY = "es.uv.uvlive.UVLiveSharedPreferences.";
     private static final String STRING_DEFAULT_VALUE = BASE_KEY + "DEFAULT_VALUE";
-
+    private static final String PASSWORD = "Uv~2017.UVl1v€";
     private static final String USER_KEY = BASE_KEY + "USER_KEY";
 
     private static final Gson GSON_CREATOR = new GsonBuilder().create();
@@ -40,11 +43,31 @@ public class UVLivePreferences {
     }
 
     public void saveUser(User user) {
-        saveString(USER_KEY,GSON_CREATOR.toJson(user));
+        String serializedUser = GSON_CREATOR.toJson(user);
+        try {
+            String emcryptedUser = AESCrypt.encrypt(PASSWORD, serializedUser);
+            saveString(USER_KEY,emcryptedUser);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
     }
 
+    @Nullable
     public User getUser() {
-        return GSON_CREATOR.fromJson(getString(USER_KEY),User.class);
+        String encryptedUser = getString(USER_KEY);
+        if (encryptedUser != null) {
+            try {
+                String serializedUser = AESCrypt.decrypt(PASSWORD, encryptedUser);
+                return GSON_CREATOR.fromJson(serializedUser, User.class);
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public void removeUser() {
+        removeElement(USER_KEY);
     }
 
     /*

@@ -2,10 +2,6 @@ package es.uv.uvlive.session;
 
 import java.util.ArrayList;
 
-/**
- * Created by alextfos on 07/12/2016.
- */
-
 public class Session {
     private static Session session;
 

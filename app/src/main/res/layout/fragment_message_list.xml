@@ -44,10 +44,17 @@
             android:id="@+id/messages_footer_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
             <EditText
+                android:id="@+id/fragmetn_message_list_editor"
+                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/fragment_message_list_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Send"/>
         </LinearLayout>
 
     </RelativeLayout>

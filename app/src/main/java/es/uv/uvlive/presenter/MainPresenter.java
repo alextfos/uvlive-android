@@ -1,5 +1,9 @@
 package es.uv.uvlive.presenter;
 
+import android.content.SharedPreferences;
+
+import es.uv.uvlive.data.UVLivePreferences;
+import es.uv.uvlive.data.gateway.GsonRequest;
 import es.uv.uvlive.session.Admin;
 import es.uv.uvlive.session.Student;
 import es.uv.uvlive.session.Teacher;
@@ -18,11 +22,17 @@ public class MainPresenter extends BasePresenter {
 
     public void loadSession() {
         //TODO if currentUser is null
-        if (currentUser instanceof Admin) {
+        if (Admin.class.getName().equals(currentUser.getClazz())) {
             mainActions.loadAdminMenu();
-        } else if (currentUser instanceof Teacher
-                || currentUser instanceof Student) {
+        } else if (Student.class.getName().equals(currentUser.getClazz())
+                || Teacher.class.getName().equals(currentUser.getClazz())) {
             mainActions.loadConversations();
         }
+    }
+
+    public void logout() {
+        currentUser = null;
+        GsonRequest.setToken(null);
+        UVLivePreferences.getInstance().removeUser();
     }
 }

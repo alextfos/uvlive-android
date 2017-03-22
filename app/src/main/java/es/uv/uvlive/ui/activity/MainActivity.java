@@ -84,6 +84,7 @@ public class MainActivity extends BaseActivity implements MainActions {
         switch (item.getItemId()) {
             case R.id.main_menu_exit:
                 startLoginActivity();
+                mainPresenter.logout();
                 finish();
                 return true;
         }

@@ -4,14 +4,14 @@ import android.support.annotation.NonNull;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
 
 import es.uv.uvlive.UVLiveApplication;
+import es.uv.uvlive.data.gateway.GsonRequest;
 import es.uv.uvlive.data.gateway.response.StatusResponse;
 import es.uv.uvlive.ui.actions.SplashActions;
+import es.uv.uvlive.utils.StringUtils;
 
-/**
- * Created by alextfos on 22/01/2017.
- */
 
 public class SplashPresenter extends BasePresenter {
 
@@ -22,20 +22,27 @@ public class SplashPresenter extends BasePresenter {
     }
 
     public void getStatus() {
-        UVLiveApplication.getUVLiveGateway().status(new Response.Listener<StatusResponse>() {
-            @Override
-            public void onResponse(@NonNull StatusResponse statusResponse) {
-                if (statusResponse.isStatus()) {
-                    splashActions.onLogged();
-                } else {
-                    splashActions.onNotLogged();
-                }
-            }
-        },new Response.ErrorListener(){
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                splashActions.onNotLogged();
-            }
-        });
+        loadUser();
+        if (currentUser != null && !StringUtils.isBlank(currentUser.getToken())) {
+            GsonRequest.setToken(currentUser.getToken());
+            splashActions.onLogged();
+        } else {
+            splashActions.onNotLogged();
+        }
+//        UVLiveApplication.getUVLiveGateway().status(new Response.Listener<StatusResponse>() {
+//            @Override
+//            public void onResponse(@NonNull StatusResponse statusResponse) {
+//                if (statusResponse.isStatus()) {
+//                    splashActions.onLogged();
+//                } else {
+//                    splashActions.onNotLogged();
+//                }
+//            }
+//        },new Response.ErrorListener(){
+//            @Override
+//            public void onErrorResponse(VolleyError volleyError) {
+//                splashActions.onNotLogged();
+//            }
+//        });
     }
 }

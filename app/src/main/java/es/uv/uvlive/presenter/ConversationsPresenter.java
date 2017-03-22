@@ -6,20 +6,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.data.database.models.ConversationTable;
-import es.uv.uvlive.data.gateway.form.ConversationsForm;
-import es.uv.uvlive.data.gateway.response.ConversationResponse;
+import es.uv.uvlive.data.database.models.MessageTable;
 import es.uv.uvlive.data.gateway.response.ConversationsListResponse;
 import es.uv.uvlive.session.ConversationModel;
+import es.uv.uvlive.session.MessageModel;
 import es.uv.uvlive.ui.actions.ConversationsActions;
-
-/**
- * Created by alextfos on 07/12/2016.
- */
 
 public class ConversationsPresenter extends BasePresenter {
 
@@ -35,10 +30,6 @@ public class ConversationsPresenter extends BasePresenter {
                 .queryList();
         final List<ConversationModel> conversationsDBList = ConversationModel.transform(conversationTableList);
         conversationsActions.onConversationsReceived(conversationsDBList);
-
-        // Add some sample items.
-        ConversationsForm request = new ConversationsForm();
-        request.setId("46821342");
 
         Response.Listener<ConversationsListResponse> responseListener = new Response.Listener<ConversationsListResponse>() {
             @Override
@@ -63,6 +54,6 @@ public class ConversationsPresenter extends BasePresenter {
                 Log.d("proves", "Conversaciones - Error");
             }
         };
-        UVLiveApplication.getUVLiveGateway().conversations(request, responseListener, errorListener);
+        UVLiveApplication.getUVLiveGateway().conversations(responseListener, errorListener);
     }
 }

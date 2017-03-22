@@ -22,11 +22,9 @@ import es.uv.uvlive.session.ConversationModel;
 import es.uv.uvlive.ui.activity.MainActivity;
 import es.uv.uvlive.ui.actions.ConversationsActions;
 import es.uv.uvlive.ui.adapter.ConversationsAdapter;
-import es.uv.uvlive.ui.adapter.ListContentManager;
 
 public class ConversationListFragment extends BaseFragment implements ConversationsAdapter.OnConversationItemClick, ConversationsActions {
 
-    private ArrayAdapter<ListContentManager.ListItem> mArrayAdapter;
     private List<ConversationModel> conversationsList;
 
     @BindView(R.id.fragment_conversation_list_rl)
