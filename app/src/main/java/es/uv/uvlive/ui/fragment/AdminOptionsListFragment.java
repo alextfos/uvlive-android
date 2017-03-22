@@ -13,8 +13,8 @@ import com.example.atraverf.uvlive.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import es.uv.uvlive.ui.adapter.AdminOptionsAdapter;
 
 /**
@@ -27,9 +27,10 @@ public class AdminOptionsListFragment extends BaseFragment implements AdminOptio
             "Dar de Alta Comerciante",
             "Modificar Datos Comerciante",
             "Registrar Difusión",
-            "Caducar sesiones actuales"));
+            "Caducar sesiones actuales",
+            "Ver logs"));
 
-    @InjectView(R.id.fragment_admin_options_list)
+    @BindView(R.id.fragment_admin_options_list)
     protected RecyclerView recyclerView;
 
     private AdminOptionsAdapter adminOptionsAdapter;
@@ -46,7 +47,7 @@ public class AdminOptionsListFragment extends BaseFragment implements AdminOptio
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_admin_options_list, container, false);
-        ButterKnife.inject(this,rootView);
+        ButterKnife.bind(this,rootView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adminOptionsAdapter = new AdminOptionsAdapter(optionsArrayList,this);
@@ -69,6 +70,12 @@ public class AdminOptionsListFragment extends BaseFragment implements AdminOptio
             case 2:
                 break;
             case 3:
+                break;
+            case 4:
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout, LogListFragment.newInstance())
+                        .addToBackStack(LogListFragment.class.getName()).commit();
                 break;
         }
     }

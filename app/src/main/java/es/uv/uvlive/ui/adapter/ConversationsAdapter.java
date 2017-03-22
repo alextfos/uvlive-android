@@ -3,7 +3,10 @@ package es.uv.uvlive.ui.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import es.uv.uvlive.data.gateway.response.ConversationsListResponse;
+import es.uv.uvlive.session.ConversationModel;
 import es.uv.uvlive.ui.adapter.viewholder.ConversationViewHolder;
 
 /**
@@ -12,12 +15,12 @@ import es.uv.uvlive.ui.adapter.viewholder.ConversationViewHolder;
 
 public class ConversationsAdapter extends RecyclerView.Adapter<ConversationViewHolder> {
 
-    private ConversationsListResponse conversationsListResponse;
+    private List<ConversationModel> conversationModelList;
     private OnConversationItemClick onConversationItemClick;
 
-    public ConversationsAdapter(ConversationsListResponse conversationsListResponse,
+    public ConversationsAdapter(List<ConversationModel> conversationModelList,
                                 OnConversationItemClick onConversationItemClick) {
-        this.conversationsListResponse = conversationsListResponse;
+        this.conversationModelList = conversationModelList;
         this.onConversationItemClick = onConversationItemClick;
     }
     @Override
@@ -27,12 +30,12 @@ public class ConversationsAdapter extends RecyclerView.Adapter<ConversationViewH
 
     @Override
     public void onBindViewHolder(ConversationViewHolder holder, int position) {
-        holder.setTitle(conversationsListResponse.getConversations().get(position).getName());
+        holder.setTitle(conversationModelList.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return conversationsListResponse.getConversations().size();
+        return conversationModelList.size();
     }
 
     public interface OnConversationItemClick {

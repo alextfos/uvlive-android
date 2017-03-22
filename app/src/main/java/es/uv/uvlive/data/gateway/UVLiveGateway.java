@@ -10,6 +10,7 @@ import es.uv.uvlive.data.gateway.form.ConversationsForm;
 import es.uv.uvlive.data.gateway.form.LoginForm;
 import es.uv.uvlive.data.gateway.form.MessagesForm;
 import es.uv.uvlive.data.gateway.response.ConversationsListResponse;
+import es.uv.uvlive.data.gateway.response.LogListResponse;
 import es.uv.uvlive.data.gateway.response.LoginResponse;
 import es.uv.uvlive.data.gateway.response.MessageListResponse;
 import es.uv.uvlive.data.gateway.response.MessageResponse;
@@ -28,11 +29,12 @@ public class UVLiveGateway {
     private static final String TAG = "UVLiveGateway";
     private static final String sLoginUrl = "/login";
     private static final String sConversationsUrl ="/conversations";
+    private static final String sLoggerUrl ="/logger";
     private static final String sStatus = "/status";
 
-//    private static final String environment = "http://10.0.2.2:8080/uvlive-api-1.0-SNAPSHOT";
-    private static final String environment = "http://10.0.3.2:8080/uvlive-api-1.0-SNAPSHOT";
-    private static final Gson GSON_CREATOR = new GsonBuilder().create();
+//    private static String environment = "http://10.0.2.2:8080/uvlive-api-1.0-SNAPSHOT";
+    private static String environment = "http://slopez.uv.es:8080/uvlive-api-1.0-SNAPSHOT";
+    public static final Gson GSON_CREATOR = new GsonBuilder().create();
 
     private RequestQueue mRequestQueue;
 
@@ -78,5 +80,10 @@ public class UVLiveGateway {
     private <T> void addRequestToQueue(GsonRequest<T> request) {
         Log.d(TAG,"GATEWAY:"+request.toString());
         mRequestQueue.add(request);
+    }
+
+    public void logs(Response.Listener<LogListResponse> responseListener, Response.ErrorListener errorListener) {
+        addRequestToQueue(new GsonRequest<>(environment+sLoggerUrl,
+                LogListResponse.class,"",responseListener,errorListener));
     }
 }

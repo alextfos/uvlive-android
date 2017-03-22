@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import com.example.atraverf.uvlive.R;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import es.uv.uvlive.ui.adapter.AdminOptionsAdapter;
 
 /**
@@ -20,9 +20,9 @@ public class AdminOptionViewHolder extends RecyclerView.ViewHolder {
 
     private AdminOptionsAdapter.AdminOptionClick adminOptionClick;
 
-    @InjectView(R.id.item_admin_option_container)
+    @BindView(R.id.item_admin_option_container)
     protected ViewGroup container;
-    @InjectView(R.id.item_admin_option)
+    @BindView(R.id.item_admin_option)
     protected TextView textView;
 
     public static AdminOptionViewHolder
@@ -34,7 +34,7 @@ public class AdminOptionViewHolder extends RecyclerView.ViewHolder {
     public AdminOptionViewHolder(View itemView,
                                  final AdminOptionsAdapter.AdminOptionClick adminOptionClick) {
         super(itemView);
-        ButterKnife.inject(this,itemView);
+        ButterKnife.bind(this,itemView);
         this.adminOptionClick = adminOptionClick;
         container.setOnClickListener(new View.OnClickListener() {
             @Override

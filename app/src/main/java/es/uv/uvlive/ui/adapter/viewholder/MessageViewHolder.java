@@ -8,17 +8,16 @@ import android.widget.TextView;
 
 import com.example.atraverf.uvlive.R;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * Created by alextfos on 01/03/2017.
  */
 
 public class MessageViewHolder extends RecyclerView.ViewHolder {
-    @InjectView(R.id.item_message_tv)
-    protected
-    TextView textTv;
+    @BindView(R.id.item_message_tv)
+    protected TextView textTv;
 
     public static MessageViewHolder newInstance(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message, parent, false);
@@ -27,7 +26,7 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
 
     public MessageViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.inject(this,itemView);
+        ButterKnife.bind(this,itemView);
     }
 
     public void setText(String text) {

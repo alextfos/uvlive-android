@@ -91,10 +91,10 @@ public class ListContentManager {
      */
     public static class ListItem {
         private String id;
-        private int idConversation;
+        private long idConversation;
         private String name;
 
-        public ListItem(String id, int idConversation, String name) {
+        public ListItem(String id, long idConversation, String name) {
             this.id = id;
             this.idConversation = idConversation;
             this.name=name;
@@ -109,7 +109,7 @@ public class ListContentManager {
             return id;
         }
 
-        public int getIdConversation () {
+        public long getIdConversation () {
             return idConversation;
         }
     }

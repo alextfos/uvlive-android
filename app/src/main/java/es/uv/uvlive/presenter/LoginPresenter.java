@@ -34,13 +34,13 @@ public class LoginPresenter extends BasePresenter {
                 if (loginResponse.getErrorCode()==0) {
                     LoginModel loginModel = Binder.bindSession(loginResponse);
                     switch (typeLogin) {
-                        case "alumno":
+                        case "Alumno":
                             currentUser = new Student();
                             break;
-                        case "profesor":
+                        case "Profesor":
                             currentUser = new Teacher();
                             break;
-                        case "admin":
+                        case "Admin":
                             currentUser = new Admin();
                             break;
                     }

@@ -28,19 +28,7 @@ public class MainActivity extends BaseActivity implements MainActions {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getTitle());
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();Telegraph kills live communication
-//            }
-//        });
-
 
         if (findViewById(R.id.item_detail_container) != null) {
             mTwoPane=true;
@@ -116,7 +104,7 @@ public class MainActivity extends BaseActivity implements MainActions {
     }
 
 
-    public void onItemSelected(int id) {
+    public void onItemSelected(long id) {
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a

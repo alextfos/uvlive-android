@@ -7,10 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.atraverf.uvlive.R;
+
+import butterknife.BindView;
 import es.uv.uvlive.ui.adapter.ConversationsAdapter;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 /**
  * Created by alextfos on 29/11/2016.
@@ -18,9 +19,9 @@ import butterknife.InjectView;
 
 public class ConversationViewHolder extends RecyclerView.ViewHolder {
 
-    @InjectView(R.id.item_conversation_title)
+    @BindView(R.id.item_conversation_title)
     TextView titleTv;
-    @InjectView(R.id.item_conversation_container)
+    @BindView(R.id.item_conversation_container)
     ViewGroup container;
 
     public static ConversationViewHolder newInstance(ViewGroup parent,
@@ -32,7 +33,7 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
     public ConversationViewHolder(View itemView,
                                   final ConversationsAdapter.OnConversationItemClick onConversationItemClick) {
         super(itemView);
-        ButterKnife.inject(this,itemView);
+        ButterKnife.bind(this,itemView);
         container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

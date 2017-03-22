@@ -7,6 +7,9 @@ import android.support.annotation.Nullable;
 import com.crashlytics.android.Crashlytics;
 
 import es.uv.uvlive.data.UVLivePreferences;
+import com.raizlabs.android.dbflow.config.FlowConfig;
+import com.raizlabs.android.dbflow.config.FlowManager;
+
 import es.uv.uvlive.data.gateway.UVLiveGateway;
 import io.fabric.sdk.android.Fabric;
 
@@ -29,9 +32,11 @@ public class UVLiveApplication extends Application {
         //SingletonPattern
         mInstance=this;
         mUvLiveGateway = new UVLiveGateway(this);
+        FlowManager.init(new FlowConfig.Builder(this)
+                .openDatabasesOnInit(true).build());
+
         // Don't do this! This is just so cold launches take some time
         SystemClock.sleep(TimeUnit.SECONDS.toMillis(3));
-        forceCrash();
     }
 
     public static UVLiveGateway getUVLiveGateway() {
@@ -41,9 +46,4 @@ public class UVLiveApplication extends Application {
     public static UVLiveApplication getInstance() {
         return mInstance;
     }
-
-    public void forceCrash() {
-        throw new RuntimeException("This is a crash");
-    }
-
 }

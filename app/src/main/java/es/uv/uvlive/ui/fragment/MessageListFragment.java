@@ -14,8 +14,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.example.atraverf.uvlive.R;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.data.gateway.form.MessagesForm;
 import es.uv.uvlive.data.gateway.response.MessageListResponse;
@@ -29,12 +29,12 @@ public class MessageListFragment extends BaseFragment {
 
     private ListContentManager.ListItem mItem;
 
-    @InjectView(R.id.recycler_view)
+    @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
-    public static MessageListFragment newInstance(int id) {
+    public static MessageListFragment newInstance(long id) {
         Bundle arguments = new Bundle();
-        arguments.putInt(MessageListFragment.ARG_ITEM_ID, id);
+        arguments.putLong(MessageListFragment.ARG_ITEM_ID, id);
         MessageListFragment fragment = new MessageListFragment();
         fragment.setArguments(arguments);
         return fragment;
@@ -47,7 +47,7 @@ public class MessageListFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_message_list, container, false);
-        ButterKnife.inject(this,rootView);
+        ButterKnife.bind(this,rootView);
         return rootView;
     }
 

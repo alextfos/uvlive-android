@@ -1,8 +1,10 @@
 package es.uv.uvlive.ui.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
+import android.os.SystemClock;
 
+import es.uv.uvlive.data.database.models.ConversationTable;
+import es.uv.uvlive.data.database.models.MessageTable;
 import es.uv.uvlive.presenter.SplashPresenter;
 import es.uv.uvlive.ui.actions.SplashActions;
 

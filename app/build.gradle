@@ -1,9 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'com.neenbedankt.android-apt'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24"
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "es.uv.uvlive"
@@ -13,15 +14,15 @@ android {
         versionName "1.0"
     }
     buildTypes {
-        debug {
-
-        }
         integration {
             initWith buildTypes.debug
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false;
         }
     }
 }
@@ -30,8 +31,10 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
-def supportLibVersion = '24.2.1'
 def googleServicesVersion = '10.2.0'
+def supportLibVersion = '25.2.0'
+def dbflowVersion = "3.1.1"
+
 dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
         transitive = true;
@@ -39,9 +42,11 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
+    compile "com.android.support:support-v4:${supportLibVersion}"
     compile "com.android.support:design:${supportLibVersion}"
     compile "com.google.firebase:firebase-messaging:$googleServicesVersion"
-    compile 'com.jakewharton:butterknife:6.1.0'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    apt 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.google.code.gson:gson:2.2.4'
     compile files('libs/volley.jar')
 
@@ -49,7 +54,11 @@ dependencies {
     compile "com.android.support:recyclerview-v7:${supportLibVersion}"
     compile "com.android.support:cardview-v7:${supportLibVersion}"
     //compile project(':picasso-2.3.4')
-//    compile 'com.squareup.picasso:picasso:2.3.4'
+    compile 'com.squareup.picasso:picasso:2.3.4'
+
+    apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflowVersion}"
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflowVersion}"
+    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflowVersion}"
 }
 
 apply plugin: 'com.google.gms.google-services'

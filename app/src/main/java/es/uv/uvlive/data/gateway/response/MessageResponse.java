@@ -1,10 +1,7 @@
 package es.uv.uvlive.data.gateway.response;
 
-/**
- * Created by alextfos on 01/03/2017.
- */
-
 public class MessageResponse {
+
     private String message;
     private long timestamp;
 

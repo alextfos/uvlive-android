@@ -11,10 +11,11 @@ import android.widget.Toast;
 
 import com.example.atraverf.uvlive.R;
 import es.uv.uvlive.presenter.LoginPresenter;
+
+import butterknife.BindView;
 import es.uv.uvlive.ui.actions.SessionActions;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 
 /**
@@ -22,13 +23,13 @@ import butterknife.OnClick;
  */
 public class LoginActivity extends BaseActivity implements SessionActions {
 
-    @InjectView(R.id.login_user_et)
+    @BindView(R.id.login_user_et)
     EditText mUser;
 
-    @InjectView(R.id.login_password_et)
+    @BindView(R.id.login_password_et)
     EditText mPassword;
 
-    @InjectView(R.id.login_spinner)
+    @BindView(R.id.login_spinner)
     Spinner mSpinner;
 
     private LoginPresenter loginPresenter;
@@ -37,7 +38,7 @@ public class LoginActivity extends BaseActivity implements SessionActions {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,R.array.type_login_array,R.layout.support_simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
@@ -53,7 +54,7 @@ public class LoginActivity extends BaseActivity implements SessionActions {
     public void login() {
         hideKeyboard();
         loginPresenter.login(mUser.getText().toString(),mPassword.getText().toString(),
-                ((String) mSpinner.getSelectedItem()).toLowerCase());
+                ((String) mSpinner.getSelectedItem()));
     }
 
     @Override
