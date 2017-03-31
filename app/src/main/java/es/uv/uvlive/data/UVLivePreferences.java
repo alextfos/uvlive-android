@@ -1,6 +1,7 @@
 package es.uv.uvlive.data;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -23,7 +24,9 @@ public class UVLivePreferences {
     private static final String BASE_KEY = "es.uv.uvlive.UVLiveSharedPreferences.";
     private static final String STRING_DEFAULT_VALUE = BASE_KEY + "DEFAULT_VALUE";
     private static final String PASSWORD = "Uv~2017.UVl1v€";
+
     private static final String USER_KEY = BASE_KEY + "USER_KEY";
+    private static final String PUSH_TOKEN_KEY = BASE_KEY + "PUSH_TOKEN_KEY";
 
     private static final Gson GSON_CREATOR = new GsonBuilder().create();
 
@@ -32,14 +35,18 @@ public class UVLivePreferences {
     private final SharedPreferences mSharedPreferences;
 
     public static UVLivePreferences getInstance() {
+        return getInstance(UVLiveApplication.getInstance());
+    }
+
+    public static UVLivePreferences getInstance(Context context) {
         if (sUvLivePreferences == null) {
-            sUvLivePreferences = new UVLivePreferences();
+            sUvLivePreferences = new UVLivePreferences(context);
         }
         return sUvLivePreferences;
     }
 
-    public UVLivePreferences() {
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(UVLiveApplication.getInstance());
+    public UVLivePreferences(Context context) {
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     public void saveUser(User user) {
@@ -68,6 +75,19 @@ public class UVLivePreferences {
 
     public void removeUser() {
         removeElement(USER_KEY);
+    }
+
+    public void savePushToken(String pushToken) {
+        saveString(PUSH_TOKEN_KEY,pushToken);
+    }
+
+    @Nullable
+    public String getPushToken() {
+        return getString(PUSH_TOKEN_KEY);
+    }
+
+    public void removePushToken() {
+        removeElement(PUSH_TOKEN_KEY);
     }
 
     /*

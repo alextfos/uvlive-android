@@ -1,14 +1,6 @@
 package es.uv.uvlive.presenter;
 
-import android.support.annotation.NonNull;
-
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.google.gson.Gson;
-
-import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.data.gateway.GsonRequest;
-import es.uv.uvlive.data.gateway.response.StatusResponse;
 import es.uv.uvlive.ui.actions.SplashActions;
 import es.uv.uvlive.utils.StringUtils;
 

@@ -1,6 +1,8 @@
 package es.uv.uvlive.data.gateway.form;
 
-public class MessagesForm {
+import es.uv.uvlive.data.gateway.response.BaseForm;
+
+public class MessagesForm extends BaseForm {
 
     private long idConversation;
     private long lastMessage;

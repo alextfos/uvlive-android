@@ -3,6 +3,7 @@ package es.uv.uvlive.presenter;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import es.uv.uvlive.UVLiveApplication;
+import es.uv.uvlive.data.UVLivePreferences;
 import es.uv.uvlive.data.gateway.GsonRequest;
 import es.uv.uvlive.data.gateway.form.LoginForm;
 import es.uv.uvlive.data.gateway.response.LoginResponse;
@@ -24,12 +25,12 @@ public class LoginPresenter extends BasePresenter {
         request.setUser(user);
         request.setPassword(password);
         request.setTypeLogin(typeLogin);
+        request.setPushToken(UVLivePreferences.getInstance().getPushToken());
 
         Response.Listener<LoginResponse> responseListener = new Response.Listener<LoginResponse>() {
             @Override
             public void onResponse(LoginResponse loginResponse) {
                 if (loginResponse.getErrorCode() == 0) {
-                    LoginModel loginModel = Binder.bindSession(loginResponse);
                     switch (typeLogin) {
                         case "Alumno":
                             currentUser = new Student();
@@ -58,31 +59,5 @@ public class LoginPresenter extends BasePresenter {
             }
         };
         UVLiveApplication.getUVLiveGateway().login(request, responseListener, errorListener);
-    }
-
-    private static class Binder {
-        public static LoginModel bindSession(LoginResponse loginResponse) {
-
-            if (loginResponse.getToken() == null) {
-                return null;
-            }
-
-            LoginModel loginModel = new LoginModel();
-            loginModel.setName(loginResponse.getUser());
-
-            return loginModel;
-        }
-    }
-
-    private static class LoginModel {
-        private String name;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
     }
 }

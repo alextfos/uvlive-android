@@ -1,13 +1,13 @@
 package es.uv.uvlive.data.gateway.form;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import es.uv.uvlive.data.gateway.response.BaseForm;
 
-public class LoginForm {
+public class LoginForm extends BaseForm {
 
     private String userName;
     private String password;
     private String loginType;
+    private String pushToken;
 
     public void setUser(String userName) {
         this.userName = userName;
@@ -19,5 +19,13 @@ public class LoginForm {
 
     public void setTypeLogin(String type) {
         this.loginType = type;
+    }
+
+    public String getPushToken() {
+        return pushToken;
+    }
+
+    public void setPushToken(String pushToken) {
+        this.pushToken = pushToken;
     }
 }

@@ -3,22 +3,19 @@ package es.uv.uvlive.data.gateway;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
-import com.android.volley.RequestQueue;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import es.uv.uvlive.data.gateway.form.LoginForm;
 import es.uv.uvlive.data.gateway.form.MessagesForm;
+import es.uv.uvlive.data.gateway.response.BaseResponse;
 import es.uv.uvlive.data.gateway.response.ConversationsListResponse;
 import es.uv.uvlive.data.gateway.response.LogListResponse;
 import es.uv.uvlive.data.gateway.response.LoginResponse;
 import es.uv.uvlive.data.gateway.response.MessageListResponse;
-import es.uv.uvlive.data.gateway.response.MessageResponse;
-import es.uv.uvlive.data.gateway.response.StatusResponse;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.util.ArrayList;
 
 /**
  * Created by atraverf on 17/11/15.
@@ -28,6 +25,7 @@ public class UVLiveGateway {
     private static final String TAG = "UVLiveGateway";
     private static final String sLoginUrl = "/login";
     private static final String sConversationsUrl ="/conversations";
+    private static final String sGetMessagesUrl ="/messages";
     private static final String sLoggerUrl ="/logger";
     private static final String sStatus = "/status";
 
@@ -41,17 +39,23 @@ public class UVLiveGateway {
         mRequestQueue = Volley.newRequestQueue(context);
     }
 
-    public void status(Response.Listener<StatusResponse> responseListener, Response.ErrorListener errorListener) {
-        GsonRequest<StatusResponse> peticion = new GsonRequest<>(environment+sStatus,
-                StatusResponse.class,"{}",responseListener,errorListener);
-        mRequestQueue.add(peticion);
+    public void status(Response.Listener<BaseResponse> responseListener, Response.ErrorListener errorListener) {
+        GsonRequest<BaseResponse> peticion = new GsonRequest<>(environment+sStatus,
+                BaseResponse.class,"",responseListener,errorListener);
+        addRequestToQueue(peticion);
     }
 
     public void login(LoginForm form, Response.Listener<LoginResponse> responseListener, Response.ErrorListener errorListener) {
         String stringRequest = GSON_CREATOR.toJson(form);
         GsonRequest<LoginResponse> peticion = new GsonRequest<>(environment+sLoginUrl,
                 LoginResponse.class,stringRequest,responseListener,errorListener);
-        mRequestQueue.add(peticion);
+        addRequestToQueue(peticion);
+    }
+
+    public void updatePushToken(String pushToken, Response.Listener<BaseResponse> responseListener, Response.ErrorListener errorListener) {
+        GsonRequest<BaseResponse> peticion = new GsonRequest<>(environment+sStatus,
+                BaseResponse.class,GSON_CREATOR.toJson(pushToken),responseListener,errorListener);
+        addRequestToQueue(peticion);
     }
 
     public void conversations(Response.Listener<ConversationsListResponse>
@@ -61,26 +65,19 @@ public class UVLiveGateway {
         addRequestToQueue(peticion);
     }
 
-    public void messages(MessagesForm form, Response.Listener<MessageListResponse> responseLinster, Response.ErrorListener errorListener) {
-        MessageListResponse listResponse = new MessageListResponse();
-        ArrayList<MessageResponse> list = new ArrayList<>();
-        for (int i=0 ; i<1000 ; i++) {
-            MessageResponse response = new MessageResponse();
-            response.setMessage("Message "+i);
-            response.setTimestamp(i);
-            list.add(response);
-        }
-        listResponse.setMessageResponse(list);
-        responseLinster.onResponse(listResponse);
-    }
-
-    private <T> void addRequestToQueue(GsonRequest<T> request) {
-        Log.d(TAG,"GATEWAY:"+request.toString());
-        mRequestQueue.add(request);
+    public void getMessages(MessagesForm form, Response.Listener<MessageListResponse> responseListener, Response.ErrorListener errorListener) {
+        GsonRequest<MessageListResponse> peticion = new GsonRequest<>(environment+sGetMessagesUrl,
+                MessageListResponse.class,GSON_CREATOR.toJson(form),responseListener,errorListener);
+        addRequestToQueue(peticion);
     }
 
     public void logs(Response.Listener<LogListResponse> responseListener, Response.ErrorListener errorListener) {
         addRequestToQueue(new GsonRequest<>(environment+sLoggerUrl,
                 LogListResponse.class,"",responseListener,errorListener));
+    }
+
+    private final <T> void addRequestToQueue(GsonRequest<T> request) {
+        Log.d(TAG,"GATEWAY:"+request.toString());
+        mRequestQueue.add(request);
     }
 }

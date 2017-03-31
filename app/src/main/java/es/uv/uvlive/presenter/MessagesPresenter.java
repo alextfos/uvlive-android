@@ -8,6 +8,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.List;
 
+import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.data.database.models.MessageTable;
 import es.uv.uvlive.data.database.models.MessageTable_Table;
 import es.uv.uvlive.data.gateway.form.MessagesForm;
@@ -64,7 +65,7 @@ public class MessagesPresenter extends BasePresenter {
         messagesForm.setIdConversation(idConversation);
 //        messagesForm.setLastMessage();
 
-//        UVLiveApplication.getUVLiveGateway().messages(messagesForm,responseListener, errorListener);
+        UVLiveApplication.getUVLiveGateway().getMessages(messagesForm,responseListener, errorListener);
     }
 
     public void sendMessage(long idConversation, String message) {

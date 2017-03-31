@@ -50,6 +50,10 @@ public class GsonRequest<T> extends Request<T> {
         token = null;
     }
 
+    public static boolean hasToken() {
+        return token != null;
+    }
+
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         if (token != null) {
