@@ -1,5 +1,7 @@
 package es.uv.uvlive.data.gateway;
 
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -18,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GsonRequest<T> extends Request<T> {
+    private static final String TAG = Request.class.getName();
     private final Gson gson = new Gson();
     private final Class<T> clazz;
     private static HashMap<String, String> headers= new HashMap<>();
@@ -70,6 +73,7 @@ public class GsonRequest<T> extends Request<T> {
     @Override
     public byte[] getBody() {
         try {
+            Log.d(TAG,mRequestBody);
             return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
         } catch (UnsupportedEncodingException uee) {
             VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
@@ -81,7 +85,6 @@ public class GsonRequest<T> extends Request<T> {
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
-            //TODO: Si esta la cabecera set-cookie, capturar la cookie y enviarla en sucesivas peticiones
             Map<String, String> headers = response.headers;
 //            if (!StringUtils.isBlank(headers.get(HEADER_COOKIE))) {
 //                UVLiveGateway.setCookie(headers.get(HEADER_COOKIE));
@@ -90,6 +93,9 @@ public class GsonRequest<T> extends Request<T> {
             String json = new String(
                     response.data,
                     HttpHeaderParser.parseCharset(response.headers));
+            Log.d(TAG,"Headers: " + response.headers);
+            Log.d(TAG,"Status code: " + response.statusCode);
+            Log.d(TAG,"Body: " + json);
             return Response.success(
                     gson.fromJson(json, clazz),
                     HttpHeaderParser.parseCacheHeaders(response));
