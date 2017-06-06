@@ -8,6 +8,7 @@ import es.uv.uvlive.data.gateway.GsonRequest;
 import es.uv.uvlive.data.gateway.form.LoginForm;
 import es.uv.uvlive.data.gateway.response.LoginResponse;
 import es.uv.uvlive.session.Admin;
+import es.uv.uvlive.session.Businessman;
 import es.uv.uvlive.session.Student;
 import es.uv.uvlive.session.Teacher;
 import es.uv.uvlive.ui.actions.SessionActions;
@@ -31,16 +32,18 @@ public class LoginPresenter extends BasePresenter {
             @Override
             public void onResponse(LoginResponse loginResponse) {
                 if (loginResponse.getErrorCode() == 0) {
-                    switch (typeLogin) {
-                        case "Alumno":
+                    switch (typeLogin) { //TODO: remove hardcoded strings
+                        case "Student":
                             currentUser = new Student();
                             break;
-                        case "Profesor":
+                        case "Teacher":
                             currentUser = new Teacher();
                             break;
                         case "Admin":
                             currentUser = new Admin();
                             break;
+                        case "Businessman":
+                            currentUser = new Businessman();
                     }
                     currentUser.setToken(loginResponse.getToken());
                     GsonRequest.setToken(loginResponse.getToken());

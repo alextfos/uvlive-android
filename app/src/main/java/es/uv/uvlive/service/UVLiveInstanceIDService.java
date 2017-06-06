@@ -10,11 +10,8 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 import es.uv.uvlive.data.UVLivePreferences;
 import es.uv.uvlive.data.gateway.GsonRequest;
 import es.uv.uvlive.data.gateway.UVLiveGateway;
+import es.uv.uvlive.data.gateway.form.PushTokenForm;
 import es.uv.uvlive.data.gateway.response.BaseResponse;
-
-/**
- * Created by alextfos on 19/12/2016.
- */
 
 public class UVLiveInstanceIDService extends FirebaseInstanceIdService {
 
@@ -25,7 +22,9 @@ public class UVLiveInstanceIDService extends FirebaseInstanceIdService {
         Log.d("","Token: "+refreshedToken);
         UVLivePreferences.getInstance(getApplicationContext()).savePushToken(refreshedToken);
         if (GsonRequest.hasToken()) { // Exists a valid session
-            new UVLiveGateway(getApplicationContext()).updatePushToken(refreshedToken, new Response.Listener<BaseResponse>() {
+            PushTokenForm pushTokenForm = new PushTokenForm();
+            pushTokenForm.setPushToken(refreshedToken);
+            new UVLiveGateway(getApplicationContext()).updatePushToken(pushTokenForm, new Response.Listener<BaseResponse>() {
                 @Override
                 public void onResponse(BaseResponse baseResponse) {
 

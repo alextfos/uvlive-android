@@ -11,15 +11,14 @@ import com.google.gson.GsonBuilder;
 
 import es.uv.uvlive.data.gateway.form.LoginForm;
 import es.uv.uvlive.data.gateway.form.MessagesForm;
+import es.uv.uvlive.data.gateway.form.PushTokenForm;
 import es.uv.uvlive.data.gateway.response.BaseResponse;
 import es.uv.uvlive.data.gateway.response.ConversationsListResponse;
 import es.uv.uvlive.data.gateway.response.LogListResponse;
 import es.uv.uvlive.data.gateway.response.LoginResponse;
 import es.uv.uvlive.data.gateway.response.MessageListResponse;
 
-/**
- * Created by atraverf on 17/11/15.
- */
+
 public class UVLiveGateway {
 
     private static final String TAG = "UVLiveGateway";
@@ -27,10 +26,10 @@ public class UVLiveGateway {
     private static final String sConversationsUrl ="/conversations";
     private static final String sGetMessagesUrl ="/messages";
     private static final String sLoggerUrl ="/logger";
-    private static final String sStatus = "/status";
+    private static final String sPushToken = "/update/push_token";
 
-//    private static String environment = "http://10.0.2.2:8080/uvlive-api-1.0-SNAPSHOT";
-    private static String environment = "http://slopez.uv.es:8080/uvlive-api-1.0-SNAPSHOT";
+    private static String environment = "http://10.0.2.2:8080/uvlive-api";
+//    private static String environment = "http://10.0.3.2:8080/uvlive-api";
     public static final Gson GSON_CREATOR = new GsonBuilder().create();
 
     private RequestQueue mRequestQueue;
@@ -40,9 +39,9 @@ public class UVLiveGateway {
     }
 
     public void status(Response.Listener<BaseResponse> responseListener, Response.ErrorListener errorListener) {
-        GsonRequest<BaseResponse> peticion = new GsonRequest<>(environment+sStatus,
-                BaseResponse.class,"",responseListener,errorListener);
-        addRequestToQueue(peticion);
+//        GsonRequest<BaseResponse> peticion = new GsonRequest<>(environment+sStatus,
+//                BaseResponse.class,"",responseListener,errorListener);
+//        addRequestToQueue(peticion);
     }
 
     public void login(LoginForm form, Response.Listener<LoginResponse> responseListener, Response.ErrorListener errorListener) {
@@ -52,9 +51,9 @@ public class UVLiveGateway {
         addRequestToQueue(peticion);
     }
 
-    public void updatePushToken(String pushToken, Response.Listener<BaseResponse> responseListener, Response.ErrorListener errorListener) {
-        GsonRequest<BaseResponse> peticion = new GsonRequest<>(environment+sStatus,
-                BaseResponse.class,GSON_CREATOR.toJson(pushToken),responseListener,errorListener);
+    public void updatePushToken(PushTokenForm pushTokenForm, Response.Listener<BaseResponse> responseListener, Response.ErrorListener errorListener) {
+        GsonRequest<BaseResponse> peticion = new GsonRequest<>(environment+sPushToken,
+                BaseResponse.class,GSON_CREATOR.toJson(pushTokenForm),responseListener,errorListener);
         addRequestToQueue(peticion);
     }
 
