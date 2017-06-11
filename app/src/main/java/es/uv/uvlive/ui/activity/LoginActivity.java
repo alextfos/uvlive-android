@@ -62,11 +62,6 @@ public class LoginActivity extends BaseActivity implements SessionActions {
         finish();
     }
 
-    @Override
-    public void loginError() {
-        Toast.makeText(this,"Ha habido un problema con el login",Toast.LENGTH_LONG).show();
-    }
-
     private void hideKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {

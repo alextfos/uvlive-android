@@ -1,5 +1,6 @@
 package es.uv.uvlive.service;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.volley.Response;
@@ -7,6 +8,7 @@ import com.android.volley.VolleyError;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
+import es.uv.uvlive.data.UVCallback;
 import es.uv.uvlive.data.UVLivePreferences;
 import es.uv.uvlive.data.gateway.GsonRequest;
 import es.uv.uvlive.data.gateway.UVLiveGateway;
@@ -24,17 +26,18 @@ public class UVLiveInstanceIDService extends FirebaseInstanceIdService {
         if (GsonRequest.hasToken()) { // Exists a valid session
             PushTokenForm pushTokenForm = new PushTokenForm();
             pushTokenForm.setPushToken(refreshedToken);
-            new UVLiveGateway(getApplicationContext()).updatePushToken(pushTokenForm, new Response.Listener<BaseResponse>() {
+            UVCallback<BaseResponse> callback = new UVCallback<BaseResponse>() {
                 @Override
-                public void onResponse(BaseResponse baseResponse) {
-                    Log.d("","Response");
+                public void onSuccess(@NonNull BaseResponse baseResponse) {
+
                 }
-            }, new Response.ErrorListener() {
+
                 @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    Log.d("","Error");
+                public void onError(int errorCode) {
+
                 }
-            });
+            };
+            new UVLiveGateway(getApplicationContext()).updatePushToken(pushTokenForm, callback);
         }
     }
 }

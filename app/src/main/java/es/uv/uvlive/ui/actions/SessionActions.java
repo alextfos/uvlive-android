@@ -1,12 +1,6 @@
 package es.uv.uvlive.ui.actions;
 
-/**
- * Created by alextfos on 01/12/2016.
- */
-
-public interface SessionActions {
+public interface SessionActions extends BaseActions {
 
     void loginOk();
-
-    void loginError();
 }

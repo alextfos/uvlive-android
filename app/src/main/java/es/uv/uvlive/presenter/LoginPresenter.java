@@ -1,8 +1,12 @@
 package es.uv.uvlive.presenter;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import es.uv.uvlive.UVLiveApplication;
+import es.uv.uvlive.data.UVCallback;
 import es.uv.uvlive.data.UVLivePreferences;
 import es.uv.uvlive.data.gateway.GsonRequest;
 import es.uv.uvlive.data.gateway.form.LoginForm;
@@ -28,10 +32,9 @@ public class LoginPresenter extends BasePresenter {
         request.setTypeLogin(typeLogin);
         request.setPushToken(UVLivePreferences.getInstance().getPushToken());
 
-        Response.Listener<LoginResponse> responseListener = new Response.Listener<LoginResponse>() {
+        UVCallback<LoginResponse> uvCallback = new UVCallback<LoginResponse>() {
             @Override
-            public void onResponse(LoginResponse loginResponse) {
-                if (loginResponse.getErrorCode() == 0) {
+            public void onSuccess(@NonNull LoginResponse loginResponse) {
                     switch (typeLogin) { //TODO: remove hardcoded strings
                         case "Student":
                             currentUser = new Student();
@@ -49,18 +52,13 @@ public class LoginPresenter extends BasePresenter {
                     GsonRequest.setToken(loginResponse.getToken());
                     saveUser();
                     sessionActions.loginOk(); // le pasamos el loginmodel
-                } else {
-                    sessionActions.loginError();
-                }
             }
-        };
 
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                sessionActions.loginError();
+            public void onError(@StringRes int stringMessage) {
+                sessionActions.onError(stringMessage);
             }
         };
-        UVLiveApplication.getUVLiveGateway().login(request, responseListener, errorListener);
+        UVLiveApplication.getUVLiveGateway().login(request, uvCallback);
     }
 }

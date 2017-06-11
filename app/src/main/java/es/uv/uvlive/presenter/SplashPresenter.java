@@ -1,5 +1,6 @@
 package es.uv.uvlive.presenter;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.volley.Response;
@@ -9,6 +10,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import java.util.List;
 
 import es.uv.uvlive.UVLiveApplication;
+import es.uv.uvlive.data.UVCallback;
 import es.uv.uvlive.data.UVLivePreferences;
 import es.uv.uvlive.data.database.models.ConversationTable;
 import es.uv.uvlive.data.gateway.GsonRequest;
@@ -32,42 +34,23 @@ public class SplashPresenter extends BasePresenter {
         loadUser();
         if (currentUser != null && !StringUtils.isBlank(currentUser.getToken())) {
             GsonRequest.setToken(currentUser.getToken());
-
-            Response.Listener<BaseResponse> responseListener = new Response.Listener<BaseResponse>() {
+            UVCallback<BaseResponse> callback = new UVCallback<BaseResponse>() {
                 @Override
-                public void onResponse(BaseResponse baseResponse) {
-                    Log.d("","Token updated");
+                public void onSuccess(@NonNull BaseResponse baseResponse) {
+
                 }
 
-            };
-            Response.ErrorListener errorListener = new Response.ErrorListener() {
                 @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    Log.d("proves", "Update token - Error");
+                public void onError(int errorCode) {
+
                 }
             };
             PushTokenForm pushTokenForm = new PushTokenForm();
             pushTokenForm.setPushToken(UVLivePreferences.getInstance().getPushToken());
-            UVLiveApplication.getUVLiveGateway().updatePushToken(pushTokenForm,
-                    responseListener, errorListener);
+            UVLiveApplication.getUVLiveGateway().updatePushToken(pushTokenForm, callback);
             splashActions.onLogged();
         } else {
             splashActions.onNotLogged();
         }
-//        UVLiveApplication.getUVLiveGateway().status(new Response.Listener<StatusResponse>() {
-//            @Override
-//            public void onResponse(@NonNull StatusResponse statusResponse) {
-//                if (statusResponse.isStatus()) {
-//                    splashActions.onLogged();
-//                } else {
-//                    splashActions.onNotLogged();
-//                }
-//            }
-//        },new Response.ErrorListener(){
-//            @Override
-//            public void onErrorResponse(VolleyError volleyError) {
-//                splashActions.onNotLogged();
-//            }
-//        });
     }
 }

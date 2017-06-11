@@ -1,5 +1,6 @@
 package es.uv.uvlive.presenter;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.volley.Response;
@@ -9,6 +10,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import java.util.List;
 
 import es.uv.uvlive.UVLiveApplication;
+import es.uv.uvlive.data.UVCallback;
 import es.uv.uvlive.data.database.models.ConversationTable;
 import es.uv.uvlive.data.database.models.MessageTable;
 import es.uv.uvlive.data.gateway.response.ConversationsListResponse;
@@ -31,9 +33,9 @@ public class ConversationsPresenter extends BasePresenter {
         final List<ConversationModel> conversationsDBList = ConversationModel.transform(conversationTableList);
         conversationsActions.onConversationsReceived(conversationsDBList);
 
-        Response.Listener<ConversationsListResponse> responseListener = new Response.Listener<ConversationsListResponse>() {
+        UVCallback<ConversationsListResponse> callback = new UVCallback<ConversationsListResponse>() {
             @Override
-            public void onResponse(ConversationsListResponse conversationsListResponse) {
+            public void onSuccess(@NonNull ConversationsListResponse conversationsListResponse) {
                 List<ConversationModel> conversations =
                         ConversationModel.transform(conversationsListResponse.getConversations());
                 for (ConversationModel conversation: conversations) {
@@ -47,13 +49,12 @@ public class ConversationsPresenter extends BasePresenter {
                 conversationsActions.onConversationsReceived(conversations);
             }
 
-        };
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.d("proves", "Conversaciones - Error");
+            public void onError(int errorCode) {
+                conversationsActions.onError(errorCode);
             }
         };
-        UVLiveApplication.getUVLiveGateway().conversations(responseListener, errorListener);
+
+        UVLiveApplication.getUVLiveGateway().conversations(callback);
     }
 }

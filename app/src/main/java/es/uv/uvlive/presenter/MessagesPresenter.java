@@ -1,5 +1,6 @@
 package es.uv.uvlive.presenter;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.volley.Response;
@@ -9,6 +10,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import java.util.List;
 
 import es.uv.uvlive.UVLiveApplication;
+import es.uv.uvlive.data.UVCallback;
 import es.uv.uvlive.data.database.models.MessageTable;
 import es.uv.uvlive.data.database.models.MessageTable_Table;
 import es.uv.uvlive.data.gateway.form.MessageForm;
@@ -34,9 +36,10 @@ public class MessagesPresenter extends BasePresenter {
         final List<MessageModel> messageDBList = MessageModel.transform(messageList);
         messageActions.onMessagesReceived(messageDBList);
 
-        Response.Listener<MessageListResponse> responseListener = new Response.Listener<MessageListResponse>() {
+        UVCallback<MessageListResponse> callback = new UVCallback<MessageListResponse>() {
+
             @Override
-            public void onResponse(MessageListResponse messageListResponse) {
+            public void onSuccess(@NonNull MessageListResponse messageListResponse) {
                 List<MessageModel> messages = MessageModel.transform(messageListResponse.getMessages());
                 for (MessageModel message: messages) {
                     if (!messageDBList.contains(message)) {
@@ -51,18 +54,16 @@ public class MessagesPresenter extends BasePresenter {
                 messageActions.onMessagesReceived(messages);
             }
 
-        };
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.d("proves", "Conversaciones - Error");
+            public void onError(int errorCode) {
+                messageActions.onError(errorCode);
             }
         };
 
         MessagesForm messagesForm = new MessagesForm();
         messagesForm.setIdConversation(idConversation);
 
-        UVLiveApplication.getUVLiveGateway().getMessages(messagesForm,responseListener, errorListener);
+        UVLiveApplication.getUVLiveGateway().getMessages(messagesForm,callback);
     }
 
     public void sendMessage(int idConversation, String message) {
@@ -80,21 +81,18 @@ public class MessagesPresenter extends BasePresenter {
         messageForm.setIdConversation(idConversation);
         messageForm.setMessage(message);
 
-        Response.Listener<BaseResponse> responseListener = new Response.Listener<BaseResponse>() {
+        UVCallback<BaseResponse> callback = new UVCallback<BaseResponse>() {
             @Override
-            public void onResponse(BaseResponse baseResponse) {
-                if (baseResponse.getErrorCode() == 0) {
-                    // TODO message sended
-                }
+            public void onSuccess(@NonNull BaseResponse baseResponse) {
+
             }
-        };
-        Response.ErrorListener errorListener = new Response.ErrorListener() {
+
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.d("proves", "send message - Error");
+            public void onError(int errorCode) {
+                messageActions.onError(errorCode);
             }
         };
 
-        UVLiveApplication.getUVLiveGateway().sendMessage(messageForm,responseListener,errorListener);
+        UVLiveApplication.getUVLiveGateway().sendMessage(messageForm,callback);
     }
 }

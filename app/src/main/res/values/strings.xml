@@ -4,4 +4,10 @@
     <string name="login_user">Usuario</string>
     <string name="login_password">Contraseña</string>
     <string name="login_button">Acceder</string>
+
+    <!-- Error messages -->
+    <string name="error_unknown">Se ha producido un error</string>
+    <string name="error_wrong_credentials">Las credenciales introducidas no son correctas</string>
+    <string name="error_unauthorized">Su sesión ha caducado</string>
+    <string name="error_token_expired">Su sesión ha caducado</string>
 </resources>
