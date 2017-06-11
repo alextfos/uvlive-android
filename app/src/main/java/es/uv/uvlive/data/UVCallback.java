@@ -1,8 +1,7 @@
 package es.uv.uvlive.data;
 
-import android.icu.text.IDNA;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
+import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -10,6 +9,8 @@ import com.android.volley.VolleyError;
 import es.uv.uvlive.data.gateway.response.BaseResponse;
 
 public abstract class UVCallback<T> {
+
+    private static final String TAG = UVCallback.class.getSimpleName();
 
     public final Listener Listener;
     public final ErrorListener ErrorListener;
@@ -25,6 +26,7 @@ public abstract class UVCallback<T> {
         @Override
         public void onResponse(T t) {
             if ( t != null && t instanceof BaseResponse) {
+                Log.d(TAG,t.toString());
                 if (((BaseResponse) t).getErrorCode() == 0) {
                     onSuccess(t);
                 } else {
