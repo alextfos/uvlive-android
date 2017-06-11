@@ -42,7 +42,7 @@ public class SplashPresenter extends BasePresenter {
 
                 @Override
                 public void onError(int errorCode) {
-
+                    splashActions.onError(errorCode);
                 }
             };
             PushTokenForm pushTokenForm = new PushTokenForm();

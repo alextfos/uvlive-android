@@ -1,16 +1,23 @@
 package es.uv.uvlive.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.data.ErrorManager;
+import es.uv.uvlive.data.UVCallback;
+import es.uv.uvlive.data.gateway.response.BaseResponse;
 import es.uv.uvlive.ui.actions.BaseActions;
 
 
 public abstract class BaseActivity extends AppCompatActivity implements BaseActions {
+
+    protected static int LOGIN_REQUEST_CODE = 100;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +36,22 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     }
 
     public void logout() {
-        // TODO make logout
+        UVLiveApplication.getUVLiveGateway().logout(new UVCallback<BaseResponse>() {
+            @Override
+            public void onSuccess(@NonNull BaseResponse baseResponse) {
+
+            }
+
+            @Override
+            public void onError(int errorCode) {
+
+            }
+        });
+        startLoginActivity();
+        finish();
+    }
+
+    protected void startLoginActivity() {
+        startActivityForResult(new Intent(BaseActivity.this,LoginActivity.class),LOGIN_REQUEST_CODE);
     }
 }

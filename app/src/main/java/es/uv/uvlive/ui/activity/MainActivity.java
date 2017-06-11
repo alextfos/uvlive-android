@@ -15,8 +15,6 @@ import es.uv.uvlive.ui.fragment.MessageListFragment;
 
 public class MainActivity extends BaseActivity implements MainActions {
 
-    private static int LOGIN_REQUEST_CODE = 100;
-
     private boolean mTwoPane=false;
     private MainPresenter mainPresenter;
 
@@ -28,19 +26,8 @@ public class MainActivity extends BaseActivity implements MainActions {
         getSupportActionBar().setTitle(getTitle());
 
         if (findViewById(R.id.item_detail_container) != null) {
-            mTwoPane=true;
+            mTwoPane = true;
         }
-
-        //TODo replace to right method call
-//        if (UVLiveApplication.getInstance().getToken() != null) {
-//            initializePresenter();
-//        } else {
-//            startLoginActivity();
-//        }
-    }
-
-    private void startLoginActivity() {
-        startActivityForResult(new Intent(MainActivity.this,LoginActivity.class),LOGIN_REQUEST_CODE);
     }
 
     @Override
@@ -80,9 +67,8 @@ public class MainActivity extends BaseActivity implements MainActions {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.main_menu_exit:
-                startLoginActivity();
+                logout();
                 mainPresenter.logout();
-                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);

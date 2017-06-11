@@ -1,17 +1,11 @@
 package es.uv.uvlive.presenter;
 
-import android.util.Log;
-
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import android.support.annotation.NonNull;
 
 import es.uv.uvlive.UVLiveApplication;
+import es.uv.uvlive.data.UVCallback;
 import es.uv.uvlive.data.gateway.response.LogListResponse;
 import es.uv.uvlive.ui.actions.LogsActions;
-
-/**
- * Created by atraver on 22/03/17.
- */
 
 public class LogsPresenter {
 
@@ -22,18 +16,16 @@ public class LogsPresenter {
     }
 
     public void getLogs() {
-        Response.Listener<LogListResponse> responseListener = new Response.Listener<LogListResponse>() {
+        UVLiveApplication.getUVLiveGateway().logs(new UVCallback<LogListResponse>() {
             @Override
-            public void onResponse(LogListResponse logListResponse) {
+            public void onSuccess(@NonNull LogListResponse logListResponse) {
                 logsActions.onLogsReceived(logListResponse);
             }
-        };
-        Response.ErrorListener errorListener = new Response.ErrorListener(){
+
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.d("proves", "Conversaciones - Error");
+            public void onError(int errorCode) {
+                logsActions.onError(errorCode);
             }
-        };
-        UVLiveApplication.getUVLiveGateway().logs(responseListener, errorListener);
+        });
     }
 }
