@@ -14,16 +14,16 @@ import es.uv.uvlive.data.database.UVLiveDB;
 public class ConversationTable extends BaseModel {
 
     @PrimaryKey
-    long id;
+    int id;
 
     @Column
     String name;
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

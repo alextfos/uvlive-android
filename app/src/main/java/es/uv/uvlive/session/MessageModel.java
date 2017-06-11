@@ -1,5 +1,7 @@
 package es.uv.uvlive.session;
 
+import android.support.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +16,7 @@ public class MessageModel {
     private boolean sended;
 
     public MessageModel(MessageResponse messageResponse) {
-        message = messageResponse.getMessage();
+        message = messageResponse.getText();
         sended = true;
     }
 
@@ -73,11 +75,12 @@ public class MessageModel {
         return messageModelList;
     }
 
-    public static List<MessageModel> transform(ArrayList<MessageResponse> messageResponse) {
+    public static List<MessageModel> transform(@Nullable ArrayList<MessageResponse> messageResponse) {
         ArrayList<MessageModel> messageModelList = new ArrayList<>();
-
-        for (MessageResponse messageModel: messageResponse) {
-            messageModelList.add(new MessageModel(messageModel));
+        if (messageResponse != null) {
+            for (MessageResponse messageModel : messageResponse) {
+                messageModelList.add(new MessageModel(messageModel));
+            }
         }
 
         return messageModelList;

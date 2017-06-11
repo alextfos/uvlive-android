@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 
 public class MessageListResponse {
-    private ArrayList<MessageResponse> messageResponse;
+    private ArrayList<MessageResponse> messages;
 
-    public ArrayList<MessageResponse> getMessageResponse() {
-        return messageResponse;
+    public ArrayList<MessageResponse> getMessages() {
+        return messages;
     }
 
-    public void setMessageResponse(ArrayList<MessageResponse> messageResponse) {
-        this.messageResponse = messageResponse;
+    public void setMessages(ArrayList<MessageResponse> messages) {
+        this.messages = messages;
     }
 }

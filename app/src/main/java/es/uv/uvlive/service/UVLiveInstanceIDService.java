@@ -27,12 +27,12 @@ public class UVLiveInstanceIDService extends FirebaseInstanceIdService {
             new UVLiveGateway(getApplicationContext()).updatePushToken(pushTokenForm, new Response.Listener<BaseResponse>() {
                 @Override
                 public void onResponse(BaseResponse baseResponse) {
-
+                    Log.d("","Response");
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-
+                    Log.d("","Error");
                 }
             });
         }

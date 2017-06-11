@@ -17,7 +17,7 @@ public class MessageTable extends BaseModel {
     long id;
 
     @Column
-    long timeStamp;
+    int timeStamp;
 
     @Column
     String messageText;
@@ -32,7 +32,7 @@ public class MessageTable extends BaseModel {
         return timeStamp;
     }
 
-    public void setTimeStamp(long timeStamp) {
+    public void setTimeStamp(int timeStamp) {
         this.timeStamp = timeStamp;
     }
 

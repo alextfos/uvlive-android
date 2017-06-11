@@ -4,14 +4,13 @@ import es.uv.uvlive.data.gateway.response.BaseForm;
 
 public class MessagesForm extends BaseForm {
 
-    private long idConversation;
-    private long lastMessage;
+    private int idConversation;
 
-    public void setIdConversation(long idConversation) {
+    public void setIdConversation(int idConversation) {
         this.idConversation = idConversation;
     }
 
-    public void setLastMessage(long lastMessage){
-        this.lastMessage = lastMessage;
+    public int getIdConversation() {
+        return idConversation;
     }
 }

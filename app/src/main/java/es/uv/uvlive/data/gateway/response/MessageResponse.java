@@ -2,22 +2,23 @@ package es.uv.uvlive.data.gateway.response;
 
 public class MessageResponse {
 
-    private String message;
-    private long timestamp;
+    private int idMessage;
+    private String text;
+    private String timestamp;
 
-    public String getMessage() {
-        return message;
+    public String getText() {
+        return text;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMessage(String text) {
+        this.text = text;
     }
 
-    public long getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 }

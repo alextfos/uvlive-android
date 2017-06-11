@@ -8,7 +8,7 @@ import es.uv.uvlive.data.gateway.response.ConversationResponse;
 
 public class ConversationModel {
 
-    private long id;
+    private int id;
     private String name;
 
     public ConversationModel(ConversationTable conversationTable) {
@@ -21,11 +21,11 @@ public class ConversationModel {
         name = conversationResponse.getName();
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

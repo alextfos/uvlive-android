@@ -13,12 +13,9 @@ import es.uv.uvlive.ui.fragment.AdminOptionsListFragment;
 import es.uv.uvlive.ui.fragment.ConversationListFragment;
 import es.uv.uvlive.ui.fragment.MessageListFragment;
 
-/**
- * Created by atraverf on 25/12/15.
- */
 public class MainActivity extends BaseActivity implements MainActions {
 
-    private static int LOGIN_REQUEST_CODE=100;
+    private static int LOGIN_REQUEST_CODE = 100;
 
     private boolean mTwoPane=false;
     private MainPresenter mainPresenter;
@@ -63,7 +60,7 @@ public class MainActivity extends BaseActivity implements MainActions {
     private void loadConversationsFragment() {
         //TODO: si es pantalla de tablet, meter los dos fragments
         // y si no meter sólo uno
-        if(mTwoPane) {
+        if (mTwoPane) {
 
         } else {
             getSupportFragmentManager()
@@ -105,7 +102,7 @@ public class MainActivity extends BaseActivity implements MainActions {
     }
 
 
-    public void onItemSelected(long id) {
+    public void onItemSelected(int id) {
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a

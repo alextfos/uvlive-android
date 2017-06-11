@@ -11,14 +11,12 @@ import java.util.List;
 import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.data.database.models.MessageTable;
 import es.uv.uvlive.data.database.models.MessageTable_Table;
+import es.uv.uvlive.data.gateway.form.MessageForm;
 import es.uv.uvlive.data.gateway.form.MessagesForm;
+import es.uv.uvlive.data.gateway.response.BaseResponse;
 import es.uv.uvlive.data.gateway.response.MessageListResponse;
 import es.uv.uvlive.session.MessageModel;
 import es.uv.uvlive.ui.actions.MessageActions;
-
-/**
- * Created by atraver on 22/03/17.
- */
 
 public class MessagesPresenter extends BasePresenter {
 
@@ -28,7 +26,7 @@ public class MessagesPresenter extends BasePresenter {
         this.messageActions = messageActions;
     }
 
-    public void getMessages(long idConversation) {
+    public void getMessages(int idConversation) {
         List<MessageTable> messageList = SQLite.select()
                 .from(MessageTable.class)
                 .where(MessageTable_Table.idConversation_id.is(idConversation))
@@ -39,13 +37,13 @@ public class MessagesPresenter extends BasePresenter {
         Response.Listener<MessageListResponse> responseListener = new Response.Listener<MessageListResponse>() {
             @Override
             public void onResponse(MessageListResponse messageListResponse) {
-                List<MessageModel> messages = MessageModel.transform(messageListResponse.getMessageResponse());
+                List<MessageModel> messages = MessageModel.transform(messageListResponse.getMessages());
                 for (MessageModel message: messages) {
                     if (!messageDBList.contains(message)) {
                         MessageTable messageTable = new MessageTable();
                         messageTable.setMessageText(message.getMessage());
                         messageTable.setIdConversation(message.getIdConversation());
-                        messageTable.setTimeStamp(message.getTimeStamp());
+                        messageTable.setTimeStamp(Integer.parseInt(String.valueOf(message.getTimeStamp())));
                         messageTable.setSended(true);
                         messageTable.save();
                     }
@@ -63,12 +61,11 @@ public class MessagesPresenter extends BasePresenter {
 
         MessagesForm messagesForm = new MessagesForm();
         messagesForm.setIdConversation(idConversation);
-//        messagesForm.setLastMessage();
 
         UVLiveApplication.getUVLiveGateway().getMessages(messagesForm,responseListener, errorListener);
     }
 
-    public void sendMessage(long idConversation, String message) {
+    public void sendMessage(int idConversation, String message) {
         MessageTable messageTable = new MessageTable();
 
         messageTable.setSended(false);
@@ -79,6 +76,25 @@ public class MessagesPresenter extends BasePresenter {
         // Reload messages list
         getMessages(idConversation);
 
-        //TODO request and update
+        MessageForm messageForm = new MessageForm();
+        messageForm.setIdConversation(idConversation);
+        messageForm.setMessage(message);
+
+        Response.Listener<BaseResponse> responseListener = new Response.Listener<BaseResponse>() {
+            @Override
+            public void onResponse(BaseResponse baseResponse) {
+                if (baseResponse.getErrorCode() == 0) {
+                    // TODO message sended
+                }
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.d("proves", "send message - Error");
+            }
+        };
+
+        UVLiveApplication.getUVLiveGateway().sendMessage(messageForm,responseListener,errorListener);
     }
 }

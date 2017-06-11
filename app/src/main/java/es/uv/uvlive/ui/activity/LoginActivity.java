@@ -18,9 +18,6 @@ import es.uv.uvlive.ui.actions.SessionActions;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Created by atraverf on 17/11/15.
- */
 public class LoginActivity extends BaseActivity implements SessionActions {
 
     @BindView(R.id.login_user_et)

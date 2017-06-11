@@ -35,12 +35,12 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
 
     private MessagesPresenter messagesPresenter;
 
-    private long id;
+    private int id;
 
-    public static MessageListFragment newInstance(long id) {
+    public static MessageListFragment newInstance(int id) {
         Bundle arguments = new Bundle();
 
-        arguments.putLong(MessageListFragment.ARG_ITEM_ID, id);
+        arguments.putInt(MessageListFragment.ARG_ITEM_ID, id);
         MessageListFragment fragment = new MessageListFragment();
         fragment.setArguments(arguments);
 
@@ -62,7 +62,7 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            id = getArguments().getLong(ARG_ITEM_ID);
+            id = getArguments().getInt(ARG_ITEM_ID);
             messagesPresenter = new MessagesPresenter(this);
             messagesPresenter.getMessages(id);
         }

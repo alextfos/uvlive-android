@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import es.uv.uvlive.data.gateway.form.LoginForm;
+import es.uv.uvlive.data.gateway.form.MessageForm;
 import es.uv.uvlive.data.gateway.form.MessagesForm;
 import es.uv.uvlive.data.gateway.form.PushTokenForm;
 import es.uv.uvlive.data.gateway.response.BaseResponse;
@@ -27,8 +28,11 @@ public class UVLiveGateway {
     private static final String sGetMessagesUrl ="/messages";
     private static final String sLoggerUrl ="/logger";
     private static final String sPushToken = "/update/push_token";
+    private static final String sSend = "/send";
 
-    private static String environment = "http://10.0.2.2:8080/uvlive-api";
+    // Integrated emulator
+//    private static String environment = "http://10.0.2.2:8080/uvlive-api";
+    private static String environment = "http://192.168.1.10:8080/uvlive-api";
 //    private static String environment = "http://10.0.3.2:8080/uvlive-api";
     public static final Gson GSON_CREATOR = new GsonBuilder().create();
 
@@ -46,28 +50,34 @@ public class UVLiveGateway {
 
     public void login(LoginForm form, Response.Listener<LoginResponse> responseListener, Response.ErrorListener errorListener) {
         String stringRequest = GSON_CREATOR.toJson(form);
-        GsonRequest<LoginResponse> peticion = new GsonRequest<>(environment+sLoginUrl,
+        GsonRequest<LoginResponse> request = new GsonRequest<>(environment+sLoginUrl,
                 LoginResponse.class,stringRequest,responseListener,errorListener);
-        addRequestToQueue(peticion);
+        addRequestToQueue(request);
     }
 
     public void updatePushToken(PushTokenForm pushTokenForm, Response.Listener<BaseResponse> responseListener, Response.ErrorListener errorListener) {
-        GsonRequest<BaseResponse> peticion = new GsonRequest<>(environment+sPushToken,
+        GsonRequest<BaseResponse> request = new GsonRequest<>(environment+sPushToken,
                 BaseResponse.class,GSON_CREATOR.toJson(pushTokenForm),responseListener,errorListener);
-        addRequestToQueue(peticion);
+        addRequestToQueue(request);
     }
 
     public void conversations(Response.Listener<ConversationsListResponse>
             responseListener, Response.ErrorListener errorListener) {
-        GsonRequest<ConversationsListResponse> peticion = new GsonRequest<>(environment+sConversationsUrl,
+        GsonRequest<ConversationsListResponse> request = new GsonRequest<>(environment+sConversationsUrl,
                 ConversationsListResponse.class,"",responseListener,errorListener);
-        addRequestToQueue(peticion);
+        addRequestToQueue(request);
     }
 
     public void getMessages(MessagesForm form, Response.Listener<MessageListResponse> responseListener, Response.ErrorListener errorListener) {
-        GsonRequest<MessageListResponse> peticion = new GsonRequest<>(environment+sGetMessagesUrl,
+        GsonRequest<MessageListResponse> request = new GsonRequest<>(environment+sGetMessagesUrl,
                 MessageListResponse.class,GSON_CREATOR.toJson(form),responseListener,errorListener);
-        addRequestToQueue(peticion);
+        addRequestToQueue(request);
+    }
+
+    public void sendMessage(MessageForm messageForm, Response.Listener<BaseResponse> responseListener, Response.ErrorListener errorListener) {
+        GsonRequest<BaseResponse> request = new GsonRequest<>(environment+sSend,
+                BaseResponse.class,GSON_CREATOR.toJson(messageForm),responseListener,errorListener);
+        addRequestToQueue(request);
     }
 
     public void logs(Response.Listener<LogListResponse> responseListener, Response.ErrorListener errorListener) {

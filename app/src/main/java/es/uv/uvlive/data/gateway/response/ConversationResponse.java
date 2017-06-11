@@ -2,10 +2,10 @@ package es.uv.uvlive.data.gateway.response;
 
 public class ConversationResponse {
 
-    private long id;
+    private int id;
     private String name;
 
-    public long getId(){
+    public int getId(){
         return id;
     }
 
@@ -13,7 +13,7 @@ public class ConversationResponse {
         return name;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
