@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.example.atraverf.uvlive.BuildConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -22,20 +23,16 @@ import es.uv.uvlive.data.gateway.response.MessageListResponse;
 public class UVLiveGateway {
 
     private static final String TAG = "UVLiveGateway";
-    private static final String urlLogin = "/login";
-    private static final String urlLogout = "/logout";
-    private static final String urlConversations ="/conversations";
-    private static final String urlMessages ="/messages";
-    private static final String urlLogger ="/logger";
-    private static final String urlPushToken = "/update/push_token";
-    private static final String urlSend = "/urlSend";
+    private static final String urlLogin = "login";
+    private static final String urlLogout = "logout";
+    private static final String urlConversations ="conversations";
+    private static final String urlMessages ="messages";
+    private static final String urlLogger ="logger";
+    private static final String urlPushToken = "update/push_token";
+    private static final String urlSend = "urlSend";
 
-    // Integrated emulator
-    private static String environment = "http://10.0.2.2:8080/uvlive-api";
-    // Home IP
-//    private static String environment = "http://192.168.1.10:8080/uvlive-api";
-    // Genymotion emulator
-//    private static String environment = "http://10.0.3.2:8080/uvlive-api";
+    private static String environment = BuildConfig.ENVIRONMENT + "uvlive-api/";
+
     public static final Gson GSON_CREATOR = new GsonBuilder().create();
 
     private RequestQueue requestQueue;

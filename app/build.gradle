@@ -12,18 +12,34 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        buildConfigField("String", "ENVIRONMENT", "\"http://slopez.uv.es:8080/\"")
     }
     buildTypes {
-        integration {
+        debug {
             initWith buildTypes.debug
+            minifyEnabled false;
+            buildConfigField("String", "ENVIRONMENT", "\"http://192.168.1.10:8080/\"")
+
         }
+
+        genymotion {
+            initWith buildTypes.debug
+            minifyEnabled false;
+            buildConfigField("String", "ENVIRONMENT", "\"http://10.0.3.2:8080/\"")
+        }
+
+        emulator {
+            initWith buildTypes.debug
+            minifyEnabled false;
+            buildConfigField("String", "ENVIRONMENT", "\"http://10.0.2.2:8080/\"")
+        }
+
         release {
+            initWith buildTypes.debug
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug {
-            minifyEnabled false;
-        }
+
     }
 }
 
