@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="colorEditTextMessage">#87CEEB</color>
+    <color name="uv_light_blue">#0a3869</color>
+    <color name="uv_dark_blue">#082B3E</color>
+    <color name="uv_light_beige">#DFDED9</color>
+    <color name="uv_dark_beige">#E6E3D2</color>
+
+    <color name="colorPrimary">@color/uv_dark_beige</color>
+    <color name="colorPrimaryDark">@color/uv_dark_blue</color>
+    <color name="colorAccent">@color/uv_light_blue</color>
+    <color name="colorEditTextMessage">@color/uv_light_beige</color>
 </resources>
