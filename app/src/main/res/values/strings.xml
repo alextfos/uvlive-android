@@ -10,4 +10,19 @@
     <string name="error_wrong_credentials">Las credenciales introducidas no son correctas</string>
     <string name="error_unauthorized">Su sesión ha caducado</string>
     <string name="error_token_expired">Su sesión ha caducado</string>
+
+    <!-- Forms -->
+    <string name="button_register">Registrar</string>
+
+    <!-- Register form -->
+    <string name="register_dni">DNI</string>
+    <string name="register_user_name">Nombre de usuario</string>
+    <string name="register_name">Nombre</string>
+    <string name="register_lastname">Apellido</string>
+    <string name="register_password_1">Contraseña</string>
+    <string name="register_password_2">Repetir contraseña</string>
+    <string name="register_merchant_success">Comerciante "%s" registrado correctamente</string>
+    <string name="register_merchant_error">Error al registrar el comerciante</string>
+
+
 </resources>
