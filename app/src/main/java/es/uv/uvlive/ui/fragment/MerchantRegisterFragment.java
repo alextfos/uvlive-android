@@ -159,11 +159,12 @@ public class MerchantRegisterFragment extends BaseFragment {
                     intent.putExtra("merchantRegistered", true);
                     getActivity().setIntent(intent);
                     getActivity().onBackPressed();
+                    // TODO show result
                 }
 
                 @Override
                 public void onError(int errorCode) {
-                    Toast.makeText(getContext(), "No se ha introducido al usuario", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.register_merchant_error), Toast.LENGTH_SHORT).show();
                 }
             };
 
