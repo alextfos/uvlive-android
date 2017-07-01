@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_merchant_container"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fragment_merchant_register_dni"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_dni"
+                android:maxLength="9"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fragment_merchant_register_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_user_name"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fragment_merchant_register_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_name"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fragment_merchant_register_lastname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_lastname"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fragment_merchant_register_password_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_password_1"
+                android:inputType="textPassword"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fragment_merchant_register_password_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_password_2"
+                android:inputType="textPassword"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/fragment_merchant_register_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_register"/>
+    </LinearLayout>
+</LinearLayout>
