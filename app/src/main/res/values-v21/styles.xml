@@ -5,4 +5,23 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+    
+    <style name="LoginTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="android:background">@color/uv_dark_blue</item>
+        <item name="android:editTextStyle">@style/login_textInputEditText</item>
+        <item name="android:buttonStyle">@style/login_button</item>
+    </style>
+
+    <style name="login_button" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:colorButtonNormal">@color/uv_light_blue</item>
+        <item name="android:color">@android:color/white</item>
+    </style>
+
+    <style name="login_textInputEditText">
+        <item name="android:backgroundTint">@android:color/white</item>
+    </style>
+
+    <style name="Button" parent="Widget.AppCompat.Button.Colored">
+    </style>
 </resources>
