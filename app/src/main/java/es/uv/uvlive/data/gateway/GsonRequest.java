@@ -3,6 +3,7 @@ package es.uv.uvlive.data.gateway;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -43,6 +44,12 @@ public class GsonRequest<T> extends Request<T> {
         this.clazz = clazz;
         this.listener = listener;
         mRequestBody=requestBody;
+
+        // TODO MAGIC NUMBER
+        this.setRetryPolicy(new DefaultRetryPolicy(
+                40000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
     public static void setToken(String token) {
