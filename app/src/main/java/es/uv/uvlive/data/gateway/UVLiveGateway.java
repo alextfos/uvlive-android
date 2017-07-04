@@ -25,16 +25,17 @@ import es.uv.uvlive.data.gateway.response.ValidateMerchantResponse;
 public class UVLiveGateway {
 
     private static final String TAG = "UVLiveGateway";
+
     private static final String urlLogin = "user/login";
     private static final String urlLogout = "user/logout";
-    private static final String urlConversations ="conversations";
-    private static final String urlMessages ="messages";
+    private static final String urlConversations ="rolUV/conversations";
+    private static final String urlMessages ="rolUV/messages";
     private static final String urlLogger ="logger";
     private static final String urlPushToken = "update/push_token";
-    private static final String urlSend = "urlSend";
+    private static final String urlSend = "/rolUV/message/send";
     private static final String urlRegisterMerchant = "admin/merchant/register";
     private static final String urlValidateMerchant = "admin/merchantName/exists";
-
+    
     private static String environment = BuildConfig.ENVIRONMENT + "uvlive-api/";
 
     public static final Gson GSON_CREATOR = new GsonBuilder().create();
