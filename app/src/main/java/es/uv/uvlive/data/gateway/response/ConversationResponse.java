@@ -2,19 +2,19 @@ package es.uv.uvlive.data.gateway.response;
 
 public class ConversationResponse {
 
-    private int id;
+    private int idConversation;
     private String name;
 
     public int getId(){
-        return id;
+        return idConversation;
     }
 
     public String getName(){
         return name;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int idConversation) {
+        this.idConversation = idConversation;
     }
 
     public void setName(String name) {

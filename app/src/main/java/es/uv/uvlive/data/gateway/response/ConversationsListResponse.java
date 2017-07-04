@@ -2,7 +2,7 @@ package es.uv.uvlive.data.gateway.response;
 
 import java.util.ArrayList;
 
-public class ConversationsListResponse {
+public class ConversationsListResponse extends BaseResponse {
 
     private ArrayList<ConversationResponse> conversations;
 
