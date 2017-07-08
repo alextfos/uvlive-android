@@ -30,6 +30,7 @@ public class UVLiveGateway {
     private static final String urlLogout = "user/logout";
     private static final String urlConversations ="rolUV/conversations";
     private static final String urlMessages ="rolUV/messages";
+    private static final String urlPreviousMessages = "rolUV/messages/previous";
     private static final String urlLogger ="logger";
     private static final String urlPushToken = "update/push_token";
     private static final String urlSend = "/rolUV/message/send";
@@ -73,6 +74,12 @@ public class UVLiveGateway {
 
     public void getMessages(MessagesForm form, UVCallback<MessageListResponse> callback) {
         GsonRequest<MessageListResponse> request = new GsonRequest<>(environment+ urlMessages,
+                MessageListResponse.class,GSON_CREATOR.toJson(form), callback.Listener,callback.ErrorListener);
+        addRequestToQueue(request);
+    }
+
+    public void getPreviousMessages(MessagesForm form, UVCallback<MessageListResponse> callback) {
+        GsonRequest<MessageListResponse> request = new GsonRequest<>(environment+ urlPreviousMessages,
                 MessageListResponse.class,GSON_CREATOR.toJson(form), callback.Listener,callback.ErrorListener);
         addRequestToQueue(request);
     }

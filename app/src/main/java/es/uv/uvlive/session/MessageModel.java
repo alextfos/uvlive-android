@@ -9,11 +9,12 @@ import es.uv.uvlive.data.database.models.MessageTable;
 import es.uv.uvlive.data.gateway.response.MessageResponse;
 
 public class MessageModel {
-    private String id;
+    private int id;
     private long idConversation;
     private String message;
     private long timeStamp;
     private boolean sended;
+    private String owner;
 
     public MessageModel(MessageResponse messageResponse) {
         message = messageResponse.getText();
@@ -25,11 +26,11 @@ public class MessageModel {
         sended = messageTable.isSended();
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -63,6 +64,14 @@ public class MessageModel {
 
     public void setSended(boolean sended) {
         this.sended = sended;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public static List<MessageModel> transform(List<MessageTable> messageTableList) {
