@@ -29,8 +29,9 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
     protected EditText mEditText;
 
     private MessagesPresenter messagesPresenter;
+    private MessageListAdapter messageListAdapter;
 
-    private int id;
+    private int idConversation;
 
     public static MessageListFragment newInstance(int id) {
         Bundle arguments = new Bundle();
@@ -50,21 +51,24 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            id = getArguments().getInt(ARG_ITEM_ID);
-            messagesPresenter = new MessagesPresenter(this);
-            messagesPresenter.getMessages(id);
+            idConversation = getArguments().getInt(ARG_ITEM_ID);
+            messagesPresenter = new MessagesPresenter(idConversation,this);
+            messagesPresenter.getMessages();
         }
-
+        mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     @Override
     public void onMessagesReceived(List<MessageModel> messageModelList) {
-        mRecyclerView.setAdapter(new MessageListAdapter(messageModelList));
+        messageListAdapter = new MessageListAdapter(messageModelList);
+        mRecyclerView.setAdapter(messageListAdapter);
+        messageListAdapter.notifyDataSetChanged();
     }
 
     @OnClick(R.id.fragment_message_list_send)
     public void onSendClicked() {
-        messagesPresenter.sendMessage(id,mEditText.getText().toString());
+        messagesPresenter.sendMessage(idConversation,mEditText.getText().toString());
+        mEditText.setText("");
     }
 }

@@ -14,6 +14,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MessageViewHolder extends RecyclerView.ViewHolder {
+
+    @BindView(R.id.item_message_owner)
+    protected TextView ownerTv;
+
     @BindView(R.id.item_message_tv)
     protected TextView textTv;
 
@@ -38,7 +42,8 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public void setText(String text) {
+    public void setText(String owner, String text) {
+        ownerTv.setText(owner);
         textTv.setText(text);
     }
 }

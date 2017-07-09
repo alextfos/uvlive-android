@@ -15,7 +15,9 @@ public class BaseFragment extends Fragment implements BaseActions {
 
     @Override
     public void onError(int errorCode) {
-        ((BaseActions)getActivity()).onError(errorCode);
+        if (getActivity() != null) {
+            ((BaseActions) getActivity()).onError(errorCode);
+        }
     }
 
     /*

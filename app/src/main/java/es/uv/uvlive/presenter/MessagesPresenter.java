@@ -7,6 +7,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import java.util.Collections;
 import java.util.List;
 
 import es.uv.uvlive.UVLiveApplication;
@@ -24,25 +25,30 @@ public class MessagesPresenter extends BasePresenter {
 
     private MessageActions messageActions;
 
-    public MessagesPresenter(MessageActions messageActions) {
+    private int idConversation;
+
+    private List<MessageModel> messageModelList;
+
+    public MessagesPresenter(int idConversation, MessageActions messageActions) {
+        this.idConversation = idConversation;
         this.messageActions = messageActions;
     }
 
-    public void getMessages(int idConversation) {
+    public void getMessages() {
         List<MessageTable> messageList = SQLite.select()
                 .from(MessageTable.class)
                 .where(MessageTable_Table.idConversation_id.is(idConversation))
                 .queryList();
-        final List<MessageModel> messageDBList = MessageModel.transform(messageList);
-        messageActions.onMessagesReceived(messageDBList);
+        messageModelList = MessageModel.transform(idConversation,messageList);
+        messageActions.onMessagesReceived(messageModelList);
 
         UVCallback<MessageListResponse> callback = new UVCallback<MessageListResponse>() {
 
             @Override
             public void onSuccess(@NonNull MessageListResponse messageListResponse) {
-                List<MessageModel> messages = MessageModel.transform(messageListResponse.getMessages());
+                List<MessageModel> messages = MessageModel.transform(idConversation,messageListResponse.getMessages());
                 for (MessageModel message: messages) {
-                    if (!messageDBList.contains(message)) {
+                    if (!messageModelList.contains(message)) {
                         MessageTable messageTable = new MessageTable();
                         messageTable.setMessageText(message.getMessage());
                         messageTable.setIdConversation(message.getIdConversation());
@@ -51,6 +57,8 @@ public class MessagesPresenter extends BasePresenter {
                         messageTable.save();
                     }
                 }
+
+                Collections.sort(messages);
                 messageActions.onMessagesReceived(messages);
             }
 
@@ -75,7 +83,7 @@ public class MessagesPresenter extends BasePresenter {
         messageTable.save();
 
         // Reload messages list
-        getMessages(idConversation);
+        getMessages();
 
         MessageForm messageForm = new MessageForm();
         messageForm.setIdConversation(idConversation);

@@ -14,21 +14,27 @@ import es.uv.uvlive.data.database.UVLiveDB;
 public class MessageTable extends BaseModel {
 
     @PrimaryKey(autoincrement = true)
-    long id;
+    protected int id;
 
     @Column
-    int timeStamp;
+    protected int idMessage;
 
     @Column
-    String messageText;
+    protected int timeStamp;
+
+    @Column
+    protected String messageText;
 
     @ForeignKey(tableClass = ConversationTable.class)
-    long idConversation;
+    protected long idConversation;
 
     @Column
-    boolean sended;
+    protected String owner;
 
-    public long getTimeStamp() {
+    @Column
+    protected boolean sended;
+
+    public int getTimeStamp() {
         return timeStamp;
     }
 
@@ -58,5 +64,29 @@ public class MessageTable extends BaseModel {
 
     public void setSended(boolean sended) {
         this.sended = sended;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getIdMessage() {
+        return idMessage;
+    }
+
+    public void setIdMessage(int idMessage) {
+        this.idMessage = idMessage;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }

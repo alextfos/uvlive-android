@@ -3,7 +3,7 @@ package es.uv.uvlive.data.gateway.response;
 import java.util.ArrayList;
 
 
-public class MessageListResponse {
+public class MessageListResponse extends BaseResponse {
     private ArrayList<MessageResponse> messages;
 
     public ArrayList<MessageResponse> getMessages() {

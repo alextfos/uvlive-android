@@ -33,7 +33,6 @@ public class ConversationListFragment extends BaseFragment implements Conversati
     }
 
     private void initalizeList(List<ConversationModel> conversationsList) {
-        Log.d("proves", "Conversaciones - Vuelta del servidor");
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(new ConversationsAdapter(conversationsList,this));
         this.conversationsList = conversationsList;

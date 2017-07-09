@@ -7,10 +7,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.raizlabs.android.dbflow.config.FlowManager;
+
 import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.data.ErrorManager;
 import es.uv.uvlive.data.UVCallback;
 import es.uv.uvlive.data.UVLivePreferences;
+import es.uv.uvlive.data.database.UVLiveDB;
 import es.uv.uvlive.data.gateway.GsonRequest;
 import es.uv.uvlive.data.gateway.response.BaseResponse;
 import es.uv.uvlive.ui.actions.BaseActions;
@@ -56,6 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         // TODO remove all database
         UVLivePreferences.getInstance().removeUser();
         GsonRequest.removeToken();
+//        FlowManager.getDatabase(UVLiveDB.DATABASE_NAME).reset(getApplicationContext());
     }
 
     protected void startLoginActivity() {

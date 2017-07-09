@@ -23,7 +23,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageViewHolder> 
     @Override
     public void onBindViewHolder(MessageViewHolder holder, int position) {
         if (position != RecyclerView.NO_POSITION) {
-            holder.setText(list.get(position).getMessage());
+            holder.setText(list.get(position).getOwner(),list.get(position).getMessage());
             holder.setFeedback(list.get(position).isSended());
         }
     }

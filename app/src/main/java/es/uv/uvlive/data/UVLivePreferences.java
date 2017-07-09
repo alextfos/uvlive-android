@@ -13,6 +13,10 @@ import com.scottyab.aescrypt.AESCrypt;
 import java.security.GeneralSecurityException;
 
 import es.uv.uvlive.UVLiveApplication;
+import es.uv.uvlive.session.Admin;
+import es.uv.uvlive.session.Merchant;
+import es.uv.uvlive.session.Student;
+import es.uv.uvlive.session.Teacher;
 import es.uv.uvlive.session.User;
 
 /**
@@ -26,6 +30,7 @@ public class UVLivePreferences {
     private static final String PASSWORD = "Uv~2017.UVl1v€";
 
     private static final String USER_KEY = BASE_KEY + "USER_KEY";
+    private static final String USER_TYPE_KEY = BASE_KEY + "USER_TYPE_KEY";
     private static final String PUSH_TOKEN_KEY = BASE_KEY + "PUSH_TOKEN_KEY";
 
     private static final Gson GSON_CREATOR = new GsonBuilder().create();
@@ -54,6 +59,7 @@ public class UVLivePreferences {
         try {
             String emcryptedUser = AESCrypt.encrypt(PASSWORD, serializedUser);
             saveString(USER_KEY,emcryptedUser);
+            saveString(USER_TYPE_KEY,user.getClazz());
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
         }
@@ -65,7 +71,16 @@ public class UVLivePreferences {
         if (encryptedUser != null) {
             try {
                 String serializedUser = AESCrypt.decrypt(PASSWORD, encryptedUser);
-                return GSON_CREATOR.fromJson(serializedUser, User.class);
+                String type = getString(USER_TYPE_KEY);
+                if (Student.class.getName().equals(type)) {
+                    return GSON_CREATOR.fromJson(serializedUser, Student.class);
+                } else if (Teacher.class.getName().equals(type)) {
+                    return GSON_CREATOR.fromJson(serializedUser, Teacher.class);
+                } else if (Admin.class.getName().equals(type)) {
+                    return GSON_CREATOR.fromJson(serializedUser, Admin.class);
+                } else {
+                    return GSON_CREATOR.fromJson(serializedUser, Merchant.class);
+                }
             } catch (GeneralSecurityException e) {
                 e.printStackTrace();
             }
