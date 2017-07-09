@@ -2,6 +2,7 @@ package es.uv.uvlive.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,11 +12,12 @@ import es.uv.uvlive.presenter.MainPresenter;
 import es.uv.uvlive.ui.actions.MainActions;
 import es.uv.uvlive.ui.fragment.AdminOptionsListFragment;
 import es.uv.uvlive.ui.fragment.ConversationListFragment;
+import es.uv.uvlive.ui.fragment.MerchantFragment;
 import es.uv.uvlive.ui.fragment.MessageListFragment;
 
 public class MainActivity extends BaseActivity implements MainActions {
 
-    private boolean mTwoPane=false;
+    private boolean mTwoPane = false;
     private MainPresenter mainPresenter;
 
     @Override
@@ -39,22 +41,17 @@ public class MainActivity extends BaseActivity implements MainActions {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==LOGIN_REQUEST_CODE) {
+        if(requestCode == LOGIN_REQUEST_CODE) {
             initializePresenter();
         }
     }
 
     private void loadConversationsFragment() {
-        //TODO: si es pantalla de tablet, meter los dos fragments
-        // y si no meter sólo uno
-        if (mTwoPane) {
+        navigateToFragment(ConversationListFragment.newInstance());
+    }
 
-        } else {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.frameLayout, ConversationListFragment.newInstance())
-                    .commit();
-        }
+    private void loadMerchantFragment() {
+        navigateToFragment(MerchantFragment.newInstance());
     }
 
     @Override
@@ -76,15 +73,7 @@ public class MainActivity extends BaseActivity implements MainActions {
 
     @Override
     public void loadAdminMenu() {
-        if (mTwoPane) {
-
-        } else {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.frameLayout, AdminOptionsListFragment.newInstance())
-                    .commit();
-//            getSupportFragmentManager().executePendingTransactions();
-        }
+        navigateToFragment(AdminOptionsListFragment.newInstance());
     }
 
 
@@ -114,8 +103,24 @@ public class MainActivity extends BaseActivity implements MainActions {
         }
     }
 
+    private void navigateToFragment(Fragment fragment) {
+        if (mTwoPane) {
+
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.frameLayout, fragment)
+                    .commit();
+        }
+    }
+
     @Override
     public void loadConversations() {
         loadConversationsFragment();
+    }
+
+    @Override
+    public void loadMerchantPanel() {
+        loadMerchantFragment();
     }
 }

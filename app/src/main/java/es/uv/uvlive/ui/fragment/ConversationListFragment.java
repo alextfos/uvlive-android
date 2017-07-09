@@ -1,26 +1,21 @@
 package es.uv.uvlive.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import com.example.atraverf.uvlive.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import es.uv.uvlive.data.gateway.response.ConversationsListResponse;
 import es.uv.uvlive.presenter.ConversationsPresenter;
 import es.uv.uvlive.session.ConversationModel;
-import es.uv.uvlive.ui.activity.MainActivity;
 import es.uv.uvlive.ui.actions.ConversationsActions;
+import es.uv.uvlive.ui.activity.MainActivity;
 import es.uv.uvlive.ui.adapter.ConversationsAdapter;
 
 public class ConversationListFragment extends BaseFragment implements ConversationsAdapter.OnConversationItemClick, ConversationsActions {
@@ -45,12 +40,13 @@ public class ConversationListFragment extends BaseFragment implements Conversati
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_conversation_list, container, false);
-        ButterKnife.bind(this,rootView);
+    protected int getLayoutId() {
+        return R.layout.fragment_conversation_list;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         initializePresenter();
-        return rootView;
     }
 
     private void initializePresenter() {

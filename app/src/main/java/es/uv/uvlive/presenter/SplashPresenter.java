@@ -18,6 +18,7 @@ import es.uv.uvlive.data.gateway.form.PushTokenForm;
 import es.uv.uvlive.data.gateway.response.BaseResponse;
 import es.uv.uvlive.data.gateway.response.ConversationsListResponse;
 import es.uv.uvlive.session.ConversationModel;
+import es.uv.uvlive.session.RolUV;
 import es.uv.uvlive.ui.actions.SplashActions;
 import es.uv.uvlive.utils.StringUtils;
 
@@ -45,9 +46,13 @@ public class SplashPresenter extends BasePresenter {
                     splashActions.onError(errorCode);
                 }
             };
-            PushTokenForm pushTokenForm = new PushTokenForm();
-            pushTokenForm.setPushToken(UVLivePreferences.getInstance().getPushToken());
-            UVLiveApplication.getUVLiveGateway().updatePushToken(pushTokenForm, callback);
+            String pushToken = UVLivePreferences.getInstance().getPushToken();
+            if (currentUser instanceof RolUV && !StringUtils.isBlank(pushToken)) {
+                PushTokenForm pushTokenForm = new PushTokenForm();
+                pushTokenForm.setPushToken(pushToken);
+
+                UVLiveApplication.getUVLiveGateway().updatePushToken(pushTokenForm, callback);
+            }
             splashActions.onLogged();
         } else {
             splashActions.onNotLogged();

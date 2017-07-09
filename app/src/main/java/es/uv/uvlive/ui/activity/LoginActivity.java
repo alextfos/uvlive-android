@@ -2,12 +2,14 @@ package es.uv.uvlive.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.atraverf.uvlive.R;
 import es.uv.uvlive.presenter.LoginPresenter;
@@ -34,12 +36,25 @@ public class LoginActivity extends BaseActivity implements SessionActions {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,R.array.type_login_array,R.layout.support_simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         mSpinner.setAdapter(adapter);
+        setListeners();
+    }
+
+    private void setListeners() {
+        mPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_NEXT) {
+                    login();
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -49,15 +64,12 @@ public class LoginActivity extends BaseActivity implements SessionActions {
 
     @OnClick(R.id.login_b)
     public void login() {
-        hideKeyboard();
         loginPresenter.login(mUser.getText().toString(),mPassword.getText().toString(),
                 ((String) mSpinner.getSelectedItem()));
     }
 
     @Override
     public void loginOk() {
-//        Intent intent = this.getIntent();
-//        this.setResult(RESULT_OK, intent);
         startActivity(new Intent(this,MainActivity.class));
         finish();
     }

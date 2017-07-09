@@ -1,17 +1,13 @@
 package es.uv.uvlive.presenter;
 
-import android.content.SharedPreferences;
-
 import es.uv.uvlive.data.UVLivePreferences;
 import es.uv.uvlive.data.gateway.GsonRequest;
 import es.uv.uvlive.session.Admin;
+import es.uv.uvlive.session.Merchant;
 import es.uv.uvlive.session.Student;
 import es.uv.uvlive.session.Teacher;
 import es.uv.uvlive.ui.actions.MainActions;
 
-/**
- * Created by alextfos on 21/01/2017.
- */
 
 public class MainPresenter extends BasePresenter {
     private MainActions mainActions;
@@ -27,6 +23,8 @@ public class MainPresenter extends BasePresenter {
         } else if (Student.class.getName().equals(currentUser.getClazz())
                 || Teacher.class.getName().equals(currentUser.getClazz())) {
             mainActions.loadConversations();
+        } else if (Merchant.class.getName().equals(currentUser.getClazz())) {
+            mainActions.loadMerchantPanel();
         }
     }
 

@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import es.uv.uvlive.data.UVCallback;
+import es.uv.uvlive.data.gateway.form.BroadcastForm;
 import es.uv.uvlive.data.gateway.form.LoginForm;
 import es.uv.uvlive.data.gateway.form.MerchantRegisterForm;
 import es.uv.uvlive.data.gateway.form.MessageForm;
@@ -26,16 +27,28 @@ public class UVLiveGateway {
 
     private static final String TAG = "UVLiveGateway";
 
+    // User requests
     private static final String urlLogin = "user/login";
     private static final String urlLogout = "user/logout";
+
+    // RolUV requests
     private static final String urlConversations ="rolUV/conversations";
+    private static final String urlConversationsInit ="rolUV/conversations/init";
+    private static final String urlUsers = "/rolUV/users";
     private static final String urlMessages ="rolUV/messages";
     private static final String urlPreviousMessages = "rolUV/messages/previous";
-    private static final String urlLogger ="logger";
-    private static final String urlPushToken = "update/push_token";
-    private static final String urlSend = "/rolUV/message/send";
+    private static final String urlFollowingMessages = "rolUV/messages/following";
+    private static final String urlSend = "rolUV/message/send";
+    private static final String urlUpdatePushToken = "rolUV/pushToken/update";
+
+    // Admin requests
+    private static final String urlLogger ="admin/logs";
     private static final String urlRegisterMerchant = "admin/merchant/register";
     private static final String urlValidateMerchant = "admin/merchantName/exists";
+    private static final String urlUpdateMerchant = "admin/merchant/update";
+
+    // Merchant
+    private static final String urlBradcastRegister = "merchant/broadcast/register";
     
     private static String environment = BuildConfig.ENVIRONMENT + "uvlive-api/";
 
@@ -47,6 +60,9 @@ public class UVLiveGateway {
         requestQueue = Volley.newRequestQueue(context);
     }
 
+    /*
+    * User requests
+    * */
     public void login(LoginForm form, UVCallback<LoginResponse> callback) {
         String stringRequest = GSON_CREATOR.toJson(form);
         GsonRequest<LoginResponse> request = new GsonRequest<>(environment+ urlLogin,
@@ -56,12 +72,15 @@ public class UVLiveGateway {
 
     public void logout(UVCallback<BaseResponse> callback) {
         GsonRequest<BaseResponse> request = new GsonRequest<>(environment+ urlLogout,
-                BaseResponse.class,"",callback.Listener,callback.ErrorListener);
+                BaseResponse.class,GSON_CREATOR.toJson(new Object()),callback.Listener,callback.ErrorListener);
         addRequestToQueue(request);
     }
 
+    /*
+    * RolUV requests
+    * */
     public void updatePushToken(PushTokenForm pushTokenForm, UVCallback<BaseResponse> callback) {
-        GsonRequest<BaseResponse> request = new GsonRequest<>(environment+ urlPushToken,
+        GsonRequest<BaseResponse> request = new GsonRequest<>(environment+ urlUpdatePushToken,
                 BaseResponse.class,GSON_CREATOR.toJson(pushTokenForm),callback.Listener,callback.ErrorListener);
         addRequestToQueue(request);
     }
@@ -90,6 +109,10 @@ public class UVLiveGateway {
         addRequestToQueue(request);
     }
 
+    /*
+    * Admin requests
+    * */
+
     public void logs(UVCallback<LogListResponse> callback) {
         addRequestToQueue(new GsonRequest<>(environment+ urlLogger,
                 LogListResponse.class,"",callback.Listener,callback.ErrorListener));
@@ -97,7 +120,14 @@ public class UVLiveGateway {
 
     public void merchantRegister(MerchantRegisterForm form, UVCallback<BaseResponse> callback) {
         String stringRequest = GSON_CREATOR.toJson(form);
-        GsonRequest<BaseResponse> request = new GsonRequest<>(environment+ urlRegisterMerchant,
+        GsonRequest<BaseResponse> request = new GsonRequest<>(environment + urlRegisterMerchant,
+                BaseResponse.class,stringRequest,callback.Listener,callback.ErrorListener);
+        addRequestToQueue(request);
+    }
+
+    public void merchantUpdate(MerchantRegisterForm form, UVCallback<BaseResponse> callback) {
+        String stringRequest = GSON_CREATOR.toJson(form);
+        GsonRequest<BaseResponse> request = new GsonRequest<>(environment + urlUpdateMerchant,
                 BaseResponse.class,stringRequest,callback.Listener,callback.ErrorListener);
         addRequestToQueue(request);
     }
@@ -109,8 +139,21 @@ public class UVLiveGateway {
         addRequestToQueue(request);
     }
 
+    /*
+    * Merchant requests
+    * */
+    public void registerBroadcast(BroadcastForm form, UVCallback<BaseResponse> callback) {
+        String stringRequest = GSON_CREATOR.toJson(form);
+        GsonRequest<BaseResponse> request = new GsonRequest<>(environment+ urlBradcastRegister,
+                BaseResponse.class,stringRequest,callback.Listener,callback.ErrorListener);
+        addRequestToQueue(request);
+    }
+
+    /*
+    * Private methods
+    * */
     private final <T> void addRequestToQueue(GsonRequest<T> request) {
-        Log.d(TAG,"GATEWAY:"+request.toString());
+        Log.d(TAG,"GATEWAY:" + request.toString());
         requestQueue.add(request);
     }
 }

@@ -8,10 +8,6 @@ import es.uv.uvlive.data.database.models.MessageTable;
 import es.uv.uvlive.presenter.SplashPresenter;
 import es.uv.uvlive.ui.actions.SplashActions;
 
-/**
- * Created by alextfos on 24/11/2016.
- */
-
 public class SplashActivity extends BaseActivity implements SplashActions {
 
     @Override

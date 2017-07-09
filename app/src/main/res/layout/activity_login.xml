@@ -35,6 +35,9 @@
                 android:id="@+id/login_user_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:maxLines="1"
+                android:inputType="text"
                 android:hint="@string/login_user"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -48,8 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/login_password"
-                android:inputType="textPassword"
-                />
+                android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
         <Spinner

@@ -3,8 +3,6 @@ package es.uv.uvlive.presenter;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.data.UVCallback;
 import es.uv.uvlive.data.UVLivePreferences;
@@ -12,7 +10,7 @@ import es.uv.uvlive.data.gateway.GsonRequest;
 import es.uv.uvlive.data.gateway.form.LoginForm;
 import es.uv.uvlive.data.gateway.response.LoginResponse;
 import es.uv.uvlive.session.Admin;
-import es.uv.uvlive.session.Businessman;
+import es.uv.uvlive.session.Merchant;
 import es.uv.uvlive.session.Student;
 import es.uv.uvlive.session.Teacher;
 import es.uv.uvlive.ui.actions.SessionActions;
@@ -45,8 +43,8 @@ public class LoginPresenter extends BasePresenter {
                         case "Admin":
                             currentUser = new Admin();
                             break;
-                        case "Businessman":
-                            currentUser = new Businessman();
+                        case "Merchant":
+                            currentUser = new Merchant();
                     }
                     currentUser.setToken(loginResponse.getToken());
                     GsonRequest.setToken(loginResponse.getToken());

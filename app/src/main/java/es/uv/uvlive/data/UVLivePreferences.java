@@ -107,5 +107,4 @@ public class UVLivePreferences {
     private void saveString(String key, String value) {
         mSharedPreferences.edit().putString(key, value).apply();
     }
-
 }

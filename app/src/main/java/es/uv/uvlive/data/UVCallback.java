@@ -20,9 +20,7 @@ public abstract class UVCallback<T> {
         ErrorListener = new ErrorListener();
     }
 
-
     public class Listener implements Response.Listener<T>  {
-
         @Override
         public void onResponse(T t) {
             if ( t != null && t instanceof BaseResponse) {

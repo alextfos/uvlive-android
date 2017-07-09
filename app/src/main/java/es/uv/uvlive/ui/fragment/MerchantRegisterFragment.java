@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,40 +12,40 @@ import android.widget.Toast;
 
 import com.example.atraverf.uvlive.R;
 
-import java.security.Key;
 import java.util.HashMap;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
-import butterknife.OnTextChanged;
 import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.data.UVCallback;
 import es.uv.uvlive.data.gateway.form.MerchantRegisterForm;
 import es.uv.uvlive.data.gateway.response.BaseResponse;
 import es.uv.uvlive.data.gateway.response.ValidateMerchantResponse;
 
-/**
- * Created by alextfos on 22/01/2017.
- */
-
 public class MerchantRegisterFragment extends BaseFragment {
 
     @BindView(R.id.fragment_merchant_container)
     protected ViewGroup container;
+
     @BindView(R.id.fragment_merchant_register_dni)
     protected TextInputEditText dniEt;
+
     @BindView(R.id.fragment_merchant_register_username)
     protected TextInputEditText userEt;
+
     @BindView(R.id.fragment_merchant_register_name)
     protected TextInputEditText nameEt;
+
     @BindView(R.id.fragment_merchant_register_lastname)
     protected TextInputEditText lastNameEt;
+
     @BindView(R.id.fragment_merchant_register_password_1)
     protected TextInputEditText password1Et;
+
     @BindView(R.id.fragment_merchant_register_password_2)
     protected TextInputEditText password2Et;
+
     @BindView(R.id.fragment_merchant_register_button)
     protected Button registerBtn;
 
@@ -58,16 +56,14 @@ public class MerchantRegisterFragment extends BaseFragment {
         return fragment;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_merchant_register, container, false);
+    protected int getLayoutId() {
+        return R.layout.fragment_merchant_register;
+    }
 
-        ButterKnife.bind(this,rootView);
-
-        initForm();
-        return rootView;
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     private void initForm() {

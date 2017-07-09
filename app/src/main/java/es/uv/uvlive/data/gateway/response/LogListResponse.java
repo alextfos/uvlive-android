@@ -2,7 +2,7 @@ package es.uv.uvlive.data.gateway.response;
 
 import java.util.ArrayList;
 
-public class LogListResponse {
+public class LogListResponse extends BaseResponse {
     private ArrayList<LogResponse> logs;
 
     public ArrayList<LogResponse> getLogs() {

@@ -4,6 +4,6 @@
         <item>Student</item>
         <item>Teacher</item>
         <item>Admin</item>
-        <item>Businessman</item>
+        <item>Merchant</item>
     </string-array>
 </resources>
