@@ -14,13 +14,10 @@
         android:gravity="top"
         android:layout_alignParentTop="true"
         android:layout_above="@+id/messages_footer">
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingBottom="0dp">
                 <android.support.v7.widget.RecyclerView
@@ -31,7 +28,6 @@
 
             </LinearLayout>
 
-        </android.support.v4.widget.NestedScrollView>
     </RelativeLayout>
     <!-- Footer -->
     <RelativeLayout

@@ -17,20 +17,20 @@ android {
     buildTypes {
         debug {
             initWith buildTypes.debug
-            minifyEnabled false;
-            buildConfigField("String", "ENVIRONMENT", "\"http://192.168.1.10:8080/\"")
+            minifyEnabled false
+            buildConfigField("String", "ENVIRONMENT", "\"http://192.168.1.155:8080/\"")
 
         }
 
         genymotion {
             initWith buildTypes.debug
-            minifyEnabled false;
+            minifyEnabled false
             buildConfigField("String", "ENVIRONMENT", "\"http://10.0.3.2:8080/\"")
         }
 
         emulator {
             initWith buildTypes.debug
-            minifyEnabled false;
+            minifyEnabled false
             buildConfigField("String", "ENVIRONMENT", "\"http://10.0.2.2:8080/\"")
         }
 

@@ -1,10 +1,13 @@
 package es.uv.uvlive.presenter;
 
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.raizlabs.android.dbflow.sql.language.Method;
+import com.raizlabs.android.dbflow.sql.language.OrderBy;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.Collections;
@@ -28,50 +31,89 @@ public class MessagesPresenter extends BasePresenter {
     private int idConversation;
 
     private List<MessageModel> messageModelList;
+    private boolean endList = false;
 
     public MessagesPresenter(int idConversation, MessageActions messageActions) {
         this.idConversation = idConversation;
         this.messageActions = messageActions;
-    }
-
-    public void getMessages() {
         List<MessageTable> messageList = SQLite.select()
                 .from(MessageTable.class)
                 .where(MessageTable_Table.idConversation_id.is(idConversation))
                 .queryList();
         messageModelList = MessageModel.transform(idConversation,messageList);
+        Collections.sort(messageModelList);
         messageActions.onMessagesReceived(messageModelList);
+    }
 
-        UVCallback<MessageListResponse> callback = new UVCallback<MessageListResponse>() {
+    public void getMessages() {
+        if (endList) {
+            return;
+        }
 
-            @Override
-            public void onSuccess(@NonNull MessageListResponse messageListResponse) {
-                List<MessageModel> messages = MessageModel.transform(idConversation,messageListResponse.getMessages());
-                for (MessageModel message: messages) {
-                    if (!messageModelList.contains(message)) {
-                        MessageTable messageTable = new MessageTable();
-                        messageTable.setMessageText(message.getMessage());
-                        messageTable.setIdConversation(message.getIdConversation());
-                        messageTable.setTimeStamp(Integer.parseInt(String.valueOf(message.getTimeStamp())));
-                        messageTable.setSended(true);
-                        messageTable.save();
-                    }
+        List<MessageTable> oldestMessage = SQLite.select()
+                .from(MessageTable.class)
+                .where(MessageTable_Table.idConversation_id.is(idConversation))
+                .orderBy(OrderBy.fromProperty(MessageTable_Table.idMessage).ascending()).limit(1).queryList();
+
+        if (oldestMessage.size() > 0) {
+            int oldestTimestamp = oldestMessage.get(0).getTimeStamp();
+            MessagesForm messagesForm = new MessagesForm();
+            messagesForm.setTimestamp(oldestTimestamp);
+            messagesForm.setIdConversation(idConversation);
+            UVLiveApplication.getUVLiveGateway().getPreviousMessages(messagesForm, new UVCallback<MessageListResponse>() {
+                @Override
+                public void onSuccess(@NonNull MessageListResponse messageListResponse) {
+                    onMessagesReceived(messageListResponse);
                 }
 
-                Collections.sort(messages);
-                messageActions.onMessagesReceived(messages);
+                @Override
+                public void onError(int errorCode) {
+                    messageActions.onError(errorCode);
+                }
+            });
+        } else {
+            UVCallback<MessageListResponse> callback = new UVCallback<MessageListResponse>() {
+
+                @Override
+                public void onSuccess(@NonNull MessageListResponse messageListResponse) {
+                    onMessagesReceived(messageListResponse);
+                }
+
+                @Override
+                public void onError(int errorCode) {
+                    messageActions.onError(errorCode);
+                }
+            };
+
+            MessagesForm messagesForm = new MessagesForm();
+            messagesForm.setIdConversation(idConversation);
+
+            UVLiveApplication.getUVLiveGateway().getMessages(messagesForm, callback);
+        }
+    }
+
+    private void onMessagesReceived(MessageListResponse messageListResponse) {
+        if (messageListResponse.getMessages().size() == 0) {
+            endList = true;
+            return;
+        }
+        List<MessageModel> messages = MessageModel.transform(idConversation, messageListResponse.getMessages());
+        for (MessageModel message : messages) {
+            if (!messageModelList.contains(message)) {
+                MessageTable messageTable = new MessageTable();
+                messageTable.setIdMessage(message.getIdMessage());
+                messageTable.setMessageText(message.getMessage());
+                messageTable.setIdConversation(message.getIdConversation());
+                messageTable.setOwner(message.getOwner());
+                messageTable.setTimeStamp(Integer.parseInt(String.valueOf(message.getTimeStamp())));
+                messageTable.setSended(true);
+                messageTable.save();
+                messageModelList.add(message);
             }
+        }
 
-            @Override
-            public void onError(int errorCode) {
-                messageActions.onError(errorCode);
-            }
-        };
-
-        MessagesForm messagesForm = new MessagesForm();
-        messagesForm.setIdConversation(idConversation);
-
-        UVLiveApplication.getUVLiveGateway().getMessages(messagesForm,callback);
+        Collections.sort(messageModelList);
+        messageActions.onMessagesReceived(messageModelList);
     }
 
     public void sendMessage(int idConversation, String message) {
@@ -82,9 +124,6 @@ public class MessagesPresenter extends BasePresenter {
         messageTable.setIdConversation(idConversation);
         messageTable.save();
 
-        // Reload messages list
-        getMessages();
-
         MessageForm messageForm = new MessageForm();
         messageForm.setIdConversation(idConversation);
         messageForm.setMessage(message);
@@ -92,12 +131,15 @@ public class MessagesPresenter extends BasePresenter {
         UVCallback<BaseResponse> callback = new UVCallback<BaseResponse>() {
             @Override
             public void onSuccess(@NonNull BaseResponse baseResponse) {
-
+                // Reload messages list
+                getMessages();
             }
 
             @Override
             public void onError(int errorCode) {
                 messageActions.onError(errorCode);
+                // Reload messages list
+                getMessages();
             }
         };
 

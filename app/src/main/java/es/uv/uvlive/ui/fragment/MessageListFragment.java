@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -30,8 +31,10 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
 
     private MessagesPresenter messagesPresenter;
     private MessageListAdapter messageListAdapter;
-
+    private LinearLayoutManager linearLayoutManager;
     private int idConversation;
+
+    private int pastVisiblesItems, visibleItemCount, totalItemCount;
 
     public static MessageListFragment newInstance(int id) {
         Bundle arguments = new Bundle();
@@ -50,13 +53,29 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        mRecyclerView.setLayoutManager(linearLayoutManager = new LinearLayoutManager(getActivity()));
+        scrollRecyclerViewControl();
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             idConversation = getArguments().getInt(ARG_ITEM_ID);
             messagesPresenter = new MessagesPresenter(idConversation,this);
             messagesPresenter.getMessages();
         }
-        mRecyclerView.setNestedScrollingEnabled(false);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    private void scrollRecyclerViewControl() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy < 0) {
+                    visibleItemCount = linearLayoutManager.getChildCount();
+                    totalItemCount = linearLayoutManager.getItemCount();
+                    pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
+                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                        messagesPresenter.getMessages();
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -64,6 +83,7 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
         messageListAdapter = new MessageListAdapter(messageModelList);
         mRecyclerView.setAdapter(messageListAdapter);
         messageListAdapter.notifyDataSetChanged();
+        mRecyclerView.scrollToPosition(messageModelList.size()-1);
     }
 
     @OnClick(R.id.fragment_message_list_send)
