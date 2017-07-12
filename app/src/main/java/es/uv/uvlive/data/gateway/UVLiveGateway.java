@@ -103,6 +103,13 @@ public class UVLiveGateway {
         addRequestToQueue(request);
     }
 
+    public void getFollowingMessages(MessagesForm form, UVCallback<MessageListResponse> callback) {
+        GsonRequest<MessageListResponse> request = new GsonRequest<>(environment+ urlFollowingMessages,
+                MessageListResponse.class,GSON_CREATOR.toJson(form), callback.Listener,callback.ErrorListener);
+        addRequestToQueue(request);
+    }
+
+
     public void sendMessage(MessageForm messageForm, UVCallback<BaseResponse> callback) {
         GsonRequest<BaseResponse> request = new GsonRequest<>(environment+ urlSend,
                 BaseResponse.class,GSON_CREATOR.toJson(messageForm),callback.Listener,callback.ErrorListener);

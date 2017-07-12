@@ -7,6 +7,7 @@ import java.util.List;
 
 import es.uv.uvlive.data.database.models.MessageTable;
 import es.uv.uvlive.data.gateway.response.MessageResponse;
+import es.uv.uvlive.utils.StringUtils;
 
 public class MessageModel implements Comparable<MessageModel> {
     private int idLocal;
@@ -120,8 +121,8 @@ public class MessageModel implements Comparable<MessageModel> {
                 return true;
             } else if (this.idConversation == ((MessageModel) obj).idConversation &&
                 this.idConversation == ((MessageModel) obj).idConversation &&
-                    this.timeStamp == ((MessageModel) obj).timeStamp &&
-                    this.owner == ((MessageModel) obj).owner) {
+                    StringUtils.equals(this.message,((MessageModel) obj).message) &&
+                    !this.sended == ((MessageModel) obj).sended) {
                 return true;
             } else {
                 return false;
@@ -133,18 +134,22 @@ public class MessageModel implements Comparable<MessageModel> {
 
     @Override
     public int compareTo(MessageModel o) {
-        if (idMessage == 0) {
+        if (idLocal == 0) {
+            if (this.idMessage < o.idMessage) {
+                return -1;
+            } else if (this.idLocal > o.idLocal) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } else {
             if (this.idLocal < o.idLocal) {
                 return -1;
             } else if (this.idLocal > o.idLocal) {
                 return 1;
+            } else {
+                return 0;
             }
         }
-        if (this.idMessage < o.idMessage) {
-            return -1;
-        } else if (this.idMessage > o.idMessage) {
-            return 1;
-        }
-        return 0;
     }
 }

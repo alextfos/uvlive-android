@@ -1,12 +1,7 @@
 package es.uv.uvlive.presenter;
 
-import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.raizlabs.android.dbflow.sql.language.Method;
 import com.raizlabs.android.dbflow.sql.language.OrderBy;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
@@ -53,9 +48,10 @@ public class MessagesPresenter extends BasePresenter {
         List<MessageTable> oldestMessage = SQLite.select()
                 .from(MessageTable.class)
                 .where(MessageTable_Table.idConversation_id.is(idConversation))
+                .and(MessageTable_Table.timeStamp.greaterThan(0))
                 .orderBy(OrderBy.fromProperty(MessageTable_Table.idMessage).ascending()).limit(1).queryList();
 
-        if (oldestMessage.size() > 0) {
+        if (oldestMessage.size() > 0 && oldestMessage.get(0).getTimeStamp()>0) {
             int oldestTimestamp = oldestMessage.get(0).getTimeStamp();
             MessagesForm messagesForm = new MessagesForm();
             messagesForm.setTimestamp(oldestTimestamp);
@@ -64,6 +60,10 @@ public class MessagesPresenter extends BasePresenter {
                 @Override
                 public void onSuccess(@NonNull MessageListResponse messageListResponse) {
                     onMessagesReceived(messageListResponse);
+                    if (messageListResponse.getMessages().size() == 0) {
+                        endList = true;
+                        return;
+                    }
                 }
 
                 @Override
@@ -76,6 +76,10 @@ public class MessagesPresenter extends BasePresenter {
 
                 @Override
                 public void onSuccess(@NonNull MessageListResponse messageListResponse) {
+                    if (messageListResponse.getMessages().size() == 0) {
+                        endList = true;
+                        return;
+                    }
                     onMessagesReceived(messageListResponse);
                 }
 
@@ -93,27 +97,38 @@ public class MessagesPresenter extends BasePresenter {
     }
 
     private void onMessagesReceived(MessageListResponse messageListResponse) {
-        if (messageListResponse.getMessages().size() == 0) {
-            endList = true;
-            return;
-        }
         List<MessageModel> messages = MessageModel.transform(idConversation, messageListResponse.getMessages());
         for (MessageModel message : messages) {
-            if (!messageModelList.contains(message)) {
-                MessageTable messageTable = new MessageTable();
-                messageTable.setIdMessage(message.getIdMessage());
-                messageTable.setMessageText(message.getMessage());
-                messageTable.setIdConversation(message.getIdConversation());
-                messageTable.setOwner(message.getOwner());
-                messageTable.setTimeStamp(Integer.parseInt(String.valueOf(message.getTimeStamp())));
-                messageTable.setSended(true);
-                messageTable.save();
-                messageModelList.add(message);
+            for (MessageModel localMessage: messageModelList) {
+                if (!localMessage.equals(message)) {
+                    saveMessage(message);
+                    messageModelList.add(message);
+                } else if (localMessage.equals(message) && !localMessage.isSended()) {
+                    messageModelList.remove(localMessage);
+                    saveMessage(localMessage);
+                    removeMessage(localMessage);
+                    messageModelList.add(message);
+                }
             }
         }
 
         Collections.sort(messageModelList);
         messageActions.onMessagesReceived(messageModelList);
+    }
+
+    private void saveMessage (MessageModel message) {
+        MessageTable messageTable = new MessageTable();
+        messageTable.setIdMessage(message.getIdMessage());
+        messageTable.setMessageText(message.getMessage());
+        messageTable.setIdConversation(message.getIdConversation());
+        messageTable.setOwner(message.getOwner());
+        messageTable.setTimeStamp(Integer.parseInt(String.valueOf(message.getTimeStamp())));
+        messageTable.setSended(true);
+        messageTable.save();
+    }
+
+    private void removeMessage(MessageModel message) {
+        SQLite.delete().from(MessageTable.class).where(MessageTable_Table.id.eq(message.getIdLocal()));
     }
 
     public void sendMessage(int idConversation, String message) {
@@ -132,17 +147,41 @@ public class MessagesPresenter extends BasePresenter {
             @Override
             public void onSuccess(@NonNull BaseResponse baseResponse) {
                 // Reload messages list
-                getMessages();
+                getFollowingMessages();
             }
 
             @Override
             public void onError(int errorCode) {
                 messageActions.onError(errorCode);
-                // Reload messages list
-                getMessages();
+                getFollowingMessages();
             }
         };
 
         UVLiveApplication.getUVLiveGateway().sendMessage(messageForm,callback);
+    }
+
+    private void getFollowingMessages() {
+        List<MessageTable> newestTimestamp = SQLite.select()
+                .from(MessageTable.class)
+                .where(MessageTable_Table.idConversation_id.is(idConversation))
+                .and(MessageTable_Table.timeStamp.greaterThan(0))
+                .orderBy(OrderBy.fromProperty(MessageTable_Table.idMessage).descending()).limit(1).queryList();
+
+        if (newestTimestamp.get(0).getTimeStamp()>0) {
+            MessagesForm messagesForm = new MessagesForm();
+            messagesForm.setIdConversation(idConversation);
+            messagesForm.setTimestamp(newestTimestamp.get(0).getTimeStamp());
+            UVLiveApplication.getUVLiveGateway().getFollowingMessages(messagesForm, new UVCallback<MessageListResponse>() {
+                @Override
+                public void onSuccess(@NonNull MessageListResponse messageListResponse) {
+                    onMessagesReceived(messageListResponse);
+                }
+
+                @Override
+                public void onError(int errorCode) {
+                    messageActions.onError(errorCode);
+                }
+            });
+        }
     }
 }
