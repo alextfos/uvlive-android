@@ -33,23 +33,24 @@ public class LoginPresenter extends BasePresenter {
         UVCallback<LoginResponse> uvCallback = new UVCallback<LoginResponse>() {
             @Override
             public void onSuccess(@NonNull LoginResponse loginResponse) {
-                    switch (typeLogin) { //TODO: remove hardcoded strings
-                        case "Student":
-                            currentUser = new Student();
-                            break;
-                        case "Teacher":
-                            currentUser = new Teacher();
-                            break;
-                        case "Admin":
-                            currentUser = new Admin();
-                            break;
-                        case "Merchant":
-                            currentUser = new Merchant();
-                    }
-                    currentUser.setToken(loginResponse.getToken());
-                    GsonRequest.setToken(loginResponse.getToken());
-                    saveUser();
-                    sessionActions.loginOk(); // le pasamos el loginmodel
+                switch (typeLogin) { //TODO: remove hardcoded strings
+                    case "Student":
+                        currentUser = new Student();
+                        break;
+                    case "Teacher":
+                        currentUser = new Teacher();
+                        break;
+                    case "Admin":
+                        currentUser = new Admin();
+                        break;
+                    case "Merchant":
+                        currentUser = new Merchant();
+                }
+                currentUser.setToken(loginResponse.getToken());
+                currentUser.setOwnerName(loginResponse.getOwnerField());
+                GsonRequest.setToken(loginResponse.getToken());
+                saveUser();
+                sessionActions.loginOk(); // le pasamos el loginmodel
             }
 
             @Override

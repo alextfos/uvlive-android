@@ -2,15 +2,15 @@ package es.uv.uvlive.data.gateway.response;
 
 public class LoginResponse extends BaseResponse {
 
-    private String user;
     private String token;
+    private String ownerField;
 
-    public String getUser() {
-        return user;
+    public String getOwnerField() {
+        return ownerField;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setOwnerField(String ownerField) {
+        this.ownerField = ownerField;
     }
 
     public String getToken() {
