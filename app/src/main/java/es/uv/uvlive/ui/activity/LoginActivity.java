@@ -33,11 +33,15 @@ public class LoginActivity extends BaseActivity implements SessionActions {
 
     private LoginPresenter loginPresenter;
 
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_login;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,R.array.type_login_array,R.layout.support_simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);

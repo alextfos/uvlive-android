@@ -1,8 +1,13 @@
 package es.uv.uvlive.data.gateway.form;
 
-/**
- * Created by alextfos on 13/07/2017.
- */
+public class InitConversationForm extends BaseForm {
+    private int idUser;
 
-public class InitConversationForm {
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
 }

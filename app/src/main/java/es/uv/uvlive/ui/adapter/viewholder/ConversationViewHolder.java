@@ -13,11 +13,7 @@ import es.uv.uvlive.ui.adapter.ConversationsAdapter;
 
 import butterknife.ButterKnife;
 
-/**
- * Created by alextfos on 29/11/2016.
- */
-
-public class ConversationViewHolder extends RecyclerView.ViewHolder {
+public class ConversationViewHolder extends BaseViewHolder {
 
     @BindView(R.id.item_conversation_title)
     TextView titleTv;
@@ -26,14 +22,12 @@ public class ConversationViewHolder extends RecyclerView.ViewHolder {
 
     public static ConversationViewHolder newInstance(ViewGroup parent,
                   ConversationsAdapter.OnConversationItemClick onConversationItemClick) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_conversation, parent, false);
-        return new ConversationViewHolder(view,onConversationItemClick);
+        return new ConversationViewHolder(inflateView(parent,R.layout.item_conversation),onConversationItemClick);
     }
 
     public ConversationViewHolder(View itemView,
                                   final ConversationsAdapter.OnConversationItemClick onConversationItemClick) {
         super(itemView);
-        ButterKnife.bind(this,itemView);
         container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

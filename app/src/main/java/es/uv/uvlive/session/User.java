@@ -3,6 +3,7 @@ package es.uv.uvlive.session;
 public class User {
     private String token;
     protected String clazz;
+    private String ownerName;
 
     public String getClazz() {
         return clazz;
@@ -18,5 +19,13 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
     }
 }

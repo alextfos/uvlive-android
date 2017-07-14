@@ -1,13 +1,17 @@
 package es.uv.uvlive.ui.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.atraverf.uvlive.R;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import es.uv.uvlive.presenter.MainPresenter;
 import es.uv.uvlive.ui.actions.MainActions;
 import es.uv.uvlive.ui.fragment.AdminOptionsListFragment;
@@ -16,14 +20,20 @@ import es.uv.uvlive.ui.fragment.MerchantFragment;
 import es.uv.uvlive.ui.fragment.MessageListFragment;
 
 public class MainActivity extends BaseActivity implements MainActions {
-
     private boolean mTwoPane = false;
     private MainPresenter mainPresenter;
+
+    @BindView(R.id.fab)
+    protected FloatingActionButton fab;
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         getSupportActionBar().setTitle(getTitle());
 
@@ -41,8 +51,8 @@ public class MainActivity extends BaseActivity implements MainActions {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == LOGIN_REQUEST_CODE) {
-            initializePresenter();
+        if (requestCode == CreateConversationActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            loadConversations();
         }
     }
 
@@ -112,6 +122,11 @@ public class MainActivity extends BaseActivity implements MainActions {
                     .add(R.id.frameLayout, fragment)
                     .commit();
         }
+    }
+
+    @OnClick(R.id.fab)
+    public void onFabClicked() {
+        startActivityForResult(CreateConversationActivity.getIntent(this),CreateConversationActivity.REQUEST_CODE);
     }
 
     @Override

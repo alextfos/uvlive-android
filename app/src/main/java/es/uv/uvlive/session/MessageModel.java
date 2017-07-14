@@ -18,6 +18,27 @@ public class MessageModel implements Comparable<MessageModel> {
     private boolean sended;
     private String owner;
 
+    public static List<MessageModel> transform(int idConversation, List<MessageTable> messageTableList) {
+        ArrayList<MessageModel> messageModelList = new ArrayList<>();
+
+        for (MessageTable messageTable: messageTableList) {
+            messageModelList.add(new MessageModel(idConversation, messageTable));
+        }
+
+        return messageModelList;
+    }
+
+    public static List<MessageModel> transform(int idConversation, @Nullable ArrayList<MessageResponse> messageResponse) {
+        ArrayList<MessageModel> messageModelList = new ArrayList<>();
+        if (messageResponse != null) {
+            for (MessageResponse messageModel : messageResponse) {
+                messageModelList.add(new MessageModel(idConversation,messageModel));
+            }
+        }
+
+        return messageModelList;
+    }
+
     public MessageModel(int idConversation,MessageResponse messageResponse) {
         message = messageResponse.getText();
         idMessage = messageResponse.getIdMessage();
@@ -91,27 +112,6 @@ public class MessageModel implements Comparable<MessageModel> {
 
     public void setOwner(String owner) {
         this.owner = owner;
-    }
-
-    public static List<MessageModel> transform(int idConversation, List<MessageTable> messageTableList) {
-        ArrayList<MessageModel> messageModelList = new ArrayList<>();
-
-        for (MessageTable messageTable: messageTableList) {
-            messageModelList.add(new MessageModel(idConversation, messageTable));
-        }
-
-        return messageModelList;
-    }
-
-    public static List<MessageModel> transform(int idConversation, @Nullable ArrayList<MessageResponse> messageResponse) {
-        ArrayList<MessageModel> messageModelList = new ArrayList<>();
-        if (messageResponse != null) {
-            for (MessageResponse messageModel : messageResponse) {
-                messageModelList.add(new MessageModel(idConversation,messageModel));
-            }
-        }
-
-        return messageModelList;
     }
 
     @Override

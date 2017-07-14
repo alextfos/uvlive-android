@@ -1,8 +1,11 @@
 package es.uv.uvlive.ui.actions;
 
-/**
- * Created by alextfos on 13/07/2017.
- */
+import java.util.List;
 
-public class CreateConversationActions {
+import es.uv.uvlive.session.UserModel;
+
+public interface CreateConversationActions extends BaseActions {
+    void onUsersReceived(List<UserModel> usersList);
+
+    void onConversationCreated();
 }

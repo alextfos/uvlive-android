@@ -13,7 +13,7 @@ import com.example.atraverf.uvlive.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MessageViewHolder extends RecyclerView.ViewHolder {
+public class MessageViewHolder extends BaseViewHolder {
 
     @BindView(R.id.item_message_owner)
     protected TextView ownerTv;
@@ -25,13 +25,11 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
     protected ImageView feedbackIv;
 
     public static MessageViewHolder newInstance(ViewGroup parent) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message, parent, false);
-        return new MessageViewHolder(view);
+        return new MessageViewHolder(inflateView(parent,R.layout.item_message));
     }
 
     public MessageViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this,itemView);
     }
 
     public void setFeedback(boolean sended) {

@@ -2,18 +2,13 @@
 <items version="2" >
 
     <item
-        jar="/Users/atraverf/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.3.4/3b646ddbdac8a33fc45b64564011da81d23e4635/picasso-2.3.4.jar"
+        is-multidex="false"
+        jar="/Users/alextfos/projects/alextfos/uvlive-android/app/libs/volley.jar"
         jumboMode="false"
-        revision="23.0.2"
-        sha1="3b646ddbdac8a33fc45b64564011da81d23e4635">
-        <dex dex="/Users/atraverf/uvlive-android/app/build/intermediates/pre-dexed/debug/picasso-2.3.4-e3d1f1570b2e6fb20591a02b0a9da6616f2935b3.jar" />
-    </item>
-    <item
-        jar="/Users/atraverf/uvlive-android/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.1.1/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="5e412e954a24c5310a459c09870e4e2081aceb03">
-        <dex dex="/Users/atraverf/uvlive-android/app/build/intermediates/pre-dexed/debug/classes-45d55be411fcd455fe0a4af57a5bbb3cc08d9672.jar" />
+        optimize="true"
+        revision="25.0.2"
+        sha1="7ac965cc4306e8769dae72f6029206ba797f92fa">
+        <dex dex="/Users/alextfos/projects/alextfos/uvlive-android/app/build/intermediates/pre-dexed/debug/volley_5e159bddb66401c49323932bc815164491bf5810.jar" />
     </item>
 
 </items>

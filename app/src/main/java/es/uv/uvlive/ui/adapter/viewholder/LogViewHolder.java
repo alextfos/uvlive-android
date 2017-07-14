@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
  * Created by atraver on 22/03/17.
  */
 
-public class LogViewHolder extends RecyclerView.ViewHolder {
+public class LogViewHolder extends BaseViewHolder {
 
     @BindView(R.id.item_log_level)
     protected TextView levelTv;
@@ -30,13 +30,11 @@ public class LogViewHolder extends RecyclerView.ViewHolder {
     protected TextView messageTv;
 
     public static LogViewHolder newInstance(ViewGroup parent) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_log, parent, false);
-        return new LogViewHolder(view);
+        return new LogViewHolder(inflateView(parent,R.layout.item_log));
     }
 
     public LogViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this,itemView);
     }
 
     public void setLevel(String level) {

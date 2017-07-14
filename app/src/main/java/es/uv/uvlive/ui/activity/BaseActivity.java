@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.config.FlowManager;
 
+import butterknife.ButterKnife;
 import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.data.ErrorManager;
 import es.uv.uvlive.data.UVCallback;
@@ -21,11 +22,17 @@ import es.uv.uvlive.ui.actions.BaseActions;
 
 public abstract class BaseActivity extends AppCompatActivity implements BaseActions {
 
-    protected static int LOGIN_REQUEST_CODE = 100;
+    protected int getLayoutId() {
+        return 0;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getLayoutId() != 0) {
+            setContentView(getLayoutId());
+            ButterKnife.bind(this);
+        }
         initializePresenter();
     }
 
@@ -63,6 +70,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     }
 
     protected void startLoginActivity() {
-        startActivityForResult(new Intent(BaseActivity.this,LoginActivity.class),LOGIN_REQUEST_CODE);
+        Intent intent = new Intent(BaseActivity.this,LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        startActivity(intent);
     }
 }
