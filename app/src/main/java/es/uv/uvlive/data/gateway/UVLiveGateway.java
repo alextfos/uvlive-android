@@ -48,6 +48,7 @@ public class UVLiveGateway {
     private static final String urlRegisterMerchant = "admin/merchant/register";
     private static final String urlValidateMerchant = "admin/merchantName/exists";
     private static final String urlUpdateMerchant = "admin/merchant/update";
+    private static final String urlGetMerchant = "admin/merchant/get";
 
     // Merchant
     private static final String urlBradcastRegister = "merchant/broadcast/register";
@@ -166,6 +167,16 @@ public class UVLiveGateway {
         String stringRequest = GSON_CREATOR.toJson(form);
         GsonRequest<BaseResponse> request = new GsonRequest<>(environment + urlBradcastRegister,
                 BaseResponse.class,stringRequest,callback.Listener,callback.ErrorListener);
+        addRequestToQueue(request);
+    }
+
+    /*
+    * Get Merchant requests
+    * */
+    public void getMerchant(MerchantRegisterForm form, UVCallback<MerchantRegisterForm> callback) {
+        String stringRequest = GSON_CREATOR.toJson(form);
+        GsonRequest<MerchantRegisterForm> request = new GsonRequest<>(environment + urlGetMerchant,
+                MerchantRegisterForm.class,stringRequest,callback.Listener,callback.ErrorListener);
         addRequestToQueue(request);
     }
 

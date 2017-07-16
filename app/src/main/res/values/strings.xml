@@ -31,4 +31,7 @@
     <string name="send_broadcast_warning">Complete los campos</string>
     <string name="send_broadcast_ok">Su mensaje se ha registrado con éxito</string>
     <string name="send">Enviar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

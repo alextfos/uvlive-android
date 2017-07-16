@@ -54,6 +54,10 @@ public class AdminOptionsListFragment extends BaseFragment implements AdminOptio
                         .addToBackStack(MerchantRegisterFragment.class.getName()).commit();
                 break;
             case 1:
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout, ModifyMerchantFragment.newInstance())
+                        .addToBackStack(ModifyMerchantFragment.class.getName()).commit();
                 break;
             case 2:
                 break;
