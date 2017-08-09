@@ -31,4 +31,8 @@ public class MainPresenter extends BasePresenter {
         GsonRequest.setToken(null);
         UVLivePreferences.getInstance().removeUser();
     }
+
+    public boolean isRolUV() {
+        return currentUser instanceof RolUV;
+    }
 }

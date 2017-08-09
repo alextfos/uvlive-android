@@ -68,6 +68,7 @@ public class MerchantFragment extends BaseFragment implements MerchantActions {
     @Override
     public void onOk() {
         Toast.makeText(getContext(),getString(R.string.send_broadcast_ok), Toast.LENGTH_LONG).show();
-        getActivity().onBackPressed();
+        textEt.setText("");
+        titleEt.setText("");
     }
 }

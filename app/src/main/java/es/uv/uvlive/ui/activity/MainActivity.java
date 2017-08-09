@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.atraverf.uvlive.R;
 
@@ -39,6 +40,11 @@ public class MainActivity extends BaseActivity implements MainActions {
 
         if (findViewById(R.id.item_detail_container) != null) {
             mTwoPane = true;
+        }
+        if (mainPresenter.isRolUV()) {
+            fab.setVisibility(View.VISIBLE);
+        } else {
+            fab.setVisibility(View.GONE);
         }
     }
 
