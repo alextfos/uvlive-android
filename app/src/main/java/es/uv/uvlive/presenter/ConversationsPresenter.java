@@ -37,7 +37,7 @@ public class ConversationsPresenter extends BasePresenter {
             @Override
             public void onSuccess(@NonNull ConversationsListResponse conversationsListResponse) {
                 List<ConversationModel> conversations =
-                        ConversationModel.transform(conversationsListResponse.getConversations());
+                        ConversationModel.transform(currentUser.getOwnerName(),conversationsListResponse.getConversations());
                 for (ConversationModel conversation: conversations) {
                     if (!conversationsDBList.contains(conversation)) {
                         ConversationTable conversationTable = new ConversationTable();

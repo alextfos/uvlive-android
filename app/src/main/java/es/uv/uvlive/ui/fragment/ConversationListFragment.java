@@ -12,9 +12,11 @@ import com.example.atraverf.uvlive.R;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import es.uv.uvlive.presenter.ConversationsPresenter;
 import es.uv.uvlive.session.ConversationModel;
 import es.uv.uvlive.ui.actions.ConversationsActions;
+import es.uv.uvlive.ui.activity.CreateConversationActivity;
 import es.uv.uvlive.ui.activity.MainActivity;
 import es.uv.uvlive.ui.adapter.ConversationsAdapter;
 
@@ -63,6 +65,5 @@ public class ConversationListFragment extends BaseFragment implements Conversati
     @Override
     public void onConversationsReceived(List<ConversationModel> conversationModelList) {
         initalizeList(conversationModelList);
-
     }
 }

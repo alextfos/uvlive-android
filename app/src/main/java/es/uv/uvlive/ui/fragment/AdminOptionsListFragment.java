@@ -19,7 +19,6 @@ public class AdminOptionsListFragment extends BaseFragment implements AdminOptio
     private static final ArrayList<String> optionsArrayList = new ArrayList<>(Arrays.asList(
             "Dar de Alta Comerciante",
             "Modificar Datos Comerciante",
-//            "Caducar sesiones actuales",
             "Ver logs"));
 
     @BindView(R.id.fragment_admin_options_list)
@@ -60,10 +59,6 @@ public class AdminOptionsListFragment extends BaseFragment implements AdminOptio
                         .addToBackStack(ModifyMerchantFragment.class.getName()).commit();
                 break;
             case 2:
-                break;
-            case 3:
-                break;
-            case 4:
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frameLayout, LogListFragment.newInstance())

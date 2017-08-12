@@ -41,11 +41,6 @@ public class MainActivity extends BaseActivity implements MainActions {
         if (findViewById(R.id.item_detail_container) != null) {
             mTwoPane = true;
         }
-        if (mainPresenter.isRolUV()) {
-            fab.setVisibility(View.VISIBLE);
-        } else {
-            fab.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -64,10 +59,12 @@ public class MainActivity extends BaseActivity implements MainActions {
 
     private void loadConversationsFragment() {
         navigateToFragment(ConversationListFragment.newInstance());
+        fab.setVisibility(View.VISIBLE);
     }
 
     private void loadMerchantFragment() {
         navigateToFragment(MerchantFragment.newInstance());
+        fab.setVisibility(View.GONE);
     }
 
     @Override
@@ -89,11 +86,13 @@ public class MainActivity extends BaseActivity implements MainActions {
 
     @Override
     public void loadAdminMenu() {
+        fab.setVisibility(View.GONE);
         navigateToFragment(AdminOptionsListFragment.newInstance());
     }
 
 
     public void onItemSelected(int id) {
+        fab.setVisibility(View.GONE);
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
