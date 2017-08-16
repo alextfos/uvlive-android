@@ -52,7 +52,7 @@ public class MainActivity extends BaseActivity implements MainActions {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CreateConversationActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == UsersActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             loadConversations();
         }
     }
@@ -74,8 +74,23 @@ public class MainActivity extends BaseActivity implements MainActions {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (mainPresenter.isTeacher()) {
+            menu.findItem(R.id.main_menu_block).setVisible(Boolean.TRUE);
+            menu.findItem(R.id.main_menu_unblock).setVisible(Boolean.TRUE);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.main_menu_block:
+                startActivityForResult(UsersActivity.getIntent(this,UsersActivity.BLOCK),UsersActivity.REQUEST_CODE);
+                return true;
+            case R.id.main_menu_unblock:
+                startActivityForResult(UsersActivity.getIntent(this,UsersActivity.UNBLOCK),UsersActivity.REQUEST_CODE);
+                return true;
             case R.id.main_menu_exit:
                 logout();
                 mainPresenter.logout();
@@ -131,7 +146,7 @@ public class MainActivity extends BaseActivity implements MainActions {
 
     @OnClick(R.id.fab)
     public void onFabClicked() {
-        startActivityForResult(CreateConversationActivity.getIntent(this),CreateConversationActivity.REQUEST_CODE);
+        startActivityForResult(UsersActivity.getIntent(this), UsersActivity.REQUEST_CODE);
     }
 
     @Override

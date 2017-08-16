@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.example.atraverf.uvlive.R;
@@ -12,11 +11,9 @@ import com.example.atraverf.uvlive.R;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import es.uv.uvlive.presenter.ConversationsPresenter;
 import es.uv.uvlive.session.ConversationModel;
 import es.uv.uvlive.ui.actions.ConversationsActions;
-import es.uv.uvlive.ui.activity.CreateConversationActivity;
 import es.uv.uvlive.ui.activity.MainActivity;
 import es.uv.uvlive.ui.adapter.ConversationsAdapter;
 

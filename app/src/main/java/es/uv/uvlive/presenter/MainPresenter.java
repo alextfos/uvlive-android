@@ -5,6 +5,7 @@ import es.uv.uvlive.data.gateway.GsonRequest;
 import es.uv.uvlive.session.Admin;
 import es.uv.uvlive.session.Merchant;
 import es.uv.uvlive.session.RolUV;
+import es.uv.uvlive.session.Teacher;
 import es.uv.uvlive.ui.actions.MainActions;
 
 
@@ -34,5 +35,9 @@ public class MainPresenter extends BasePresenter {
 
     public boolean isRolUV() {
         return currentUser instanceof RolUV;
+    }
+
+    public boolean isTeacher() {
+        return currentUser instanceof Teacher;
     }
 }

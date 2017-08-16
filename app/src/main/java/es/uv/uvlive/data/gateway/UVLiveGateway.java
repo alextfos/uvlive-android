@@ -17,6 +17,7 @@ import es.uv.uvlive.data.gateway.form.MerchantRegisterForm;
 import es.uv.uvlive.data.gateway.form.MessageForm;
 import es.uv.uvlive.data.gateway.form.MessagesForm;
 import es.uv.uvlive.data.gateway.form.PushTokenForm;
+import es.uv.uvlive.data.gateway.form.StudentForm;
 import es.uv.uvlive.data.gateway.response.BaseResponse;
 import es.uv.uvlive.data.gateway.response.ConversationsListResponse;
 import es.uv.uvlive.data.gateway.response.LogListResponse;
@@ -24,6 +25,7 @@ import es.uv.uvlive.data.gateway.response.LoginResponse;
 import es.uv.uvlive.data.gateway.response.MessageListResponse;
 import es.uv.uvlive.data.gateway.response.UserListResponse;
 import es.uv.uvlive.data.gateway.response.ValidateMerchantResponse;
+import es.uv.uvlive.session.Student;
 
 public class UVLiveGateway {
 
@@ -34,14 +36,18 @@ public class UVLiveGateway {
     private static final String urlLogout = "user/logout";
 
     // RolUV requests
-    private static final String urlConversations ="rolUV/conversations";
-    private static final String urlConversationsInit ="rolUV/conversations/init";
-    private static final String urlUsers = "/rolUV/users";
+    private static final String urlConversations = "rolUV/conversations";
+    private static final String urlConversationsInit = "rolUV/conversations/init";
+    private static final String urlUsers = "rolUV/users";
     private static final String urlMessages ="rolUV/messages";
     private static final String urlPreviousMessages = "rolUV/messages/previous";
     private static final String urlFollowingMessages = "rolUV/messages/following";
     private static final String urlSend = "rolUV/message/send";
     private static final String urlUpdatePushToken = "rolUV/pushToken/update";
+
+    // Teacher requests
+    private static final String urlBlockUser = "teacher/student/block";
+    private static final String urlUnblockUser = "/teacher/student/unblock";
 
     // Admin requests
     private static final String urlLogger ="admin/logs";
@@ -127,6 +133,22 @@ public class UVLiveGateway {
     public void sendMessage(MessageForm messageForm, UVCallback<BaseResponse> callback) {
         GsonRequest<BaseResponse> request = new GsonRequest<>(environment + urlSend,
                 BaseResponse.class,GSON_CREATOR.toJson(messageForm),callback.Listener,callback.ErrorListener);
+        addRequestToQueue(request);
+    }
+
+    /*
+    * Teacher requests
+    * */
+
+    public void blockStudent(StudentForm studentForm, UVCallback<BaseResponse> callback) {
+        GsonRequest<BaseResponse> request = new GsonRequest<>(environment + urlBlockUser,
+                BaseResponse.class,GSON_CREATOR.toJson(studentForm),callback.Listener,callback.ErrorListener);
+        addRequestToQueue(request);
+    }
+
+    public void unblockStudent(StudentForm studentForm, UVCallback<BaseResponse> callback) {
+        GsonRequest<BaseResponse> request = new GsonRequest<>(environment + urlUnblockUser,
+                BaseResponse.class,GSON_CREATOR.toJson(studentForm),callback.Listener,callback.ErrorListener);
         addRequestToQueue(request);
     }
 

@@ -5,6 +5,7 @@ public class UserResponse {
     private String firstname;
     private String lastname;
     private String username;
+    private boolean blocked;
 
     public int getUserId() {
         return userId;
@@ -36,5 +37,13 @@ public class UserResponse {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
     }
 }

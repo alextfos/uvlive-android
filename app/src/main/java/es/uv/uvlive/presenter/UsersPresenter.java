@@ -5,16 +5,17 @@ import android.support.annotation.NonNull;
 import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.data.UVCallback;
 import es.uv.uvlive.data.gateway.form.InitConversationForm;
+import es.uv.uvlive.data.gateway.form.StudentForm;
 import es.uv.uvlive.data.gateway.response.BaseResponse;
 import es.uv.uvlive.data.gateway.response.UserListResponse;
 import es.uv.uvlive.session.UserModel;
-import es.uv.uvlive.ui.actions.CreateConversationActions;
+import es.uv.uvlive.ui.actions.UsersActions;
 
-public class CreateConversationPresenter extends BasePresenter {
+public class UsersPresenter extends BasePresenter {
 
-    private CreateConversationActions actions;
+    private UsersActions actions;
 
-    public CreateConversationPresenter(CreateConversationActions actions) {
+    public UsersPresenter(UsersActions actions) {
         this.actions = actions;
     }
 
@@ -40,6 +41,38 @@ public class CreateConversationPresenter extends BasePresenter {
             @Override
             public void onSuccess(@NonNull BaseResponse baseResponse) {
                 actions.onConversationCreated();
+            }
+
+            @Override
+            public void onError(int errorCode) {
+                actions.onError(errorCode);
+            }
+        });
+    }
+
+    public void blockStudent(UserModel userModel) {
+        StudentForm studentForm = new StudentForm();
+        studentForm.setIdStudent(userModel.getUserId());
+        UVLiveApplication.getUVLiveGateway().blockStudent(studentForm, new UVCallback<BaseResponse>() {
+            @Override
+            public void onSuccess(@NonNull BaseResponse baseResponse) {
+                actions.onStudentBlocked();
+            }
+
+            @Override
+            public void onError(int errorCode) {
+                actions.onError(errorCode);
+            }
+        });
+    }
+
+    public void unblockStudent(UserModel userModel) {
+        StudentForm studentForm = new StudentForm();
+        studentForm.setIdStudent(userModel.getUserId());
+        UVLiveApplication.getUVLiveGateway().unblockStudent(studentForm, new UVCallback<BaseResponse>() {
+            @Override
+            public void onSuccess(@NonNull BaseResponse baseResponse) {
+                actions.onStudentUnblocked();
             }
 
             @Override
