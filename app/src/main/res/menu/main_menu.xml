@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/main_menu_block"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:visible="false"
+        android:title="@string/block_student"
+        app:showAsAction="never"/>
+    <item android:id="@+id/main_menu_unblock"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:title="@string/unblock_student"
+        android:visible="false"
+        app:showAsAction="never"/>
     <item android:id="@+id/main_menu_exit"
         android:icon="@android:drawable/ic_menu_close_clear_cancel"
-        android:title="Salir"
+        android:title="@string/exit"
         app:showAsAction="never"/>
 </menu>

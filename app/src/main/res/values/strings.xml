@@ -34,4 +34,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="exit">Salir</string>
+    <string name="block_student">Bloquear alumno</string>
+    <string name="unblock_student">Desbloquear alumno</string>
+
+    <string name="init_conversation">Iniciar conversación</string>
 </resources>
