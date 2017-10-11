@@ -21,7 +21,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GsonRequest<T> extends Request<T> {
+    private static final int TIME_OUT = 40000;
     private static final String TAG = Request.class.getName();
+    private static final String RESPONSE_ENCODING = "utf-8";
+
     private final Gson gson = new Gson();
     private final Class<T> clazz;
     private static HashMap<String, String> headers= new HashMap<>();
@@ -45,9 +48,8 @@ public class GsonRequest<T> extends Request<T> {
         this.listener = listener;
         mRequestBody=requestBody;
 
-        // TODO MAGIC NUMBER
         this.setRetryPolicy(new DefaultRetryPolicy(
-                40000,
+                TIME_OUT,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
@@ -97,9 +99,7 @@ public class GsonRequest<T> extends Request<T> {
 //                UVLiveGateway.setCookie(headers.get(HEADER_COOKIE));
 //            }
             //String str=  new String(response.data);
-            String json = new String(
-                    response.data,
-                    HttpHeaderParser.parseCharset(response.headers));
+            String json = new String(response.data, RESPONSE_ENCODING);
             Log.d(TAG,"Headers: " + response.headers);
             Log.d(TAG,"Status code: " + response.statusCode);
             Log.d(TAG,"Body: " + json);
