@@ -134,22 +134,6 @@ public class MessageModel implements Comparable<MessageModel> {
 
     @Override
     public int compareTo(MessageModel o) {
-        if (idLocal == 0) {
-            if (this.idMessage < o.idMessage) {
-                return -1;
-            } else if (this.idLocal > o.idLocal) {
-                return 1;
-            } else {
-                return 0;
-            }
-        } else {
-            if (this.idLocal < o.idLocal) {
-                return -1;
-            } else if (this.idLocal > o.idLocal) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
+        return this.timeStamp - o.timeStamp;
     }
 }

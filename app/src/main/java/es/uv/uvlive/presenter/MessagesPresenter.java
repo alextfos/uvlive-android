@@ -62,7 +62,6 @@ public class MessagesPresenter extends BasePresenter {
                     onMessagesReceived(messageListResponse);
                     if (messageListResponse.getMessages().size() == 0) {
                         endList = true;
-                        return;
                     }
                 }
 
@@ -99,16 +98,9 @@ public class MessagesPresenter extends BasePresenter {
     private void onMessagesReceived(MessageListResponse messageListResponse) {
         List<MessageModel> messages = MessageModel.transform(idConversation, messageListResponse.getMessages());
         for (MessageModel message : messages) {
-            for (MessageModel localMessage: messageModelList) {
-                if (!localMessage.equals(message)) {
-                    saveMessage(message);
-                    messageModelList.add(message);
-                } else if (localMessage.equals(message) && !localMessage.isSended()) {
-                    messageModelList.remove(localMessage);
-                    saveMessage(localMessage);
-                    removeMessage(localMessage);
-                    messageModelList.add(message);
-                }
+            if (!messageModelList.contains(message)) {
+                saveMessage(message);
+                messageModelList.add(message);
             }
         }
 
