@@ -42,4 +42,7 @@
     <string name="logintypes_teacher">Profesor</string>
     <string name="logintypes_admin">Administrador</string>
     <string name="logintypes_merchant">Comerciante</string>
+
+    <string name="modify_merchant_searchbar_placeholder">Nombre del comerciante</string>
+    <string name="results_not_found">No se han encontrado resultados</string>
 </resources>
