@@ -43,8 +43,7 @@ public class LoginActivity extends BaseActivity implements SessionActions {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this,R.array.type_login_array,R.layout.support_simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                this,R.array.type_login_array,R.layout.dark_text_spinner_item);
         mSpinner.setAdapter(adapter);
         setListeners();
     }
