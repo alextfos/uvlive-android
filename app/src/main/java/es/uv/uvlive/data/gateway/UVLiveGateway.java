@@ -22,6 +22,7 @@ import es.uv.uvlive.data.gateway.response.BaseResponse;
 import es.uv.uvlive.data.gateway.response.ConversationsListResponse;
 import es.uv.uvlive.data.gateway.response.LogListResponse;
 import es.uv.uvlive.data.gateway.response.LoginResponse;
+import es.uv.uvlive.data.gateway.response.MerchantResponse;
 import es.uv.uvlive.data.gateway.response.MessageListResponse;
 import es.uv.uvlive.data.gateway.response.UserListResponse;
 import es.uv.uvlive.data.gateway.response.ValidateMerchantResponse;
@@ -195,10 +196,10 @@ public class UVLiveGateway {
     /*
     * Get Merchant requests
     * */
-    public void getMerchant(MerchantRegisterForm form, UVCallback<MerchantRegisterForm> callback) {
+    public void getMerchant(MerchantRegisterForm form, UVCallback<MerchantResponse> callback) {
         String stringRequest = GSON_CREATOR.toJson(form);
-        GsonRequest<MerchantRegisterForm> request = new GsonRequest<>(environment + urlGetMerchant,
-                MerchantRegisterForm.class,stringRequest,callback.Listener,callback.ErrorListener);
+        GsonRequest<MerchantResponse> request = new GsonRequest<>(environment + urlGetMerchant,
+                MerchantResponse.class,stringRequest,callback.Listener,callback.ErrorListener);
         addRequestToQueue(request);
     }
 
