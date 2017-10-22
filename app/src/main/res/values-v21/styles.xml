@@ -1,27 +1,33 @@
-<resources>>
+<resources>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
-    
-    <style name="LoginTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="windowNoTitle">true</item>
-        <item name="android:background">@color/uv_dark_blue</item>
-        <item name="android:editTextStyle">@style/login_textInputEditText</item>
-        <item name="android:buttonStyle">@style/login_button</item>
+
+    <style name="Theme.AppTheme.NoActionBar" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">@color/uv_dark_beige</item>
+        <item name="colorPrimary">@color/uv_dark_blue</item>
+        <item name="android:colorBackground">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="login_button" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:colorButtonNormal">@color/uv_light_blue</item>
-        <item name="android:color">@android:color/white</item>
+    <style name="LoginTheme" parent="AppTheme.NoActionBar">
+        <item name="android:textColor">@color/uv_dark_beige</item>
+        <item name="android:windowBackground">@drawable/activity_login_background</item>
+        <item name="android:buttonStyle">@style/LoginButton</item>
+        <item name="colorControlNormal">@color/uv_dark_beige</item>
+        <item name="colorControlActivated">@color/uv_dark_beige</item>
+        <item name="colorControlHighlight">@color/uv_dark_beige</item>
+        <item name="android:textColorHint">@color/uv_dark_beige</item>
     </style>
 
-    <style name="login_textInputEditText">
-        <item name="android:backgroundTint">@android:color/white</item>
+    <style name="LoginButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@color/uv_light_blue</item>
+        <item name="android:textColor">@color/uv_dark_beige</item>
     </style>
 
-    <style name="Button" parent="Widget.AppCompat.Button.Colored">
+    <style name="LoginTextInputLayoutAppearance" parent="@android:style/TextAppearance">
+    <item name="android:textColor">@color/uv_dark_beige</item>
     </style>
 </resources>
