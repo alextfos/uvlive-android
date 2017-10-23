@@ -14,6 +14,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.presenter.MessagesPresenter;
 import es.uv.uvlive.session.MessageModel;
 import es.uv.uvlive.ui.actions.MessageActions;
@@ -52,6 +53,18 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        UVLiveApplication.subscribeActions(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        UVLiveApplication.unsubscribeActions(this);
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         mRecyclerView.setLayoutManager(linearLayoutManager = new LinearLayoutManager(getActivity()));
         scrollRecyclerViewControl();
@@ -84,6 +97,11 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
         mRecyclerView.setAdapter(messageListAdapter);
         messageListAdapter.notifyDataSetChanged();
         mRecyclerView.scrollToPosition(messageModelList.size()-1);
+    }
+
+    @Override
+    public void getMessages() {
+        messagesPresenter.getMessages(false);
     }
 
     @OnClick(R.id.fragment_message_list_send)

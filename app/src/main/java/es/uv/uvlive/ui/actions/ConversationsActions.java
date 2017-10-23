@@ -7,4 +7,5 @@ import es.uv.uvlive.session.ConversationModel;
 
 public interface ConversationsActions extends BaseActions {
     void onConversationsReceived(List<ConversationModel> conversationModelList);
+    void getConversations();
 }

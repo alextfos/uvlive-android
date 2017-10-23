@@ -2,10 +2,8 @@ package es.uv.uvlive.data.database.models;
 
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
-import com.raizlabs.android.dbflow.annotation.NotNull;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.annotation.Unique;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import es.uv.uvlive.data.database.UVLiveDB;
@@ -20,7 +18,7 @@ public class MessageTable extends BaseModel {
     protected int idMessage;
 
     @Column
-    protected int timeStamp;
+    protected long timestamp;
 
     @Column
     protected String messageText;
@@ -34,12 +32,12 @@ public class MessageTable extends BaseModel {
     @Column
     protected boolean sended;
 
-    public int getTimeStamp() {
-        return timeStamp;
+    public long getTimestamp() {
+        return timestamp;
     }
 
-    public void setTimeStamp(int timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getMessageText() {

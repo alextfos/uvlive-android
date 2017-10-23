@@ -10,6 +10,8 @@ import android.support.v4.app.NotificationCompat;
 
 import com.example.atraverf.uvlive.R;
 
+import java.util.List;
+
 import es.uv.uvlive.ui.activity.MainActivity;
 
 /**
@@ -42,5 +44,25 @@ public class PushUtils {
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0, notificationBuilder.build());
+    }
+
+    public static void sendNotification(Context context, String title, String bigContentTitle, String text, List<String> events) {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.mipmap.logo)
+                .setContentTitle(title)
+                .setContentText(text);
+        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+
+        inboxStyle.setBigContentTitle(bigContentTitle);
+
+        for (String event: events) {
+            inboxStyle.addLine(event);
+        }
+
+        mBuilder.setStyle(inboxStyle);
+        NotificationManager notificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(0, mBuilder.build());
     }
 }

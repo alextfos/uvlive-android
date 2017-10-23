@@ -7,6 +7,7 @@ import java.util.List;
 
 import es.uv.uvlive.data.database.models.MessageTable;
 import es.uv.uvlive.data.gateway.response.MessageResponse;
+import es.uv.uvlive.utils.NumberFormatUtils;
 import es.uv.uvlive.utils.StringUtils;
 
 public class MessageModel implements Comparable<MessageModel> {
@@ -14,7 +15,7 @@ public class MessageModel implements Comparable<MessageModel> {
     private int idMessage;
     private int idConversation;
     private String message;
-    private int timeStamp;
+    private long timestamp;
     private boolean sended;
     private String owner;
 
@@ -42,7 +43,7 @@ public class MessageModel implements Comparable<MessageModel> {
     public MessageModel(int idConversation,MessageResponse messageResponse) {
         message = messageResponse.getText();
         idMessage = messageResponse.getIdMessage();
-        timeStamp = messageResponse.getTimestamp();
+        timestamp = messageResponse.getTimestamp();
         sended = true;
         owner = messageResponse.getOwner();
         this.idConversation = idConversation;
@@ -52,7 +53,7 @@ public class MessageModel implements Comparable<MessageModel> {
         this.idConversation = idConversation;
         idLocal = messageTable.getId();
         idMessage = messageTable.getIdMessage();
-        timeStamp = messageTable.getTimeStamp();
+        timestamp = messageTable.getTimestamp();
         message = messageTable.getMessageText();
         sended = messageTable.isSended();
         owner = messageTable.getOwner();
@@ -90,12 +91,12 @@ public class MessageModel implements Comparable<MessageModel> {
         this.idConversation = idConversation;
     }
 
-    public long getTimeStamp() {
-        return timeStamp;
+    public long getTimestamp() {
+        return timestamp;
     }
 
-    public void setTimeStamp(int timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public boolean isSended() {
@@ -120,7 +121,6 @@ public class MessageModel implements Comparable<MessageModel> {
             if (this.idMessage == ((MessageModel) obj).idMessage ) {
                 return true;
             } else if (this.idConversation == ((MessageModel) obj).idConversation &&
-                this.idConversation == ((MessageModel) obj).idConversation &&
                     StringUtils.equals(this.message,((MessageModel) obj).message) &&
                     !this.sended == ((MessageModel) obj).sended) {
                 return true;
@@ -134,6 +134,6 @@ public class MessageModel implements Comparable<MessageModel> {
 
     @Override
     public int compareTo(MessageModel o) {
-        return this.timeStamp - o.timeStamp;
+        return NumberFormatUtils.longToInt(this.timestamp - o.timestamp);
     }
 }

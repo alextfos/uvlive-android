@@ -4,7 +4,7 @@ public class MessageResponse {
 
     private int idMessage;
     private String text;
-    private int timestamp;
+    private long timestamp;
     private String owner;
 
     public String getText() {
@@ -15,11 +15,11 @@ public class MessageResponse {
         this.text = text;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
