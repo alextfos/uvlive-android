@@ -32,11 +32,17 @@
     <string name="send_broadcast_ok">Su mensaje se ha registrado con éxito</string>
     <string name="send">Enviar</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="exit">Salir</string>
     <string name="block_student">Bloquear alumno</string>
     <string name="unblock_student">Desbloquear alumno</string>
 
     <string name="init_conversation">Iniciar conversación</string>
+
+    <string name="logintypes_student">Estudiante</string>
+    <string name="logintypes_teacher">Profesor</string>
+    <string name="logintypes_admin">Administrador</string>
+    <string name="logintypes_merchant">Comerciante</string>
+
+    <string name="modify_merchant_searchbar_placeholder">Nombre del comerciante</string>
+    <string name="results_not_found">No se han encontrado resultados</string>
 </resources>

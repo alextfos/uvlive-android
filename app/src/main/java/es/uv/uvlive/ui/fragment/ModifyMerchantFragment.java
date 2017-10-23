@@ -4,12 +4,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.atraverf.uvlive.R;
@@ -17,11 +22,13 @@ import com.example.atraverf.uvlive.R;
 import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.data.UVCallback;
 import es.uv.uvlive.data.gateway.form.MerchantRegisterForm;
+import es.uv.uvlive.data.gateway.response.MerchantResponse;
 
 public class ModifyMerchantFragment extends BaseFragment {
     private View registerFragment;
+    private View noResults;
     private EditText searchBar;
-    private ImageButton searchButton;
+    private ImageView searchButton;
 
     private EditText registerFragmentDni;
     private EditText registerFragmentUsername;
@@ -53,9 +60,10 @@ public class ModifyMerchantFragment extends BaseFragment {
     }
 
     private void bindViews(View rootView) {
+        searchButton = (ImageView) rootView.findViewById(R.id.modify_merchant_searchbutton);
         searchBar = (EditText) rootView.findViewById(R.id.modify_merchant_searchbar);
-        searchButton = (ImageButton) rootView.findViewById(R.id.modify_merchant_search);
 
+        noResults = rootView.findViewById(R.id.no_results);
         registerFragment = rootView.findViewById(R.id.merchant_form);
         registerFragmentDni = (EditText) registerFragment.findViewById(R.id.fragment_merchant_register_dni);
         registerFragmentUsername = (EditText) registerFragment.findViewById(R.id.fragment_merchant_register_username);
@@ -73,8 +81,19 @@ public class ModifyMerchantFragment extends BaseFragment {
     private void setListeners() {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 getMerchantsByFilter();
+            }
+        });
+        searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    getMerchantsByFilter();
+                    handled = true;
+                }
+                return handled;
             }
         });
 
@@ -96,17 +115,23 @@ public class ModifyMerchantFragment extends BaseFragment {
             MerchantRegisterForm request = new MerchantRegisterForm();
             request.setUserName(username);
 
-            UVCallback<MerchantRegisterForm> uvCallback = new UVCallback<MerchantRegisterForm>() {
+            UVCallback<MerchantResponse> uvCallback = new UVCallback<MerchantResponse>() {
                 @Override
-                public void onSuccess(@NonNull MerchantRegisterForm merchantRegisterForm) {
-                    if (validMerchant(merchantRegisterForm)) {
-                        fillFields(merchantRegisterForm);
+                public void onSuccess(@NonNull MerchantResponse merchantResponse) {
+                    if (validMerchant(merchantResponse)) {
+                        noResults.setVisibility(View.GONE);
+                        registerFragment.setVisibility(View.VISIBLE);
+                        fillFields(merchantResponse);
+                    } else {
+                        noResults.setVisibility(View.VISIBLE);
+                        registerFragment.setVisibility(View.GONE);
                     }
                 }
 
                 @Override
                 public void onError(int errorCode) {
-                    // TODO set error to inputLayout
+                    noResults.setVisibility(View.VISIBLE);
+                    registerFragment.setVisibility(View.GONE);
                 }
             };
 
@@ -114,20 +139,19 @@ public class ModifyMerchantFragment extends BaseFragment {
         }
     }
 
-    private void fillFields(MerchantRegisterForm merchant) {
+    private void fillFields(MerchantResponse merchant) {
         // Not null merchant verified
         registerFragmentDni.setText(merchant.getDni());
-        registerFragmentUsername.setText(merchant.getUserName());
-        registerFragmentName.setText(merchant.getFirstName());
-        registerFragmentLastName.setText(merchant.getLastName());
+        registerFragmentUsername.setText(merchant.getUsername());
+        registerFragmentName.setText(merchant.getFirstname());
+        registerFragmentLastName.setText(merchant.getLastname());
     }
 
-    private boolean validMerchant(MerchantRegisterForm merchantRegisterForm) {
-        return merchantRegisterForm.getDni() != null && !merchantRegisterForm.getDni().isEmpty() &&
-        merchantRegisterForm.getDni() != null && !merchantRegisterForm.getDni().isEmpty() &&
-        merchantRegisterForm.getUserName() != null && !merchantRegisterForm.getUserName().isEmpty() &&
-        merchantRegisterForm.getPassword() != null && !merchantRegisterForm.getPassword().isEmpty() &&
-        merchantRegisterForm.getFirstName() != null && !merchantRegisterForm.getFirstName().isEmpty() &&
-        merchantRegisterForm.getLastName() != null && !merchantRegisterForm.getLastName().isEmpty();
+    private boolean validMerchant(MerchantResponse merchantResponse) {
+        return merchantResponse.getDni() != null && !merchantResponse.getDni().isEmpty() &&
+                merchantResponse.getDni() != null && !merchantResponse.getDni().isEmpty() &&
+                merchantResponse.getUsername() != null && !merchantResponse.getUsername().isEmpty() &&
+                merchantResponse.getFirstname() != null && !merchantResponse.getFirstname().isEmpty() &&
+                merchantResponse.getLastname() != null && !merchantResponse.getLastname().isEmpty();
     }
 }

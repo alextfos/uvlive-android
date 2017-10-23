@@ -14,11 +14,11 @@ import android.widget.TextView;
 import com.example.atraverf.uvlive.R;
 import es.uv.uvlive.presenter.LoginPresenter;
 
-import butterknife.BindView;
-import es.uv.uvlive.ui.actions.SessionActions;
-
 import butterknife.ButterKnife;
+import butterknife.BindView;
 import butterknife.OnClick;
+
+import es.uv.uvlive.ui.actions.SessionActions;
 
 public class LoginActivity extends BaseActivity implements SessionActions {
 
@@ -42,9 +42,7 @@ public class LoginActivity extends BaseActivity implements SessionActions {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this,R.array.type_login_array,R.layout.support_simple_spinner_dropdown_item);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dark_text_spinner_item, LoginPresenter.LoginTypes.getLoginTypesDescriptions(this));
         mSpinner.setAdapter(adapter);
         setListeners();
     }
@@ -69,7 +67,7 @@ public class LoginActivity extends BaseActivity implements SessionActions {
     @OnClick(R.id.login_b)
     public void login() {
         loginPresenter.login(mUser.getText().toString(),mPassword.getText().toString(),
-                ((String) mSpinner.getSelectedItem()));
+                mSpinner.getSelectedItemPosition());
     }
 
     @Override
