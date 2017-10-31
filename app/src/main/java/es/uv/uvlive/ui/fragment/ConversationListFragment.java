@@ -11,6 +11,7 @@ import com.example.atraverf.uvlive.R;
 import java.util.List;
 
 import butterknife.BindView;
+import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.presenter.ConversationsPresenter;
 import es.uv.uvlive.session.ConversationModel;
 import es.uv.uvlive.ui.actions.ConversationsActions;
@@ -47,6 +48,18 @@ public class ConversationListFragment extends BaseFragment implements Conversati
         initializePresenter();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        UVLiveApplication.subscribeActions(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        UVLiveApplication.unsubscribeActions(this);
+    }
+
     private void initializePresenter() {
         ConversationsPresenter conversationsPresenter = new ConversationsPresenter(this);
         conversationsPresenter.getConversations();
@@ -62,5 +75,10 @@ public class ConversationListFragment extends BaseFragment implements Conversati
     @Override
     public void onConversationsReceived(List<ConversationModel> conversationModelList) {
         initalizeList(conversationModelList);
+    }
+
+    @Override
+    public void getConversations() {
+        initializePresenter();
     }
 }

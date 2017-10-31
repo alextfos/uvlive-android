@@ -3,7 +3,7 @@ package es.uv.uvlive.data.gateway.form;
 public class MessagesForm extends BaseForm {
 
     private int idConversation;
-    private int timestamp;
+    private long timestamp;
 
     public void setIdConversation(int idConversation) {
         this.idConversation = idConversation;
@@ -13,11 +13,11 @@ public class MessagesForm extends BaseForm {
         return idConversation;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 }

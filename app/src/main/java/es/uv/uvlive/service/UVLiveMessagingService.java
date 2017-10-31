@@ -1,8 +1,22 @@
 package es.uv.uvlive.service;
 
+import android.support.annotation.Nullable;
+import android.util.Log;
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import es.uv.uvlive.UVLiveApplication;
+import es.uv.uvlive.presenter.ConversationsPresenter;
+import es.uv.uvlive.presenter.MessagesPresenter;
+import es.uv.uvlive.session.ConversationModel;
+import es.uv.uvlive.session.MessageModel;
+import es.uv.uvlive.ui.actions.BaseActions;
+import es.uv.uvlive.ui.actions.ConversationsActions;
+import es.uv.uvlive.ui.actions.MessageActions;
 import es.uv.uvlive.utils.PushUtils;
 import es.uv.uvlive.utils.StringUtils;
 
@@ -27,7 +41,7 @@ public class UVLiveMessagingService extends FirebaseMessagingService {
         }
         String type = "";
         String operation = "";
-        int idConversation;
+        int idConversation = -1;
 
         for (String key: remoteMessage.getData().keySet()) {
             if (TYPE.equals(key)) {
@@ -40,10 +54,61 @@ public class UVLiveMessagingService extends FirebaseMessagingService {
         }
 
         if (OPERATION_GET.equals(type) && OPERATION_MESSAGES.equals(operation)) {
-            // TODO request messages
+            if (getCurrentActions() != null && getCurrentActions() instanceof MessageActions) {
+                ((MessageActions)getCurrentActions()).getMessages();
+            } else if (idConversation != -1) {
+                MessagesPresenter messagesPresenter = new MessagesPresenter(idConversation, new MessageActions() {
+                    @Override
+                    public void onMessagesReceived(List<MessageModel> messageModelList) {
+                        List<String> stringList = new ArrayList<>();
+                        for (MessageModel messageModel: messageModelList) {
+                            stringList.add(messageModel.getOwner() + ": " + messageModel.getMessage());
+                        }
+                        PushUtils.sendNotification(UVLiveMessagingService.this.getApplicationContext(),
+                                "UVLiveModel", "Mensajes nuevos", "Mensajes nuevos", stringList);
+                    }
+
+                    @Override
+                    public void getMessages() {
+
+                    }
+
+                    @Override
+                    public void onError(int errorCode) {
+
+                    }
+                });
+
+                messagesPresenter.getNewMessages();
+            }
         } else if (OPERATION_GET.equals(type) && OPERATION_CONVERSATIONS.equals(operation)) {
-            // TODO request conversations
+            if (getCurrentActions() != null && getCurrentActions() instanceof ConversationsActions) {
+                ((ConversationsActions)getCurrentActions()).getConversations();
+            } else {
+                ConversationsPresenter conversationsPresenter = new ConversationsPresenter(new ConversationsActions() {
+                    @Override
+                    public void onConversationsReceived(List<ConversationModel> conversationModelList) {
+                        Log.d("messaging", "Hi");
+                    }
+
+                    @Override
+                    public void getConversations() {
+
+                    }
+
+                    @Override
+                    public void onError(int errorCode) {
+
+                    }
+                });
+
+                conversationsPresenter.getConversations();
+            }
         }
 //            PushUtils.sendNotification(this, "UVLive", "Tieneh usteh mensajes nuevos");
+    }
+
+    private @Nullable BaseActions getCurrentActions() {
+        return UVLiveApplication.getBaseActions();
     }
 }
