@@ -30,7 +30,10 @@ public class MessageTable extends BaseModel {
     protected String owner;
 
     @Column
-    protected boolean sended;
+    protected boolean sent;
+
+    @Column
+    protected boolean isMine;
 
     public long getTimestamp() {
         return timestamp;
@@ -56,12 +59,12 @@ public class MessageTable extends BaseModel {
         this.idConversation = idConversation;
     }
 
-    public boolean isSended() {
-        return sended;
+    public boolean isSent() {
+        return sent;
     }
 
-    public void setSended(boolean sended) {
-        this.sended = sended;
+    public void setSent(boolean sent) {
+        this.sent = sent;
     }
 
     public int getId() {
@@ -86,5 +89,13 @@ public class MessageTable extends BaseModel {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public boolean isMine() {
+        return isMine;
+    }
+
+    public void setMine(boolean mine) {
+        isMine = mine;
     }
 }

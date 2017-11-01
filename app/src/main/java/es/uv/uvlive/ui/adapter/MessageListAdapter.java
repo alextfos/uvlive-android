@@ -25,6 +25,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageViewHolder> 
         if (position != RecyclerView.NO_POSITION) {
             holder.setText(list.get(position).getOwner(),list.get(position).getMessage(), ""+list.get(position).getDate());
             holder.setFeedback(list.get(position).isSent());
+            holder.setOwner(list.get(position).isMine());
         }
     }
 

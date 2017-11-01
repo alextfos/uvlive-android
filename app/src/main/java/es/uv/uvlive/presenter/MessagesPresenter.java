@@ -19,6 +19,7 @@ import es.uv.uvlive.data.gateway.form.MessagesForm;
 import es.uv.uvlive.data.gateway.response.BaseResponse;
 import es.uv.uvlive.data.gateway.response.MessageListResponse;
 import es.uv.uvlive.session.MessageModel;
+import es.uv.uvlive.session.Session;
 import es.uv.uvlive.ui.actions.MessageActions;
 
 public class MessagesPresenter extends BasePresenter {
@@ -56,7 +57,7 @@ public class MessagesPresenter extends BasePresenter {
                 .from(MessageTable.class)
                 .where(MessageTable_Table.idConversation_id.is(idConversation))
                 .and(MessageTable_Table.timestamp.greaterThan(0))
-                .and(MessageTable_Table.sended.isNot(Boolean.FALSE))
+                .and(MessageTable_Table.sent.isNot(Boolean.FALSE))
                 .orderBy(OrderBy.fromProperty(MessageTable_Table.idMessage).descending()).limit(1).queryList();
 
         if (oldestMessage.size() > 0 && oldestMessage.get(0).getTimestamp()>0) {
@@ -106,6 +107,7 @@ public class MessagesPresenter extends BasePresenter {
     private void onMessagesReceived(MessageListResponse messageListResponse) {
         List<MessageModel> messages = MessageModel.transform(idConversation, messageListResponse.getMessages());
         for (MessageModel message : messages) {
+            message.setMine(isMine(message));
             if (!messageModelList.contains(message)) {
                 saveMessage(message);
                 messageModelList.add(message);
@@ -121,6 +123,10 @@ public class MessagesPresenter extends BasePresenter {
         messageActions.onMessagesReceived(messageModelList);
     }
 
+    private boolean isMine(MessageModel messageModel) {
+        return currentUser.getOwnerName().equalsIgnoreCase(messageModel.getOwner());
+    }
+
     private void saveMessage (MessageModel message) {
         MessageTable messageTable = new MessageTable();
         messageTable.setIdMessage(message.getIdMessage());
@@ -128,7 +134,7 @@ public class MessagesPresenter extends BasePresenter {
         messageTable.setIdConversation(message.getIdConversation());
         messageTable.setOwner(message.getOwner());
         messageTable.setTimestamp(message.getTimestamp());
-        messageTable.setSended(true);
+        messageTable.setSent(true);
         messageTable.save();
     }
 
@@ -139,7 +145,7 @@ public class MessagesPresenter extends BasePresenter {
     public void sendMessage(int idConversation, String message) {
         final MessageTable messageTable = new MessageTable();
 
-        messageTable.setSended(false);
+        messageTable.setSent(false);
         messageTable.setMessageText(message);
         messageTable.setOwner(currentUser.getOwnerName());
         messageTable.setIdConversation(idConversation);
@@ -150,7 +156,9 @@ public class MessagesPresenter extends BasePresenter {
         messageForm.setIdConversation(idConversation);
         messageForm.setMessage(message);
 
-        messageModelList.add(new MessageModel(idConversation, messageTable));
+        MessageModel messageModel = new MessageModel(idConversation, messageTable);
+        messageModel.setMine(true);
+        messageModelList.add(messageModel);
         messageActions.onMessagesReceived(messageModelList);
 
         UVCallback<BaseResponse> callback = new UVCallback<BaseResponse>() {
@@ -158,7 +166,7 @@ public class MessagesPresenter extends BasePresenter {
             public void onSuccess(@NonNull BaseResponse baseResponse) {
                 // Reload messages list
                 getFollowingMessages();
-                messageTable.setSended(true);
+                messageTable.setSent(true);
                 messageTable.save();
                 messageActions.onMessagesReceived(messageModelList);
             }
@@ -177,7 +185,7 @@ public class MessagesPresenter extends BasePresenter {
         List<MessageTable> newestTimestamp = SQLite.select()
                 .from(MessageTable.class)
                 .where(MessageTable_Table.idConversation_id.is(idConversation))
-                .and(MessageTable_Table.sended.isNot(Boolean.FALSE))
+                .and(MessageTable_Table.sent.isNot(Boolean.FALSE))
                 .and(MessageTable_Table.timestamp.greaterThan(0))
 
                 .orderBy(OrderBy.fromProperty(MessageTable_Table.idMessage).descending()).limit(1).queryList();
@@ -209,6 +217,7 @@ public class MessagesPresenter extends BasePresenter {
                 List<MessageModel> messages = MessageModel.transform(idConversation, messageListResponse.getMessages());
                 if (messageListResponse.getMessages().size() == 0) {
                     for (MessageModel messageModel: messages) {
+                        messageModel.setMine(isMine(messageModel));
                         if (!messageModelList.contains(messageModel)) {
                             result.add(messageModel);
                         }

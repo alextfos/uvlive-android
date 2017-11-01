@@ -21,6 +21,7 @@ public class MessageModel implements Comparable<MessageModel> {
     private boolean sent;
     private String owner;
     private String date;
+    private boolean mine;
 
     public static List<MessageModel> transform(int idConversation, List<MessageTable> messageTableList) {
         ArrayList<MessageModel> messageModelList = new ArrayList<>();
@@ -51,6 +52,7 @@ public class MessageModel implements Comparable<MessageModel> {
         sent = true;
         owner = messageResponse.getOwner();
         this.idConversation = idConversation;
+    }
 
     private String timestampToStringDate(long timestamp) {
         Calendar calendar = Calendar.getInstance();
@@ -66,8 +68,9 @@ public class MessageModel implements Comparable<MessageModel> {
         timestamp = messageTable.getTimestamp();
         date = timestampToStringDate(timestamp);
         message = messageTable.getMessageText();
-        sent = messageTable.isSended();
+        sent = messageTable.isSent();
         owner = messageTable.getOwner();
+        this.mine = messageTable.isMine();
     }
 
     public int getIdLocal() {
@@ -132,6 +135,14 @@ public class MessageModel implements Comparable<MessageModel> {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public boolean isMine() {
+        return mine;
+    }
+
+    public void setMine(boolean mine) {
+        this.mine = mine;
     }
 
     @Override
