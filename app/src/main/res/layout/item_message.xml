@@ -4,44 +4,62 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginRight="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"
-    android:padding="5dp">
-
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@color/uv_sent_message_blue">
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
         <TextView
             android:id="@+id/item_message_owner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
             android:layout_weight="1"
-            android:textColor="@android:color/white" />
-        <ImageView
-            android:id="@+id/item_message_feedback"
+            tools:text="Alejandro Traver"
+            android:textColor="@color/colorAccent"
+            android:textSize="13sp"/>
+        <TextView
+            android:id="@+id/item_message_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="2dp"
-            tools:src="@drawable/ic_cloud_done_white_24dp"/>
+            android:layout_weight="0"
+            tools:text="24/05/1991 12:00"
+            android:textColor="@color/colorAccent"
+            android:textSize="13sp"/>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/item_message_tv"
+    <android.support.v7.widget.CardView
+        android:id="@+id/item_message_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="5dp"
-        android:textColor="@color/uv_sent_message_blue"
-        tools:text="some message"/>
-
-    <View
-        android:paddingTop="5dp"
+        android:layout_weight="1"
+        android:minHeight="50dp"
+        android:backgroundTint="@color/message_sent_others">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:padding="5dp">
+            <TextView
+                android:id="@+id/item_message_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="Contenido de prueba de carga"
+                android:textSize="18sp"/>
+            <ImageView
+                android:id="@+id/item_message_feedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:tint="@color/colorAccent"/>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/uv_sent_message_blue" />
+        android:layout_height="wrap_content" />
 </LinearLayout>

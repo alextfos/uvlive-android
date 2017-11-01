@@ -24,6 +24,9 @@ public class MessageViewHolder extends BaseViewHolder {
     @BindView(R.id.item_message_feedback)
     protected ImageView feedbackIv;
 
+    @BindView(R.id.item_message_date)
+    protected TextView dateTv;
+
     public static MessageViewHolder newInstance(ViewGroup parent) {
         return new MessageViewHolder(inflateView(parent,R.layout.item_message));
     }
@@ -40,8 +43,9 @@ public class MessageViewHolder extends BaseViewHolder {
         }
     }
 
-    public void setText(String owner, String text) {
+    public void setText(String owner, String text, String date) {
         ownerTv.setText(owner);
         textTv.setText(text);
+        dateTv.setText(date);
     }
 }

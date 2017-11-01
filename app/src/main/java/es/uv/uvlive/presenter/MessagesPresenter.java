@@ -111,7 +111,7 @@ public class MessagesPresenter extends BasePresenter {
                 messageModelList.add(message);
             } else if (!messageModelList.contains(message) ) {
                 int pos = messageModelList.indexOf(message);
-                messageModelList.get(pos).setSended(true);
+                messageModelList.get(pos).setSent(true);
                 messageModelList.get(pos).setTimestamp(message.getTimestamp());
                 saveMessage(message);
             }
