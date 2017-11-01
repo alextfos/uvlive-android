@@ -27,6 +27,7 @@ public class MessageModel implements Comparable<MessageModel> {
         ArrayList<MessageModel> messageModelList = new ArrayList<>();
 
         for (MessageTable messageTable: messageTableList) {
+            // TODO get is mine from messagetable and set into MessageModel
             messageModelList.add(new MessageModel(idConversation, messageTable));
         }
 

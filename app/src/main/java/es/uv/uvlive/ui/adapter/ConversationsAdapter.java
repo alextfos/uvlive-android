@@ -31,6 +31,7 @@ public class ConversationsAdapter extends RecyclerView.Adapter<ConversationViewH
     @Override
     public void onBindViewHolder(ConversationViewHolder holder, int position) {
         holder.setTitle(conversationModelList.get(position).getName());
+        holder.setIcon(conversationModelList.get(position).isGrouped());
     }
 
     @Override

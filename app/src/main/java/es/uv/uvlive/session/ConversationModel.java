@@ -10,11 +10,13 @@ import es.uv.uvlive.utils.StringUtils;
 public class ConversationModel {
     private int id;
     private String name;
+    private boolean isGrouped;
 
     public static List<ConversationModel> transform(List<ConversationTable> conversationTableList) {
         ArrayList<ConversationModel> conversationModelArrayList = new ArrayList<>();
 
         for (ConversationTable conversationTable: conversationTableList) {
+            // TODO get if grouped
             conversationModelArrayList.add(new ConversationModel(conversationTable));
         }
         return conversationModelArrayList;
@@ -24,9 +26,16 @@ public class ConversationModel {
         ArrayList<ConversationModel> conversationModelArrayList = new ArrayList<>();
 
         for (ConversationResponse conversationResponse: conversationResponseArrayList) {
-            conversationModelArrayList.add(new ConversationModel(ownerName,conversationResponse));
+            ConversationModel conversationModel = new ConversationModel(ownerName,conversationResponse);
+            conversationModel.setGrouped(isGroped(conversationResponse));
+            conversationModelArrayList.add(conversationModel);
         }
         return conversationModelArrayList;
+    }
+
+    public static boolean isGroped(ConversationResponse conversationResponse) {
+        return conversationResponse.getParticipant1() == null &&
+                conversationResponse.getParticipant2() == null;
     }
 
     public ConversationModel(ConversationTable conversationTable) {
@@ -61,6 +70,14 @@ public class ConversationModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isGrouped() {
+        return isGrouped;
+    }
+
+    public void setGrouped(boolean grouped) {
+        isGrouped = grouped;
     }
 
     @Override
