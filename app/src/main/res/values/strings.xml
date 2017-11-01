@@ -45,4 +45,8 @@
 
     <string name="modify_merchant_searchbar_placeholder">Nombre del comerciante</string>
     <string name="results_not_found">No se han encontrado resultados</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
 </resources>

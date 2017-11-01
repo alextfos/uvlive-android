@@ -18,19 +18,20 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="Button" parent="Widget.AppCompat.Button.Colored">
-    </style>
-
+    <style name="Button" parent="Widget.AppCompat.Button.Colored"></style>
 
 
     <style name="UVListItemTitle" parent="UVTitle">
         <item name="android:padding">10dp</item>
         <item name="android:layout_margin">5dp</item>
     </style>
+
     <style name="UVTitle">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/colorAccent</item>
     </style>
+    
 </resources>
