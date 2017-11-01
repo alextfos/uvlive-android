@@ -73,6 +73,8 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
             messagesPresenter = new MessagesPresenter(idConversation,this);
             messagesPresenter.getMessages();
         }
+
+        mEditText.requestFocus();
     }
 
     private void scrollRecyclerViewControl() {

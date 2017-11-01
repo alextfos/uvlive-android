@@ -5,6 +5,7 @@ import es.uv.uvlive.data.gateway.GsonRequest;
 import es.uv.uvlive.session.Admin;
 import es.uv.uvlive.session.Merchant;
 import es.uv.uvlive.session.RolUV;
+import es.uv.uvlive.session.Student;
 import es.uv.uvlive.session.Teacher;
 import es.uv.uvlive.ui.actions.MainActions;
 
@@ -27,6 +28,20 @@ public class MainPresenter extends BasePresenter {
         }
     }
 
+    public LoginPresenter.LoginTypes getLoginType() {
+        LoginPresenter.LoginTypes loginType = null;
+        if (currentUser instanceof Admin) {
+            loginType = LoginPresenter.LoginTypes.Admin;
+        } else if (currentUser instanceof Teacher) {
+            loginType = LoginPresenter.LoginTypes.Teacher;
+        } else if (currentUser instanceof Student) {
+            loginType = LoginPresenter.LoginTypes.Student;
+        }else if (currentUser instanceof Merchant) {
+            loginType = LoginPresenter.LoginTypes.Merchant;
+        }
+        return loginType;
+    }
+
     public void logout() {
         currentUser = null;
         GsonRequest.setToken(null);
@@ -39,5 +54,9 @@ public class MainPresenter extends BasePresenter {
 
     public boolean isTeacher() {
         return currentUser instanceof Teacher;
+    }
+
+    public String getUsername() {
+        return currentUser.getOwnerName();
     }
 }

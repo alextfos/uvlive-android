@@ -30,4 +30,5 @@
     <style name="LoginTextInputLayoutAppearance" parent="@android:style/TextAppearance">
     <item name="android:textColor">@color/uv_dark_beige</item>
     </style>
+
 </resources>

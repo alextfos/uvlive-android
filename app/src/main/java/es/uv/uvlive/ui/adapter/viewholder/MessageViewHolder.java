@@ -1,6 +1,7 @@
 package es.uv.uvlive.ui.adapter.viewholder;
 
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,12 @@ public class MessageViewHolder extends BaseViewHolder {
     @BindView(R.id.item_message_feedback)
     protected ImageView feedbackIv;
 
+    @BindView(R.id.item_message_date)
+    protected TextView dateTv;
+
+    @BindView(R.id.item_message_card)
+    protected CardView card;
+
     public static MessageViewHolder newInstance(ViewGroup parent) {
         return new MessageViewHolder(inflateView(parent,R.layout.item_message));
     }
@@ -40,8 +47,15 @@ public class MessageViewHolder extends BaseViewHolder {
         }
     }
 
-    public void setText(String owner, String text) {
+    public void setOwner(boolean isMine) {
+        if (isMine) {
+            card.setCardBackgroundColor(ContextCompat.getColor(card.getContext(), R.color.uv_sent_message_blue));
+        }
+    }
+
+    public void setText(String owner, String text, String date) {
         ownerTv.setText(owner);
         textTv.setText(text);
+        dateTv.setText(date);
     }
 }

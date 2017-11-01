@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:id="@+id/item_conversation_container"
+<LinearLayout android:id="@+id/item_conversation_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground">
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:weightSum="1"
+    android:padding="5dp"
+    android:layout_gravity="center_vertical"
+    xmlns:tools="http://schemas.android.com/tools">
+    <ImageView
+        android:id="@+id/item_conversation_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_weight="0"
+        android:tint="@color/colorAccent"
+        android:src="@mipmap/ic_single_conversation"
+
+        />
     <TextView
         android:id="@+id/item_conversation_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/item_horizontal_padding"
-        android:paddingRight="@dimen/item_horizontal_padding"
-        android:paddingTop="@dimen/item_vertical_padding"
-        android:paddingBottom="@dimen/item_vertical_padding"/>
+        android:layout_marginLeft="5dp"
+        android:layout_gravity="center_vertical"
+        style="@style/UVTitle"
+        tools:text="blabadfjasklfjasdñfajsdfñsaljfalksdfj" />
 
-</FrameLayout>
+</LinearLayout>

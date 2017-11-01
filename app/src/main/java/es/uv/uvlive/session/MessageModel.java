@@ -2,7 +2,9 @@ package es.uv.uvlive.session;
 
 import android.support.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import es.uv.uvlive.data.database.models.MessageTable;
@@ -16,13 +18,16 @@ public class MessageModel implements Comparable<MessageModel> {
     private int idConversation;
     private String message;
     private long timestamp;
-    private boolean sended;
+    private boolean sent;
     private String owner;
+    private String date;
+    private boolean mine;
 
     public static List<MessageModel> transform(int idConversation, List<MessageTable> messageTableList) {
         ArrayList<MessageModel> messageModelList = new ArrayList<>();
 
         for (MessageTable messageTable: messageTableList) {
+            // TODO get is mine from messagetable and set into MessageModel
             messageModelList.add(new MessageModel(idConversation, messageTable));
         }
 
@@ -44,9 +49,17 @@ public class MessageModel implements Comparable<MessageModel> {
         message = messageResponse.getText();
         idMessage = messageResponse.getIdMessage();
         timestamp = messageResponse.getTimestamp();
-        sended = true;
+        date = timestampToStringDate(timestamp);
+        sent = true;
         owner = messageResponse.getOwner();
         this.idConversation = idConversation;
+    }
+
+    private String timestampToStringDate(long timestamp) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timestamp);
+        SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        return format1.format(calendar.getTime());
     }
 
     public MessageModel(int idConversation, MessageTable messageTable) {
@@ -54,9 +67,11 @@ public class MessageModel implements Comparable<MessageModel> {
         idLocal = messageTable.getId();
         idMessage = messageTable.getIdMessage();
         timestamp = messageTable.getTimestamp();
+        date = timestampToStringDate(timestamp);
         message = messageTable.getMessageText();
-        sended = messageTable.isSended();
+        sent = messageTable.isSent();
         owner = messageTable.getOwner();
+        this.mine = messageTable.isMine();
     }
 
     public int getIdLocal() {
@@ -99,12 +114,12 @@ public class MessageModel implements Comparable<MessageModel> {
         this.timestamp = timestamp;
     }
 
-    public boolean isSended() {
-        return sended;
+    public boolean isSent() {
+        return sent;
     }
 
-    public void setSended(boolean sended) {
-        this.sended = sended;
+    public void setSent(boolean sent) {
+        this.sent = sent;
     }
 
     public String getOwner() {
@@ -115,6 +130,22 @@ public class MessageModel implements Comparable<MessageModel> {
         this.owner = owner;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public boolean isMine() {
+        return mine;
+    }
+
+    public void setMine(boolean mine) {
+        this.mine = mine;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof MessageModel) {
@@ -122,7 +153,7 @@ public class MessageModel implements Comparable<MessageModel> {
                 return true;
             } else if (this.idConversation == ((MessageModel) obj).idConversation &&
                     StringUtils.equals(this.message,((MessageModel) obj).message) &&
-                    !this.sended == ((MessageModel) obj).sended) {
+                    !this.sent == ((MessageModel) obj).sent) {
                 return true;
             } else {
                 return false;

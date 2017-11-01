@@ -1,9 +1,11 @@
 package es.uv.uvlive.ui.adapter.viewholder;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.atraverf.uvlive.R;
@@ -17,6 +19,8 @@ public class ConversationViewHolder extends BaseViewHolder {
 
     @BindView(R.id.item_conversation_title)
     TextView titleTv;
+    @BindView(R.id.item_conversation_icon)
+    ImageView iconIv;
     @BindView(R.id.item_conversation_container)
     ViewGroup container;
 
@@ -41,5 +45,11 @@ public class ConversationViewHolder extends BaseViewHolder {
 
     public void setTitle(String title) {
         titleTv.setText(title);
+    }
+
+    public void setIcon(boolean isGrouped) {
+        if (isGrouped) {
+            iconIv.setImageDrawable(ContextCompat.getDrawable(iconIv.getContext(), R.drawable.ic_grouped_conversation));
+        }
     }
 }
