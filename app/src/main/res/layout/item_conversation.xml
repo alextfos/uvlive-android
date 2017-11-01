@@ -22,10 +22,9 @@
         android:id="@+id/item_conversation_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
         android:layout_marginLeft="5dp"
-        android:textSize="18sp"
-        android:textColor="@color/colorAccent"
+        android:layout_gravity="center_vertical"
+        style="@style/UVTitle"
         tools:text="blabadfjasklfjasdñfajsdfñsaljfalksdfj" />
 
 </LinearLayout>

@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:id="@+id/item_admin_option_container"
+<FrameLayout android:id="@+id/item_admin_option_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground">
+    android:background="?android:attr/selectableItemBackground"
+    xmlns:tools="http://schemas.android.com/tools">
     <TextView
         android:id="@+id/item_admin_option"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/item_horizontal_padding"
-        android:paddingRight="@dimen/item_horizontal_padding"
-        android:paddingTop="@dimen/item_vertical_padding"
-        android:paddingBottom="@dimen/item_vertical_padding"/>
+        style="@style/UVListItemTitle"
+        tools:text="Admin option"/>
 
 </FrameLayout>
