@@ -7,17 +7,17 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import es.uv.uvlive.data.database.UVLiveDB;
 
-/**
- * Created by atraver on 21/03/17.
- */
 @Table(database = UVLiveDB.class)
 public class ConversationTable extends BaseModel {
 
     @PrimaryKey
-    int id;
-
+    protected int id;
     @Column
-    String name;
+    protected String name;
+    @Column
+    protected String participant1;
+    @Column
+    protected String getParticipant2;
 
     public int getId() {
         return id;
@@ -33,5 +33,21 @@ public class ConversationTable extends BaseModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getParticipant1() {
+        return participant1;
+    }
+
+    public void setParticipant1(String participant1) {
+        this.participant1 = participant1;
+    }
+
+    public String getGetParticipant2() {
+        return getParticipant2;
+    }
+
+    public void setGetParticipant2(String getParticipant2) {
+        this.getParticipant2 = getParticipant2;
     }
 }
