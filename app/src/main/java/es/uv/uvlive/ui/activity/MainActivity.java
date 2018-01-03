@@ -41,6 +41,7 @@ public class MainActivity extends BaseActivity implements MainActions, Navigatio
     protected FloatingActionButton fab;
     private View navbarHeader;
     private Menu drawerMenu;
+    private boolean shouldShowFabButton;
 
     @Override
     protected int getLayoutId() {
@@ -72,6 +73,16 @@ public class MainActivity extends BaseActivity implements MainActions, Navigatio
 
         setupHeader();
         setupDrawerMenu();
+
+        showHideFab();
+    }
+
+    private void showHideFab() {
+        if (shouldShowFabButton) {
+            fab.setVisibility(View.VISIBLE);
+        } else {
+            fab.setVisibility(View.GONE);
+        }
     }
 
     private void setupHeader() {
@@ -85,18 +96,22 @@ public class MainActivity extends BaseActivity implements MainActions, Navigatio
             case Admin:
                 navbarHeader.setBackgroundResource(R.drawable.navbar_bg_admin);
                 rol.setText(getResources().getString(LoginPresenter.LoginTypes.Admin.getStringRes()));
+                shouldShowFabButton = false;
                 break;
             case Teacher:
                 navbarHeader.setBackgroundResource(R.drawable.navbar_bg_teacher);
                 rol.setText(getResources().getString(LoginPresenter.LoginTypes.Teacher.getStringRes()));
+                shouldShowFabButton = true;
                 break;
             case Student:
                 navbarHeader.setBackgroundResource(R.drawable.navbar_bg_student);
                 rol.setText(getResources().getString(LoginPresenter.LoginTypes.Student.getStringRes()));
+                shouldShowFabButton = true;
                 break;
             case Merchant:
                 navbarHeader.setBackgroundResource(R.drawable.navbar_bg_merchant);
                 rol.setText(getResources().getString(LoginPresenter.LoginTypes.Merchant.getStringRes()));
+                shouldShowFabButton = false;
                 break;
         }
     }
@@ -124,11 +139,15 @@ public class MainActivity extends BaseActivity implements MainActions, Navigatio
 
     private void loadConversationsFragment() {
         navigateToFragment(ConversationListFragment.newInstance());
+
+        if (shouldShowFabButton)
         fab.setVisibility(View.VISIBLE);
     }
 
     private void loadMerchantFragment() {
         navigateToFragment(MerchantFragment.newInstance());
+
+        if (shouldShowFabButton)
         fab.setVisibility(View.GONE);
     }
 
@@ -169,6 +188,8 @@ public class MainActivity extends BaseActivity implements MainActions, Navigatio
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
+        if (shouldShowFabButton)
         fab.setVisibility(View.VISIBLE);
     }
 
