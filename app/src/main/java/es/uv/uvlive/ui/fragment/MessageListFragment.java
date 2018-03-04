@@ -103,7 +103,7 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
 
     @Override
     public void getMessages() {
-        messagesPresenter.getMessages(false);
+        messagesPresenter.getFollowingMessages();
     }
 
     @OnClick(R.id.fragment_message_list_send)

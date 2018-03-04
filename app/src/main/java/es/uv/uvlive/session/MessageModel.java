@@ -153,7 +153,7 @@ public class MessageModel implements Comparable<MessageModel> {
                 return true;
             } else if (this.idConversation == ((MessageModel) obj).idConversation &&
                     StringUtils.equals(this.message,((MessageModel) obj).message) &&
-                    !this.sent == ((MessageModel) obj).sent) {
+                    ((MessageModel)obj).timestamp == timestamp) {
                 return true;
             } else {
                 return false;

@@ -7,7 +7,7 @@ import es.uv.uvlive.session.Student;
 import es.uv.uvlive.session.Teacher;
 import es.uv.uvlive.session.User;
 
-public class BasePresenter {
+public abstract class BasePresenter {
     protected static User currentUser;
 
     protected void saveUser() {

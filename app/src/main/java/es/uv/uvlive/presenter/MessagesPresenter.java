@@ -57,8 +57,7 @@ public class MessagesPresenter extends BasePresenter {
                 .from(MessageTable.class)
                 .where(MessageTable_Table.idConversation_id.is(idConversation))
                 .and(MessageTable_Table.timestamp.greaterThan(0))
-                .and(MessageTable_Table.sent.isNot(Boolean.FALSE))
-                .orderBy(OrderBy.fromProperty(MessageTable_Table.idMessage).descending()).limit(1).queryList();
+                .orderBy(OrderBy.fromProperty(MessageTable_Table.timestamp).ascending()).limit(1).queryList();
 
         if (oldestMessage.size() > 0 && oldestMessage.get(0).getTimestamp()>0) {
             long oldestTimestamp = oldestMessage.get(0).getTimestamp();
@@ -156,7 +155,7 @@ public class MessagesPresenter extends BasePresenter {
         messageForm.setIdConversation(idConversation);
         messageForm.setMessage(message);
 
-        MessageModel messageModel = new MessageModel(idConversation, messageTable);
+        final MessageModel messageModel = new MessageModel(idConversation, messageTable);
         messageModel.setMine(true);
         messageModelList.add(messageModel);
         messageActions.onMessagesReceived(messageModelList);
@@ -166,6 +165,7 @@ public class MessagesPresenter extends BasePresenter {
             public void onSuccess(@NonNull BaseResponse baseResponse) {
                 // Reload messages list
                 getFollowingMessages();
+                messageModel.setSent(true);
                 messageTable.setSent(true);
                 messageTable.save();
                 messageActions.onMessagesReceived(messageModelList);
@@ -181,7 +181,7 @@ public class MessagesPresenter extends BasePresenter {
         UVLiveApplication.getUVLiveGateway().sendMessage(messageForm,callback);
     }
 
-    private void getFollowingMessages() {
+    public void getFollowingMessages() {
         List<MessageTable> newestTimestamp = SQLite.select()
                 .from(MessageTable.class)
                 .where(MessageTable_Table.idConversation_id.is(idConversation))
@@ -190,7 +190,7 @@ public class MessagesPresenter extends BasePresenter {
 
                 .orderBy(OrderBy.fromProperty(MessageTable_Table.idMessage).descending()).limit(1).queryList();
 
-        if (newestTimestamp.get(0).getTimestamp()>0) {
+        if (!newestTimestamp.isEmpty() && newestTimestamp.get(0).getTimestamp()>0) {
             MessagesForm messagesForm = new MessagesForm();
             messagesForm.setIdConversation(idConversation);
             messagesForm.setTimestamp(newestTimestamp.get(0).getTimestamp());
