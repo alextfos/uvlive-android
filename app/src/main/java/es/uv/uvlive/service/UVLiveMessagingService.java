@@ -54,10 +54,17 @@ public class UVLiveMessagingService extends FirebaseMessagingService {
         }
 
         if (OPERATION_GET.equals(type) && OPERATION_MESSAGES.equals(operation)) {
-            if (getCurrentActions() != null && getCurrentActions() instanceof MessageActions) {
+            if (getCurrentActions() != null && getCurrentActions() instanceof MessageActions &&
+                    ((MessageActions) getCurrentActions()).getIdConversation() == idConversation) {
                 ((MessageActions)getCurrentActions()).getMessages();
             } else if (idConversation != -1) {
                 MessagesPresenter messagesPresenter = new MessagesPresenter(idConversation, new MessageActions() {
+
+                    @Override
+                    public int getIdConversation() {
+                        return 0; // not used
+                    }
+
                     @Override
                     public void onMessagesReceived(List<MessageModel> messageModelList) {
                         List<String> stringList = new ArrayList<>();

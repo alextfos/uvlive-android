@@ -94,6 +94,11 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
     }
 
     @Override
+    public int getIdConversation() {
+        return idConversation;
+    }
+
+    @Override
     public void onMessagesReceived(List<MessageModel> messageModelList) {
         messageListAdapter = new MessageListAdapter(messageModelList);
         mRecyclerView.setAdapter(messageListAdapter);
