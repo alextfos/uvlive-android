@@ -2,11 +2,13 @@ package es.uv.uvlive.session;
 
 import java.util.ArrayList;
 
+import es.uv.uvlive.data.UVLivePreferences;
+import es.uv.uvlive.presenter.LoginPresenter;
+
 public class Session {
     private static Session session;
 
     private User currentUser;
-    private ArrayList<String> loginAllowed;
 
     public static Session getInstance() {
         if (session == null) {
@@ -16,27 +18,35 @@ public class Session {
     }
 
     private Session() {
-        loginAllowed = new ArrayList<>();
-        loginAllowed.add(0,"Alumno");
-        loginAllowed.add(1,"Profesor");
-        loginAllowed.add(2,"Admin");
     }
 
     public User getCurrentUser() {
         return currentUser;
     }
 
-    public void loginSuccessfull(int typeLogin) {
-        switch (typeLogin) {
-            case 0:
+    public void loginSuccessfull(LoginPresenter.LoginTypes loginType, String token, String ownerField) {
+        switch (loginType) {
+            case Student:
                 currentUser = new Student();
                 break;
-            case 1:
+            case Teacher:
                 currentUser = new Teacher();
                 break;
-            case 2:
+            case Admin:
                 currentUser = new Admin();
                 break;
+            case Merchant:
+                currentUser = new Merchant();
         }
+        currentUser.setToken(token);
+        currentUser.setOwnerName(ownerField);
+    }
+
+    public void logout() {
+        currentUser = null;
+    }
+
+    public void loadUser() {
+        currentUser = UVLivePreferences.getInstance().getUser();
     }
 }

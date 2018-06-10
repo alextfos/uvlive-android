@@ -14,10 +14,7 @@ import es.uv.uvlive.data.UVLivePreferences;
 import es.uv.uvlive.data.gateway.GsonRequest;
 import es.uv.uvlive.data.gateway.form.LoginForm;
 import es.uv.uvlive.data.gateway.response.LoginResponse;
-import es.uv.uvlive.session.Admin;
-import es.uv.uvlive.session.Merchant;
-import es.uv.uvlive.session.Student;
-import es.uv.uvlive.session.Teacher;
+import es.uv.uvlive.mappers.ErrorMapper;
 import es.uv.uvlive.ui.actions.SessionActions;
 
 public class LoginPresenter extends BasePresenter {
@@ -74,29 +71,14 @@ public class LoginPresenter extends BasePresenter {
         UVCallback<LoginResponse> uvCallback = new UVCallback<LoginResponse>() {
             @Override
             public void onSuccess(@NonNull LoginResponse loginResponse) {
-                switch (loginType) {
-                    case Student:
-                        currentUser = new Student();
-                        break;
-                    case Teacher:
-                        currentUser = new Teacher();
-                        break;
-                    case Admin:
-                        currentUser = new Admin();
-                        break;
-                    case Merchant:
-                        currentUser = new Merchant();
-                }
-                currentUser.setToken(loginResponse.getToken());
-                currentUser.setOwnerName(loginResponse.getOwnerField());
                 GsonRequest.setToken(loginResponse.getToken());
-                saveUser();
+                saveUser(loginType, loginResponse.getToken(), loginResponse.getOwnerField());
                 sessionActions.loginOk(); // le pasamos el loginmodel
             }
 
             @Override
             public void onError(@StringRes int stringMessage) {
-                sessionActions.onError(stringMessage);
+                sessionActions.onError(ErrorMapper.mapError(stringMessage));
             }
         };
         UVLiveApplication.getUVLiveGateway().login(request, uvCallback);

@@ -1,27 +1,17 @@
 package es.uv.uvlive.presenter;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
-
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
-
-import java.util.List;
 
 import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.data.UVCallback;
 import es.uv.uvlive.data.UVLivePreferences;
-import es.uv.uvlive.data.database.models.ConversationTable;
 import es.uv.uvlive.data.gateway.GsonRequest;
 import es.uv.uvlive.data.gateway.form.PushTokenForm;
 import es.uv.uvlive.data.gateway.response.BaseResponse;
-import es.uv.uvlive.data.gateway.response.ConversationsListResponse;
-import es.uv.uvlive.session.ConversationModel;
+import es.uv.uvlive.mappers.ErrorMapper;
 import es.uv.uvlive.session.RolUV;
 import es.uv.uvlive.ui.actions.SplashActions;
 import es.uv.uvlive.utils.StringUtils;
-
 
 public class SplashPresenter extends BasePresenter {
 
@@ -33,8 +23,8 @@ public class SplashPresenter extends BasePresenter {
 
     public void getStatus() {
         loadUser();
-        if (currentUser != null && !StringUtils.isBlank(currentUser.getToken())) {
-            GsonRequest.setToken(currentUser.getToken());
+        if (getUser() != null && !StringUtils.isBlank(getUser().getToken())) {
+            GsonRequest.setToken(getUser().getToken());
             UVCallback<BaseResponse> callback = new UVCallback<BaseResponse>() {
                 @Override
                 public void onSuccess(@NonNull BaseResponse baseResponse) {
@@ -43,11 +33,11 @@ public class SplashPresenter extends BasePresenter {
 
                 @Override
                 public void onError(int errorCode) {
-                    splashActions.onError(errorCode);
+                    splashActions.onError(ErrorMapper.mapError(errorCode));
                 }
             };
             String pushToken = UVLivePreferences.getInstance().getPushToken();
-            if (currentUser instanceof RolUV && !StringUtils.isBlank(pushToken)) {
+            if (getUser() instanceof RolUV && !StringUtils.isBlank(pushToken)) {
                 PushTokenForm pushTokenForm = new PushTokenForm();
                 pushTokenForm.setPushToken(pushToken);
 

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -16,9 +15,11 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.presenter.MessagesPresenter;
-import es.uv.uvlive.session.MessageModel;
+import es.uv.uvlive.session.BusinessError;
+import es.uv.uvlive.session.Message;
 import es.uv.uvlive.ui.actions.MessageActions;
 import es.uv.uvlive.ui.adapter.MessageListAdapter;
+import es.uv.uvlive.ui.models.MessageModel;
 
 public class MessageListFragment extends BaseFragment implements MessageActions {
 
@@ -71,6 +72,7 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             idConversation = getArguments().getInt(ARG_ITEM_ID);
             messagesPresenter = new MessagesPresenter(idConversation,this);
+            messagesPresenter.getLocalMessages();
             messagesPresenter.getMessages();
         }
 
@@ -99,11 +101,11 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
     }
 
     @Override
-    public void onMessagesReceived(List<MessageModel> messageModelList) {
-        messageListAdapter = new MessageListAdapter(messageModelList);
+    public void onMessagesReceived(List<MessageModel> messageList) {
+        messageListAdapter = new MessageListAdapter(messageList);
         mRecyclerView.setAdapter(messageListAdapter);
         messageListAdapter.notifyDataSetChanged();
-        mRecyclerView.scrollToPosition(messageModelList.size()-1);
+        mRecyclerView.scrollToPosition(messageList.size()-1);
     }
 
     @Override
@@ -111,9 +113,19 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
         messagesPresenter.getFollowingMessages();
     }
 
+    @Override
+    public void onErrorFetchingMessages(BusinessError errorGettingConversation) {
+        onError(errorGettingConversation);
+
+        /* TODO
+        if (getActivity() != null) {
+            getActivity().onBackPressed();
+        }*/
+    }
+
     @OnClick(R.id.fragment_message_list_send)
     public void onSendClicked() {
-        messagesPresenter.sendMessage(idConversation,mEditText.getText().toString());
+        messagesPresenter.sendMessage(mEditText.getText().toString());
         mEditText.setText("");
     }
 }

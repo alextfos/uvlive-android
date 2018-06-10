@@ -14,14 +14,15 @@ import java.util.List;
 import butterknife.BindView;
 import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.presenter.ConversationsPresenter;
-import es.uv.uvlive.session.ConversationModel;
+import es.uv.uvlive.session.Conversation;
 import es.uv.uvlive.ui.actions.ConversationsActions;
 import es.uv.uvlive.ui.activity.MainActivity;
 import es.uv.uvlive.ui.adapter.ConversationsAdapter;
+import es.uv.uvlive.ui.models.ConversationModel;
 
 public class ConversationListFragment extends BaseFragment implements ConversationsAdapter.OnConversationItemClick, ConversationsActions {
 
-    private List<ConversationModel> conversationsList;
+    private List<ConversationModel> conversationModelList;
 
     @BindView(R.id.fragment_conversation_list_rl)
     RecyclerView recyclerView;
@@ -33,13 +34,13 @@ public class ConversationListFragment extends BaseFragment implements Conversati
     public ConversationListFragment() {
     }
 
-    private void initalizeList(List<ConversationModel> conversationsList) {
+    private void initalizeList(List<ConversationModel> conversationModelList) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new ConversationsAdapter(conversationsList,this));
+        recyclerView.setAdapter(new ConversationsAdapter(conversationModelList,this));
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 ((LinearLayoutManager)recyclerView.getLayoutManager()).getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
-        this.conversationsList = conversationsList;
+        this.conversationModelList = conversationModelList;
     }
 
     @Override
@@ -66,13 +67,14 @@ public class ConversationListFragment extends BaseFragment implements Conversati
 
     private void initializePresenter() {
         ConversationsPresenter conversationsPresenter = new ConversationsPresenter(this);
-        conversationsPresenter.getConversations();
+        conversationsPresenter.getLocalConversations();
+        conversationsPresenter.updateConversations();
     }
 
     @Override
     public void onConversationItemClicked(int position) {
         if (getActivity() instanceof MainActivity) {
-            ((MainActivity)getActivity()).onItemSelected(conversationsList.get(position).getId());
+            ((MainActivity)getActivity()).onItemSelected(conversationModelList.get(position).getId());
         }
     }
 

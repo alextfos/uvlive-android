@@ -2,7 +2,7 @@ package es.uv.uvlive.session;
 
 public class User {
     private String token;
-    protected String clazz;
+    private String clazz;
     private String ownerName;
 
     public String getClazz() {

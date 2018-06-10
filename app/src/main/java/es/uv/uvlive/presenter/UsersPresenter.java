@@ -8,6 +8,7 @@ import es.uv.uvlive.data.gateway.form.InitConversationForm;
 import es.uv.uvlive.data.gateway.form.StudentForm;
 import es.uv.uvlive.data.gateway.response.BaseResponse;
 import es.uv.uvlive.data.gateway.response.UserListResponse;
+import es.uv.uvlive.mappers.ErrorMapper;
 import es.uv.uvlive.session.UserModel;
 import es.uv.uvlive.ui.actions.UsersActions;
 
@@ -28,7 +29,7 @@ public class UsersPresenter extends BasePresenter {
 
             @Override
             public void onError(int errorCode) {
-                actions.onError(errorCode);
+                actions.onError(ErrorMapper.mapError(errorCode));
             }
         });
     }
@@ -45,7 +46,7 @@ public class UsersPresenter extends BasePresenter {
 
             @Override
             public void onError(int errorCode) {
-                actions.onError(errorCode);
+                actions.onError(ErrorMapper.mapError(errorCode));
             }
         });
     }
@@ -61,7 +62,7 @@ public class UsersPresenter extends BasePresenter {
 
             @Override
             public void onError(int errorCode) {
-                actions.onError(errorCode);
+                actions.onError(ErrorMapper.mapError(errorCode));
             }
         });
     }
@@ -77,7 +78,7 @@ public class UsersPresenter extends BasePresenter {
 
             @Override
             public void onError(int errorCode) {
-                actions.onError(errorCode);
+                actions.onError(ErrorMapper.mapError(errorCode));
             }
         });
     }

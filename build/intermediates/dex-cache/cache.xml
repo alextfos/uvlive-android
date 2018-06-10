@@ -3,12 +3,147 @@
 
     <item
         is-multidex="false"
+        jar="/Users/alextfos/.android/build-cache/5078a44cc6fe63c126a6eeafc0241345f455ec85/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="439f1fa08fbc88d31ffdb11d80a13211689da6aa">
+        <dex dex="/Users/alextfos/projects/alextfos/uvlive-android/app/build/intermediates/pre-dexed/debug/classes_54df1cbfb5c5b63cf022ac84a8bb7654fb895040.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alextfos/.android/build-cache/a5da76f965456a40fd5a127abbb237c04101dafa/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3d6951cb416ebf8c66a32b9480808ca247b68344">
+        <dex dex="/Users/alextfos/projects/alextfos/uvlive-android/app/build/intermediates/pre-dexed/release/classes_3bf948b9f179b06a45be2f371a70325ceb8da7eb.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alextfos/.android/build-cache/8d8b7c8eeb2ee85cbbddb38a9bf9f369377d54ea/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="8c8243677105d9c78cfbf553b55e256b3d4bea39">
+        <dex dex="/Users/alextfos/projects/alextfos/uvlive-android/app/build/intermediates/pre-dexed/debug/classes_53a1d1c9ba8c327ba4de8eb54273a5b1443df112.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/alextfos/projects/alextfos/uvlive-android/app/libs/volley.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
         sha1="7ac965cc4306e8769dae72f6029206ba797f92fa">
-        <dex dex="/Users/alextfos/projects/alextfos/uvlive-android/app/build/intermediates/pre-dexed/debug/volley_5e159bddb66401c49323932bc815164491bf5810.jar" />
+        <dex dex="/Users/alextfos/projects/alextfos/uvlive-android/app/build/intermediates/pre-dexed/release/volley_5e159bddb66401c49323932bc815164491bf5810.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alextfos/.android/build-cache/2f180bf6d592b5be6ed16fb3e34378f6602faf96/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="823bcb877cb90eb4ecbbc050d822ff5d84bb2db2">
+        <dex dex="/Users/alextfos/projects/alextfos/uvlive-android/app/build/intermediates/pre-dexed/debug/classes_6ffd16be66fcd6abbff91b250733cdba57ddb9de.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alextfos/.android/build-cache/25e95acd0dedebb3cd48f0a4072b2116ff739bf4/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="19f281a785ca0eb5f6799fc7bf7ca199a9ca1e8b">
+        <dex dex="/Users/alextfos/projects/alextfos/uvlive-android/app/build/intermediates/pre-dexed/debug/classes_af2f1df46bdd79f6c84c8f3c652f9d72a1ad66c4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alextfos/.android/build-cache/e29820206228e7f0ea42879b44b2c2af3d9face6/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="58342b97007b49e4a536bdd30b9c3928be81ae59">
+        <dex dex="/Users/alextfos/projects/alextfos/uvlive-android/app/build/intermediates/pre-dexed/debug/classes_c15fc2ddef09c89678e6c653be0170e44e7fd745.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alextfos/.android/build-cache/e425391f3cd260b23647e6ba4aa79ca23dcc74f9/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="844efef744581e604ea77683555271ebbd61d871">
+        <dex dex="/Users/alextfos/projects/alextfos/uvlive-android/app/build/intermediates/pre-dexed/debug/classes_25a9ac2caa29eee3c0042bc8e464abe03d6ec204.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alextfos/.android/build-cache/59a15add6d534a6138a445c76a53ce54daedb56f/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="75575883f0348fc5d2be85f23bd10b050095cf17">
+        <dex dex="/Users/alextfos/projects/alextfos/uvlive-android/app/build/intermediates/pre-dexed/release/classes_05019d3feef29d1297c32e41c7cf1cf5e5eb8d10.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alextfos/.android/build-cache/f6f03d7bb0db380970a0fed8985b0416fc77ff92/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="5c812ad0773ab307151802099a33575fa7bb270b">
+        <dex dex="/Users/alextfos/projects/alextfos/uvlive-android/app/build/intermediates/pre-dexed/debug/classes_5610eedbe5b7cca514e8cd464d15aded6ecb5d0d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alextfos/.android/build-cache/c948f7f26628f35f1791efd2bf99106a5ab87b7a/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="1ac56e5801e986583cbe27f2cce57f626cc7ff93">
+        <dex dex="/Users/alextfos/projects/alextfos/uvlive-android/app/build/intermediates/pre-dexed/release/classes_2460b5da9a14a3524403fc8d100639ded0594fd0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alextfos/.android/build-cache/0cd8bcd296a5336317cb4926295c9516145036a3/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a61e7010aa7be5da53cd1bc5279630510c9a4912">
+        <dex dex="/Users/alextfos/projects/alextfos/uvlive-android/app/build/intermediates/pre-dexed/release/classes_6e11f29064c1ed25c08160b278b9799480bef1f1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alextfos/.android/build-cache/274d44932d9c2a719273c3212dd13ba60be936c2/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="263c1c941f603469ecbaf8745f7b2d18ae85c5c0">
+        <dex dex="/Users/alextfos/projects/alextfos/uvlive-android/app/build/intermediates/pre-dexed/debug/classes_7e89f9ba992663c8273601961276a8cfc429dae0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alextfos/.android/build-cache/4b8f934dec576291561fccb1c160e84abf4b18e8/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bd75f9f0296fe220da6d0ad961831b04541c4452">
+        <dex dex="/Users/alextfos/projects/alextfos/uvlive-android/app/build/intermediates/pre-dexed/release/classes_b97319043d4b4df362c3373aebffa45289dc5f36.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alextfos/.android/build-cache/337ca8edc1e8da92b6c5d10b7f08b90cf1207879/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0d5cbbbfe040201c7569478b70a13b58fd11aab4">
+        <dex dex="/Users/alextfos/projects/alextfos/uvlive-android/app/build/intermediates/pre-dexed/release/classes_270f754282fdede24a15687364f07d2dcf0b0203.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/alextfos/.android/build-cache/f546134127c66bfb26a3e1e5504b7ad2c95c1c87/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ce9112e08a027c8620ae693983e38cdbb9f6371b">
+        <dex dex="/Users/alextfos/projects/alextfos/uvlive-android/app/build/intermediates/pre-dexed/release/classes_34adbb8f3a3d74bc199caf724203580e1a4cf761.jar" />
     </item>
 
 </items>

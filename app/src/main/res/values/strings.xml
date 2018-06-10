@@ -5,10 +5,18 @@
     <string name="login_password">Contraseña</string>
     <string name="login_button">Acceder</string>
 
+    <string name="notification_messages_title">UVLive</string>
+    <string name="notification_messages_bigContentTitle">Tienes %1$d mensajes nuevos</string>
+    <string name="notification_messages_text">Tienes %1$d mensajes nuevos</string>
+
+    <string name="notification_new_conversation_title">Se ha creado el canal %1$s</string>
+    <string name="notification_new_conversation_title_alt">Se ha creado un nuevo canal</string>
+    <string name="notification_new_conversation_text">Tienes una nueva conversación</string>
+
     <!-- Error messages -->
     <string name="error_unknown">Se ha producido un error</string>
     <string name="error_wrong_credentials">Las credenciales introducidas no son correctas</string>
-    <string name="error_unauthorized">Su sesión ha caducado</string>
+    <string name="error_unauthorized">No tienes permisos para realizar la acción</string>
     <string name="error_token_expired">Su sesión ha caducado</string>
 
     <!-- Forms -->
@@ -48,5 +56,6 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="error_getting_conversation">Error cargando los mensajes</string>
 
 </resources>

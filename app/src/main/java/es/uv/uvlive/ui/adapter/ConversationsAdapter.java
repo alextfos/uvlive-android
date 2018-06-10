@@ -5,22 +5,18 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import es.uv.uvlive.data.gateway.response.ConversationsListResponse;
-import es.uv.uvlive.session.ConversationModel;
+import es.uv.uvlive.session.Conversation;
 import es.uv.uvlive.ui.adapter.viewholder.ConversationViewHolder;
-
-/**
- * Created by alextfos on 29/11/2016.
- */
+import es.uv.uvlive.ui.models.ConversationModel;
 
 public class ConversationsAdapter extends RecyclerView.Adapter<ConversationViewHolder> {
 
     private List<ConversationModel> conversationModelList;
     private OnConversationItemClick onConversationItemClick;
 
-    public ConversationsAdapter(List<ConversationModel> conversationModelList,
+    public ConversationsAdapter(List<ConversationModel> conversationList,
                                 OnConversationItemClick onConversationItemClick) {
-        this.conversationModelList = conversationModelList;
+        this.conversationModelList = conversationList;
         this.onConversationItemClick = onConversationItemClick;
     }
     @Override
@@ -30,8 +26,9 @@ public class ConversationsAdapter extends RecyclerView.Adapter<ConversationViewH
 
     @Override
     public void onBindViewHolder(ConversationViewHolder holder, int position) {
-        holder.setTitle(conversationModelList.get(position).getName());
-        holder.setIcon(conversationModelList.get(position).isGrouped());
+        if (position != RecyclerView.NO_POSITION) {
+            holder.decorate(conversationModelList.get(position));
+        }
     }
 
     @Override

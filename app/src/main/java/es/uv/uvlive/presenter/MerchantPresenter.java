@@ -6,6 +6,7 @@ import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.data.UVCallback;
 import es.uv.uvlive.data.gateway.form.BroadcastForm;
 import es.uv.uvlive.data.gateway.response.BaseResponse;
+import es.uv.uvlive.mappers.ErrorMapper;
 import es.uv.uvlive.ui.actions.MerchantActions;
 
 public class MerchantPresenter extends BasePresenter {
@@ -30,7 +31,7 @@ public class MerchantPresenter extends BasePresenter {
 
             @Override
             public void onError(int errorCode) {
-                merchantActions.onError(errorCode);
+                merchantActions.onError(ErrorMapper.mapError(errorCode));
             }
         });
     }

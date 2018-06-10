@@ -14,15 +14,16 @@ import butterknife.BindView;
 import es.uv.uvlive.ui.adapter.ConversationsAdapter;
 
 import butterknife.ButterKnife;
+import es.uv.uvlive.ui.models.ConversationModel;
 
 public class ConversationViewHolder extends BaseViewHolder {
 
     @BindView(R.id.item_conversation_title)
-    TextView titleTv;
+    protected TextView titleTv;
     @BindView(R.id.item_conversation_icon)
-    ImageView iconIv;
+    protected ImageView iconIv;
     @BindView(R.id.item_conversation_container)
-    ViewGroup container;
+    protected ViewGroup container;
 
     public static ConversationViewHolder newInstance(ViewGroup parent,
                   ConversationsAdapter.OnConversationItemClick onConversationItemClick) {
@@ -43,13 +44,12 @@ public class ConversationViewHolder extends BaseViewHolder {
         });
     }
 
-    public void setTitle(String title) {
-        titleTv.setText(title);
-    }
-
-    public void setIcon(boolean isGrouped) {
-        if (isGrouped) {
+    public void decorate(ConversationModel conversationModel) {
+        titleTv.setText(conversationModel.getName());
+        if (conversationModel.isGrouped()) {
             iconIv.setImageDrawable(ContextCompat.getDrawable(iconIv.getContext(), R.drawable.ic_grouped_conversation));
+        } else {
+            iconIv.setImageDrawable(ContextCompat.getDrawable(iconIv.getContext(), R.drawable.ic_single_conversation));
         }
     }
 }

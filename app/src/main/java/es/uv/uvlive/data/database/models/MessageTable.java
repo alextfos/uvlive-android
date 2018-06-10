@@ -32,9 +32,6 @@ public class MessageTable extends BaseModel {
     @Column
     protected boolean sent;
 
-    @Column
-    protected boolean isMine;
-
     public long getTimestamp() {
         return timestamp;
     }
@@ -89,13 +86,5 @@ public class MessageTable extends BaseModel {
 
     public void setOwner(String owner) {
         this.owner = owner;
-    }
-
-    public boolean isMine() {
-        return isMine;
-    }
-
-    public void setMine(boolean mine) {
-        isMine = mine;
     }
 }

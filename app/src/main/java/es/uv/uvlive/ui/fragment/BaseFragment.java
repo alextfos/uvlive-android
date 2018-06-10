@@ -9,14 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
+import es.uv.uvlive.session.BusinessError;
 import es.uv.uvlive.ui.actions.BaseActions;
 
-public class BaseFragment extends Fragment implements BaseActions {
+public abstract class BaseFragment extends Fragment implements BaseActions {
 
     @Override
-    public void onError(int errorCode) {
+    public void onError(BusinessError businessError) {
         if (getActivity() != null) {
-            ((BaseActions) getActivity()).onError(errorCode);
+            ((BaseActions) getActivity()).onError(businessError);
         }
     }
 

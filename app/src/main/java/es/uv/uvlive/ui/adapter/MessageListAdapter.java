@@ -5,8 +5,9 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import es.uv.uvlive.session.MessageModel;
+import es.uv.uvlive.session.Message;
 import es.uv.uvlive.ui.adapter.viewholder.MessageViewHolder;
+import es.uv.uvlive.ui.models.MessageModel;
 
 public class MessageListAdapter extends RecyclerView.Adapter<MessageViewHolder> {
     private List<MessageModel> list;
@@ -23,9 +24,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageViewHolder> 
     @Override
     public void onBindViewHolder(MessageViewHolder holder, int position) {
         if (position != RecyclerView.NO_POSITION) {
-            holder.setText(list.get(position).getOwner(),list.get(position).getMessage(), ""+list.get(position).getDate());
-            holder.setFeedback(list.get(position).isSent());
-            holder.setOwner(list.get(position).isMine());
+            holder.decorate(list.get(position));
         }
     }
 

@@ -6,6 +6,7 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import es.uv.uvlive.data.gateway.BackendResponseCodes;
 import es.uv.uvlive.data.gateway.response.BaseResponse;
 
 public abstract class UVCallback<T> {
@@ -31,7 +32,7 @@ public abstract class UVCallback<T> {
                     onError(((BaseResponse) t).getErrorCode());
                 }
             } else {
-                onError(ErrorManager.ERROR_CODE_UNKNOWN);
+                onError(BackendResponseCodes.ERROR_CODE_UNKNOWN.getErrorCode());
             }
         }
     }
@@ -44,7 +45,7 @@ public abstract class UVCallback<T> {
         @Override
         public void onErrorResponse(VolleyError volleyError) {
             volleyError.printStackTrace();
-            onError(ErrorManager.ERROR_CODE_UNKNOWN);
+            onError(BackendResponseCodes.ERROR_CODE_UNKNOWN.getErrorCode());
         }
     }
 }

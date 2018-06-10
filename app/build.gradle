@@ -19,7 +19,7 @@ android {
         debug {
             initWith buildTypes.debug
             minifyEnabled false
-            buildConfigField("String", "ENVIRONMENT", "\"http://192.168.1.10:8080/\"")
+            buildConfigField("String", "ENVIRONMENT", "\"http://192.168.1.128:8080/\"")
 
         }
 

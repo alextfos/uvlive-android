@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.data.UVCallback;
 import es.uv.uvlive.data.gateway.response.LogListResponse;
+import es.uv.uvlive.mappers.ErrorMapper;
 import es.uv.uvlive.ui.actions.LogsActions;
 
 public class LogsPresenter {
@@ -24,7 +25,7 @@ public class LogsPresenter {
 
             @Override
             public void onError(int errorCode) {
-                logsActions.onError(errorCode);
+                logsActions.onError(ErrorMapper.mapError(errorCode));
             }
         });
     }
