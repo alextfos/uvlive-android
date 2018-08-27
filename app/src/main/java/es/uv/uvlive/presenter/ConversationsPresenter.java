@@ -15,6 +15,7 @@ public class ConversationsPresenter extends BasePresenter {
     private ConversationsActions conversationsActions;
 
     public ConversationsPresenter(ConversationsActions conversationsActions) {
+        super();
         this.conversationsActions = conversationsActions;
     }
 

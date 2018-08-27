@@ -41,8 +41,10 @@ public class MessageViewHolder extends BaseViewHolder {
         feedbackIv.setImageDrawable(ContextCompat.getDrawable(feedbackIv.getContext(), messageModel.isSended()?R.drawable.ic_cloud_done_white_24dp:R.drawable.ic_cloud_off_white_24dp));
         if (messageModel.isMine()) {
             card.setCardBackgroundColor(ContextCompat.getColor(card.getContext(), R.color.uv_sent_message_blue));
+            feedbackIv.setVisibility(View.VISIBLE);
         } else {
             card.setCardBackgroundColor(ContextCompat.getColor(card.getContext(), android.R.color.white));
+            feedbackIv.setVisibility(View.INVISIBLE);
         }
         ownerTv.setText(messageModel.getOwner());
         textTv.setText(messageModel.getMessage());

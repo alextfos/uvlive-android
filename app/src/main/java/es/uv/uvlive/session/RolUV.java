@@ -3,10 +3,11 @@ package es.uv.uvlive.session;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.raizlabs.android.dbflow.sql.language.CursorResult;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransaction;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import es.uv.uvlive.UVLiveApplication;
@@ -24,13 +25,17 @@ public abstract class RolUV extends User {
         setClazz(getClass().getName());
     }
 
-    public void loadConversations(BusinessCallback<List<Conversation>> callback) {
+    public void loadConversations(final BusinessCallback<List<Conversation>> callback) {
         if (conversationList != null) {
-            List<ConversationTable> conversationTableList = SQLite.select()
+            SQLite.select()
                     .from(ConversationTable.class)
-                    .queryList();
-            conversationList = ConversationMapper.getBusinessObjectFromDB(getOwnerName(), conversationTableList);
-            callback.onDataReceived(conversationList);
+                    .async().queryListResultCallback(new QueryTransaction.QueryResultListCallback<ConversationTable>() {
+                @Override
+                public void onListQueryResult(QueryTransaction transaction, @Nullable List<ConversationTable> tResult) {
+                    RolUV.this.conversationList = ConversationMapper.getBusinessObjectFromDB(getOwnerName(), tResult);
+                    callback.onDataReceived(conversationList);
+                }
+            }).execute();
         }
     }
 
@@ -40,25 +45,30 @@ public abstract class RolUV extends User {
             public void onSuccess(@NonNull ConversationsListResponse conversationsListResponse) {
                 List<Conversation> conversations =
                         ConversationMapper.getBusinessObject(getOwnerName(),conversationsListResponse.getConversations());
-                if (conversationList.isEmpty()) {
-                    conversationList = conversations;
-                } else {
-                    for (Conversation conversation : conversations) {
-                        if (!conversationList.contains(conversation)) {
-                            ConversationMapper.getConversationTableFromConversation(conversation).save();
-                            conversationList.add(conversation);
+
+                if (!(conversationList.containsAll(conversations) &&
+                        conversationList.size() == conversations.size())) {
+                    if (conversationList.isEmpty()) {
+                        conversationList.addAll(conversations);
+                        for (Conversation conversation: conversationList) {
+                            ConversationMapper.getConversationTableFromConversation(conversation).async().save();
+                        }
+                    } else {
+                        for (Conversation conversation : conversations) {
+                            if (!conversationList.contains(conversation)) {
+                                ConversationMapper.getConversationTableFromConversation(conversation).async().save();
+                                conversationList.add(conversation);
+                            }
                         }
                     }
+                    callback.onDataReceived(conversationList);
                 }
-                callback.onDataReceived(conversations);
             }
 
             @Override
             public void onError(int errorCode) {
-                if (conversationList != null) {
-                    callback.onDataReceived(conversationList);
-                } else {
-                    // TODO propagar el error
+                if (conversationList != null && conversationList.size() == 0) {
+                    // TODO propagar el error y mostrar feedback
                 }
             }
         });
@@ -68,7 +78,7 @@ public abstract class RolUV extends User {
     public @Nullable Conversation getConversation(int idConversation) {
         Conversation foundConversation = null;
         for (Conversation conversation: conversationList) {
-            if (conversation.getId() == idConversation) {
+            if (conversation.getIdConversation() == idConversation) {
                 foundConversation = conversation;
                 break;
             }

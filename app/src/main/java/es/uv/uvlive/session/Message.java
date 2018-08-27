@@ -1,15 +1,5 @@
 package es.uv.uvlive.session;
 
-import android.support.annotation.Nullable;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import es.uv.uvlive.data.database.models.MessageTable;
-import es.uv.uvlive.data.gateway.response.MessageResponse;
-import es.uv.uvlive.utils.DateUtils;
 import es.uv.uvlive.utils.NumberFormatUtils;
 import es.uv.uvlive.utils.StringUtils;
 
@@ -19,12 +9,15 @@ public class Message implements Comparable<Message> {
     private int idConversation;
     private String message;
     private long timestamp;
+    private long localTimestamp;
     private boolean sent;
     private String owner;
 
     public Message() {
         idLocal = -1;
         idMessage = -1;
+        timestamp = -1;
+        localTimestamp = -1;
     }
 
     public int getIdLocal() {
@@ -67,6 +60,14 @@ public class Message implements Comparable<Message> {
         this.timestamp = timestamp;
     }
 
+    public long getLocalTimestamp() {
+        return localTimestamp;
+    }
+
+    public void setLocalTimestamp(long localTimestamp) {
+        this.localTimestamp = localTimestamp;
+    }
+
     public boolean isSent() {
         return sent;
     }
@@ -85,23 +86,15 @@ public class Message implements Comparable<Message> {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Message) {
-            if (this.idMessage == ((Message) obj).idMessage ) {
-                return true;
-            } else if (this.idConversation == ((Message) obj).idConversation &&
-                    StringUtils.equals(this.message,((Message) obj).message) &&
-                    ((Message)obj).timestamp == timestamp) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
+        return super.equals(obj) || (obj instanceof Message && this.idMessage == ((Message) obj).idMessage) ||
+                (obj instanceof Message &&
+                        idConversation == ((Message) obj).idConversation &&
+                        StringUtils.equals(this.message,((Message) obj).message) &&
+                        ((Message)obj).timestamp == timestamp);
     }
 
     @Override
     public int compareTo(Message o) {
-        return NumberFormatUtils.longToInt(this.timestamp - o.timestamp);
+        return NumberFormatUtils.longToInt(o.timestamp - this.timestamp);
     }
 }

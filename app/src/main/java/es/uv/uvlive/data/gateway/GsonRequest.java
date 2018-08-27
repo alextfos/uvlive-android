@@ -8,6 +8,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
 
@@ -29,7 +30,7 @@ public class GsonRequest<T> extends Request<T> {
     private final Class<T> clazz;
     private static HashMap<String, String> headers= new HashMap<>();
     private static String token;
-    private final Response.Listener<T> listener;
+    private Response.Listener<T> listener;
     private String mRequestBody;
     static{
         headers.put("Accept","application/json");
@@ -41,12 +42,12 @@ public class GsonRequest<T> extends Request<T> {
      * @param url URL of the request to make
      * @param clazz Relevant class object, for Gson's reflection
      */
-    public GsonRequest(String url, Class<T> clazz,String requestBody,
+    public GsonRequest(String url, Class<T> clazz, String requestBody,
                        Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(Method.POST, url, errorListener);
         this.clazz = clazz;
         this.listener = listener;
-        mRequestBody=requestBody;
+        mRequestBody = requestBody;
 
         this.setRetryPolicy(new DefaultRetryPolicy(
                 TIME_OUT,
@@ -76,7 +77,11 @@ public class GsonRequest<T> extends Request<T> {
 
     @Override
     protected void deliverResponse(T response) {
-        listener.onResponse(response);
+        if (listener != null) {
+            listener.onResponse(response);
+        }
+        // To avoid leak
+        listener = null;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package es.uv.uvlive.data.gateway.response;
 
-public class MessageResponse {
+public class MessageResponse extends BaseResponse {
 
     private int idMessage;
     private String text;

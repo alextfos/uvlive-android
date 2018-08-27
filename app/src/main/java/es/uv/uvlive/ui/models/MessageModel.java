@@ -47,4 +47,11 @@ public class MessageModel {
     public void setDate(String date) {
         this.date = date;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof MessageModel
+                && message != null && message.equals(((MessageModel) obj).message) &&
+                owner != null && owner.equals(((MessageModel) obj).owner);
+    }
 }

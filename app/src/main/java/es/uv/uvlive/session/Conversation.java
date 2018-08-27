@@ -3,11 +3,14 @@ package es.uv.uvlive.session;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.raizlabs.android.dbflow.sql.language.OrderBy;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.structure.AsyncModel;
+import com.raizlabs.android.dbflow.structure.BaseModel;
+import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransaction;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import es.uv.uvlive.UVLiveApplication;
@@ -16,32 +19,35 @@ import es.uv.uvlive.data.database.models.ConversationTable;
 import es.uv.uvlive.data.database.models.MessageTable;
 import es.uv.uvlive.data.database.models.MessageTable_Table;
 import es.uv.uvlive.data.gateway.form.MessagesForm;
-import es.uv.uvlive.data.gateway.response.BaseResponse;
 import es.uv.uvlive.data.gateway.response.ConversationResponse;
 import es.uv.uvlive.data.gateway.response.MessageListResponse;
+import es.uv.uvlive.data.gateway.response.MessageResponse;
+import es.uv.uvlive.mappers.ConversationMapper;
 import es.uv.uvlive.mappers.ErrorMapper;
 import es.uv.uvlive.mappers.MessageMapper;
 import es.uv.uvlive.utils.CollectionUtils;
 import es.uv.uvlive.utils.StringUtils;
 
 public class Conversation {
-    private int id;
+    private int idConversation;
     private String name;
     private String participant1;
     private String participant2;
     private String ownerName;
-    private List<Message> messageList;
+    private boolean isEndOfListLoaded;
+    private LinkedList<Message> messageList;
 
     public Conversation(String ownerName, ConversationTable conversationTable) {
-        id = conversationTable.getId();
+        idConversation = conversationTable.getId();
         name = conversationTable.getName();
         participant1 = conversationTable.getParticipant1();
         participant2 = conversationTable.getGetParticipant2();
+        isEndOfListLoaded = conversationTable.isEndOfListLoaded();
         this.ownerName = ownerName;
     }
 
     public Conversation(String ownerName, ConversationResponse conversationResponse) {
-        id = conversationResponse.getId();
+        idConversation = conversationResponse.getIdConversation();
         name = conversationResponse.getName();
         participant1 = conversationResponse.getParticipant1();
         participant2 = conversationResponse.getParticipant2();
@@ -56,12 +62,12 @@ public class Conversation {
         }
     }
 
-    public int getId() {
-        return id;
+    public int getIdConversation() {
+        return idConversation;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdConversation(int idConversation) {
+        this.idConversation = idConversation;
     }
 
     public String getName() {
@@ -96,30 +102,44 @@ public class Conversation {
         this.ownerName = ownerName;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return obj != null && obj instanceof Conversation && ((Conversation) obj).id == id
-                && ((Conversation) obj).name != null && ((Conversation) obj).name.equals(name);
+    public boolean isEndOfListLoaded() {
+        return isEndOfListLoaded;
     }
 
-    public void getLocalMessages(BusinessCallback<List<Message>> callback) {
-        List<MessageTable> messageList = SQLite.select()
-                .from(MessageTable.class)
-                .where(MessageTable_Table.idConversation_id.is(id))
-                .queryList();
-        this.messageList = MessageMapper.getMessageListFromMessageResponseList(id,messageList);
-        Collections.sort(this.messageList);
-
-        callback.onDataReceived(this.messageList);
+    public void setEndOfListLoaded(boolean endOfListLoaded) {
+        isEndOfListLoaded = endOfListLoaded;
+        ConversationMapper.getConversationTableFromConversation(this).async().save();
     }
 
-    public void getMessages(@Nullable Message oldestMessage, final BusinessCallback<List<Message>> callback) {
+    public void getLocalMessages(final BusinessCallback<List<Message>> callback) {
+        try {
+            SQLite.select()
+                    .from(MessageTable.class)
+                    .where(MessageTable_Table.idConversation_id.is(idConversation))
+                    .orderBy(OrderBy.fromProperty(MessageTable_Table.timestamp).descending())
+                    .async().queryListResultCallback(new QueryTransaction.QueryResultListCallback<MessageTable>() {
+                        @Override
+                        public void onListQueryResult(QueryTransaction transaction, @Nullable List<MessageTable> tResult) {
+                            Conversation.this.messageList = MessageMapper.getMessageListFromMessageResponseList(idConversation, tResult);
+                            callback.onDataReceived(Conversation.this.messageList);
+                        }
+                    }).execute();
+        } catch (Exception e) {
+            callback.onError(BusinessError.GENERIC_ERROR);
+        }
+    }
 
+    public void getPreviousMessages(@Nullable Message oldestMessage, final BusinessCallback<List<Message>> callback) {
         if (oldestMessage != null) {
             UVLiveApplication.getUVLiveGateway().getPreviousMessages(MessageMapper.getMessagesFormFromMessage(oldestMessage), new UVCallback<MessageListResponse>() {
                 @Override
                 public void onSuccess(@NonNull MessageListResponse messageListResponse) {
-                    callback.onDataReceived(parseMessages(messageListResponse));
+                    List<Message> messages = MessageMapper.getMessageListFromMessageResponseList(idConversation, messageListResponse.getMessages());
+
+                    Conversation.this.messageList.addAll(Conversation.this.messageList.size(),messages);
+                    callback.onDataReceived(messages);
+
+                    saveMessages(messages);
                 }
 
                 @Override
@@ -128,123 +148,108 @@ public class Conversation {
                 }
             });
         } else {
-            MessagesForm messagesForm = new MessagesForm();
-            messagesForm.setIdConversation(id);
-
-            UVLiveApplication.getUVLiveGateway().getMessages(messagesForm,
-                    new UVCallback<MessageListResponse>() {
-
-                @Override
-                public void onSuccess(@NonNull MessageListResponse messageListResponse) {
-
-                    callback.onDataReceived(parseMessages(messageListResponse));
-                }
-
-                @Override
-                public void onError(int errorCode) {
-                    callback.onError(ErrorMapper.mapError(errorCode));
-                }
-            });
+            getMessages(callback);
         }
-    }
-
-    public void getNewMessages(final BusinessCallback<List<Message>> callback) {
-        MessagesForm messagesForm = new MessagesForm();
-        messagesForm.setIdConversation(id);
-
-        UVLiveApplication.getUVLiveGateway().getMessages(messagesForm,
-                new UVCallback<MessageListResponse>() {
-
-            @Override
-            public void onSuccess(@NonNull MessageListResponse messageListResponse) {
-                List<Message> result = new ArrayList<>();
-                List<Message> messages = MessageMapper.getMessageListFromMessageResponseList(id, messageListResponse.getMessages());
-                if (messageListResponse.getMessages().size() == 0) {
-                    for (Message messageModel: messages) {
-                        if (!messageList.contains(messageModel)) {
-                            result.add(messageModel);
-                        }
-                    }
-                }
-                callback.onDataReceived(result);
-            }
-
-            @Override
-            public void onError(int errorCode) {
-                callback.onError(ErrorMapper.mapError(errorCode));
-            }
-        });
-    }
-
-    public @Nullable Message getNewestMessage() {
-        /* Last implementation
-        List<MessageTable> newestTimestamp = SQLite.select()
-                .from(MessageTable.class)
-                .where(MessageTable_Table.idConversation_id.is(id))
-                .and(MessageTable_Table.sent.isNot(Boolean.FALSE))
-                .and(MessageTable_Table.timestamp.greaterThan(0))
-
-                .orderBy(OrderBy.fromProperty(MessageTable_Table.idMessage).descending()).limit(1).queryList();
-        */
-        return !CollectionUtils.isEmpty(messageList)?messageList.get(0):null;
-    }
-
-    public @Nullable Message getOldestMessage() {
-        /* Last implementation
-        List<MessageTable> oldestMessage = SQLite.select()
-                .from(MessageTable.class)
-                .where(MessageTable_Table.idConversation_id.is(id))
-                .and(MessageTable_Table.timestamp.greaterThan(0))
-                .orderBy(OrderBy.fromProperty(MessageTable_Table.timestamp).ascending()).limit(1).queryList();
-                */
-        return !CollectionUtils.isEmpty(messageList)?messageList.get(messageList.size()-1):null;
     }
 
     public void getFollowingMessages(@Nullable Message newestMessage, final BusinessCallback<List<Message>> callback) {
         if (newestMessage != null) {
             UVLiveApplication.getUVLiveGateway().getFollowingMessages(MessageMapper.getMessagesFormFromMessage(newestMessage),
-                    new UVCallback<MessageListResponse>() {
-                        @Override
-                        public void onSuccess(@NonNull MessageListResponse messageListResponse) {
-                            callback.onDataReceived(parseMessages(messageListResponse));
-                        }
+                new UVCallback<MessageListResponse>() {
+                    @Override
+                    public void onSuccess(@NonNull MessageListResponse messageListResponse) {
+                        List<Message> messages = MessageMapper.getMessageListFromMessageResponseList(idConversation, messageListResponse.getMessages());
 
-                        @Override
-                        public void onError(int errorCode) {
-                            callback.onError(ErrorMapper.mapError(errorCode));
+                        for (Message message: messages) {
+                            if (Conversation.this.messageList.contains(message)) {
+                                Conversation.this.messageList.remove(message);
+                                message.setSent(true);
+                            }
                         }
-                    });
+                        Conversation.this.messageList.addAll(0, messages);
+                        callback.onDataReceived(messages);
+
+                        saveMessages(messages);
+                    }
+
+                    @Override
+                    public void onError(int errorCode) {
+                        callback.onError(ErrorMapper.mapError(errorCode));
+                    }
+                });
+        } else {
+            getMessages(callback);
         }
     }
 
-    public void sendMessage(String messageText, final BusinessCallback<Message> businessCallback) {
-        final Message message = new Message();
+    public void getMessages(final BusinessCallback<List<Message>> callback) {
+        MessagesForm messagesForm = new MessagesForm();
+        messagesForm.setIdConversation(idConversation);
+
+        UVLiveApplication.getUVLiveGateway().getMessages(messagesForm,
+                new UVCallback<MessageListResponse>() {
+
+                    @Override
+                    public void onSuccess(@NonNull MessageListResponse messageListResponse) {
+                        List<Message> messages = MessageMapper.getMessageListFromMessageResponseList(idConversation, messageListResponse.getMessages());
+
+                        Conversation.this.messageList.addAll(messages);
+                        callback.onDataReceived(messages);
+
+                        saveMessages(messages);
+                    }
+
+                    @Override
+                    public void onError(int errorCode) {
+                        callback.onError(ErrorMapper.mapError(errorCode));
+                    }
+                });
+    }
+
+    public @Nullable Message getNewestMessage() {
+        return !CollectionUtils.isEmpty(messageList)?messageList.get(0):null;
+    }
+
+    public @Nullable Message getOldestMessage() {
+        return !CollectionUtils.isEmpty(messageList)?messageList.get(messageList.size()-1):null;
+    }
+
+    public void saveLocalMessage(String messageText, BusinessCallback<Message> businessCallback) {
+        Message message = new Message();
 
         message.setSent(Boolean.FALSE);
         message.setOwner(getOwnerName());
-        message.setIdConversation(id);
-        message.setTimestamp(Calendar.getInstance().getTimeInMillis());
+        message.setIdConversation(idConversation);
+        message.setLocalTimestamp(Calendar.getInstance().getTimeInMillis());
+        message.setTimestamp(0); // We don't know it
         message.setMessage(messageText);
 
-        MessageTable messageTable = MessageMapper.getMessageTableFromMessage(message);
-        messageTable.save();
+        this.messageList.add(0,message);
+        saveMessage(message);
 
-        messageList.add(message);
         businessCallback.onDataReceived(message);
+    }
 
+    public void sendMessage(final Message message, final BusinessCallback<Message> businessCallback) {
         UVLiveApplication.getUVLiveGateway().sendMessage(MessageMapper.getMessageFormFromMessage(message),
-                new UVCallback<BaseResponse>() {
+                new UVCallback<MessageResponse>() {
+
             @Override
-            public void onSuccess(@NonNull BaseResponse baseResponse) {
+            public void onSuccess(@NonNull MessageResponse messageResponse) {
+                message.setOwner(messageResponse.getOwner());
                 message.setSent(true);
-                MessageMapper.getMessageTableFromMessage(message).save();
+                message.setTimestamp(messageResponse.getTimestamp());
+                message.setMessage(messageResponse.getText());
+                message.setIdMessage(messageResponse.getIdMessage());
+
+                MessageMapper.getMessageTableFromMessage(message).async().save();
 
                 businessCallback.onDataReceived(message);
             }
 
             @Override
             public void onError(int errorCode) {
-
+                // Nothing to do here
             }
         });
     }
@@ -253,29 +258,26 @@ public class Conversation {
     * Private methods
     * */
 
-    private void saveMessage(Message message) {
-        MessageMapper.getMessageTableFromMessage(message).save();
-    }
-
-    private void removeMessage(Message message) {
-        SQLite.delete().from(MessageTable.class).where(MessageTable_Table.id.eq(message.getIdLocal()));
-    }
-
-    private List<Message> parseMessages(MessageListResponse messageListResponse) {
-        List<Message> messages = MessageMapper.getMessageListFromMessageResponseList(id, messageListResponse.getMessages());
-        for (Message message : messages) {
-            if (!messageList.contains(message)) {
-                saveMessage(message);
-                messageList.add(message);
-            } else if (!messageList.contains(message) ) {
-                int pos = messageList.indexOf(message);
-                messageList.get(pos).setSent(true);
-                messageList.get(pos).setTimestamp(message.getTimestamp());
-                saveMessage(message);
-            }
+    private void saveMessages(List<Message> messageList) {
+        for (Message message: messageList) {
+            saveMessage(message);
         }
+    }
 
-        Collections.sort(messageList);
-        return messageList;
+    private void saveMessage(final Message message) {
+        MessageMapper.getMessageTableFromMessage(message).async().withListener(new AsyncModel.OnModelChangedListener<BaseModel>() {
+            @Override
+            public void onModelChanged(BaseModel model) {
+                if (model != null && model instanceof MessageTable) {
+                    message.setIdLocal(((MessageTable) model).getId());
+                }
+            }
+        }).save();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj) || (obj != null && obj instanceof Conversation && ((Conversation) obj).idConversation == idConversation
+                && ((Conversation) obj).name != null && ((Conversation) obj).name.equals(name));
     }
 }

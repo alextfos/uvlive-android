@@ -31,8 +31,12 @@ public abstract class BaseFragment extends Fragment implements BaseActions {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(getLayoutId(), container, false);
+        //Inflate the layout for this fragment or reuse the existing one
+        View rootView = (getView() != null)?
+                getView():
+                inflater.inflate(getLayoutId(), container, false);
         ButterKnife.bind(this,rootView);
+
         return rootView;
     }
 }

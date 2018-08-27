@@ -18,6 +18,8 @@ public class ConversationTable extends BaseModel {
     protected String participant1;
     @Column
     protected String getParticipant2;
+    @Column
+    protected boolean isEndOfListLoaded;
 
     public int getId() {
         return id;
@@ -49,5 +51,13 @@ public class ConversationTable extends BaseModel {
 
     public void setGetParticipant2(String getParticipant2) {
         this.getParticipant2 = getParticipant2;
+    }
+
+    public boolean isEndOfListLoaded() {
+        return isEndOfListLoaded;
+    }
+
+    public void setEndOfListLoaded(boolean endOfListLoaded) {
+        isEndOfListLoaded = endOfListLoaded;
     }
 }

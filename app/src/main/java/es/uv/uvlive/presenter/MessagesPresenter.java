@@ -1,7 +1,9 @@
 package es.uv.uvlive.presenter;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.uv.uvlive.mappers.MessageMapper;
@@ -11,65 +13,59 @@ import es.uv.uvlive.session.Conversation;
 import es.uv.uvlive.session.Message;
 import es.uv.uvlive.session.RolUV;
 import es.uv.uvlive.ui.actions.MessageActions;
+import es.uv.uvlive.ui.models.MessageModel;
 
 public class MessagesPresenter extends BasePresenter {
 
     private MessageActions messageActions;
     private Conversation conversation;
+    private MessageActions.Adapter adapter;
+    private boolean fetchingPreviousMessages = false;
 
-    private boolean endList = false;
-
-    public MessagesPresenter(int idConversation, MessageActions messageActions) {
+    public MessagesPresenter(int idConversation, MessageActions messageActions, MessageActions.Adapter adapter) {
         this.messageActions = messageActions;
+        this.adapter = adapter;
 
         conversation = ((RolUV)getSession().getCurrentUser()).getConversation(idConversation);
+        Log.d(MessagesPresenter.class.getSimpleName(),"Conversation is null?: " + Boolean.valueOf(conversation==null).toString());
         if (conversation == null) {
-            messageActions.onErrorFetchingMessages(BusinessError.ERROR_GETTING_CONVERSATION);
+            this.messageActions.onErrorFetchingMessages(BusinessError.ERROR_GETTING_CONVERSATION);
         }
     }
 
-    private boolean isValidConversation() {
-        return conversation != null;
+    public void init() {
+        getLocalMessages();
     }
 
-    public void getLocalMessages() {
-        if (!isValidConversation()) {
-            return;
+    public String getTitle() {
+        return conversation.getName();
+    }
+
+    public void onTopOfMessageList() {
+        if (isValidConversation()) {
+            fetchingPreviousMessages = true;
+            getPreviousMessages();
+
         }
-
-        conversation.getLocalMessages(new BusinessCallback<List<Message>>() {
-            @Override
-            public void onDataReceived(@NonNull List<Message> result) {
-                messageActions.onMessagesReceived(MessageMapper.getMessageModelListFromMessageList(getUser().getOwnerName(), result));
-            }
-
-            @Override
-            public void onError(BusinessError businessError) {
-                messageActions.onError(businessError);
-            }
-        });
     }
 
-    public void getMessages(boolean endList) {
-        this.endList = endList;
-        getMessages();
+    public boolean isFetchingPreviousMessages() {
+        return fetchingPreviousMessages;
+    }
+
+    public boolean isEndOfListLoaded() {
+        return conversation.isEndOfListLoaded();
     }
 
     public void getMessages() {
         if (!isValidConversation()) {
             return;
         }
-        if (endList) {
-            return;
-        }
 
-        conversation.getMessages(conversation.getOldestMessage(),new BusinessCallback<List<Message>>() {
+        conversation.getMessages(new BusinessCallback<List<Message>>() {
             @Override
             public void onDataReceived(@NonNull List<Message> result) {
-                messageActions.onMessagesReceived(MessageMapper.getMessageModelListFromMessageList(getUser().getOwnerName(), result));
-                if (result.size() == 0) {
-                    endList = true;
-                }
+                adapter.onMessagesReceived(MessageMapper.getMessageModelListFromMessageList(getUser().getOwnerName(), result));
             }
 
             @Override
@@ -79,21 +75,25 @@ public class MessagesPresenter extends BasePresenter {
         });
     }
 
-
-
-    public void sendMessage(String message) {
+    public void getPreviousMessages() {
         if (!isValidConversation()) {
             return;
         }
-        conversation.sendMessage(message, new BusinessCallback<Message>() {
+
+        conversation.getPreviousMessages(conversation.getOldestMessage(), new BusinessCallback<List<Message>>() {
             @Override
-            public void onDataReceived(@NonNull Message result) {
-                // TODO
+            public void onDataReceived(@NonNull List<Message> result) {
+                adapter.addItemListToTop(MessageMapper.getMessageModelListFromMessageList(getUser().getOwnerName(), result));
+                fetchingPreviousMessages = false;
+                if (result.size() == 0) {
+                    conversation.setEndOfListLoaded(Boolean.TRUE);
+                }
             }
 
             @Override
             public void onError(BusinessError businessError) {
-                // TODO
+                fetchingPreviousMessages = false;
+                messageActions.onError(businessError);
             }
         });
     }
@@ -106,7 +106,9 @@ public class MessagesPresenter extends BasePresenter {
                 new BusinessCallback<List<Message>>() {
             @Override
             public void onDataReceived(@NonNull List<Message> result) {
-                messageActions.onMessagesReceived(MessageMapper.getMessageModelListFromMessageList(getUser().getOwnerName(), result));
+                if (!result.isEmpty()) {
+                    adapter.onMessagesReceived(MessageMapper.getMessageModelListFromMessageList(getUser().getOwnerName(), result));
+                }
             }
 
             @Override
@@ -116,20 +118,62 @@ public class MessagesPresenter extends BasePresenter {
         });
     }
 
-    public void getNewMessages() {
+    public void sendMessage(String message) {
         if (!isValidConversation()) {
             return;
         }
-        conversation.getNewMessages(new BusinessCallback<List<Message>>() {
+
+        conversation.saveLocalMessage(message, new BusinessCallback<Message>() {
             @Override
-            public void onDataReceived(@NonNull List<Message> result) {
-                messageActions.onMessagesReceived(MessageMapper.getMessageModelListFromMessageList(getUser().getOwnerName(), result));
+            public void onDataReceived(@NonNull Message result) {
+                adapter.addItemToBottom(MessageMapper.getMessageModelFromMessage(getUser().getOwnerName(),result));
+                conversation.sendMessage(result, new BusinessCallback<Message>() {
+                    @Override
+                    public void onDataReceived(@NonNull Message result) {
+                        adapter.onMessageChanged(MessageMapper.getMessageModelFromMessage(getUser().getOwnerName(),result));
+                    }
+
+                    @Override
+                    public void onError(BusinessError businessError) {
+                        // Nothing to do here
+                    }
+                });
             }
 
             @Override
             public void onError(BusinessError businessError) {
-                messageActions.onError(businessError);
+                // Nothing to do here
             }
         });
+    }
+
+    /*
+    * Private methods
+    * */
+    private void getLocalMessages() {
+        if (!isValidConversation()) {
+            return;
+        }
+
+        conversation.getLocalMessages(new BusinessCallback<List<Message>>() {
+            @Override
+            public void onDataReceived(@NonNull List<Message> result) {
+                if (result.size() > 0) {
+                    adapter.onMessagesReceived(MessageMapper.getMessageModelListFromMessageList(getUser().getOwnerName(), result));
+                    getFollowingMessages();
+                } else {
+                    getMessages();
+                }
+            }
+
+            @Override
+            public void onError(BusinessError businessError) {
+                getMessages();
+            }
+        });
+    }
+
+    private boolean isValidConversation() {
+        return conversation != null;
     }
 }

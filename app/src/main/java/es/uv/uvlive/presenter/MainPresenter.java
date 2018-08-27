@@ -15,6 +15,7 @@ public class MainPresenter extends BasePresenter {
     private MainActions mainActions;
 
     public MainPresenter(MainActions mainActions) {
+        super();
         this.mainActions = mainActions;
     }
 

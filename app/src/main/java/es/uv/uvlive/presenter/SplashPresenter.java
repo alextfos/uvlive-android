@@ -18,6 +18,7 @@ public class SplashPresenter extends BasePresenter {
     private SplashActions splashActions;
 
     public SplashPresenter(SplashActions splashActions) {
+        super();
         this.splashActions = splashActions;
     }
 

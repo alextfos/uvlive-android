@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -18,18 +19,22 @@ import butterknife.ButterKnife;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import es.uv.uvlive.session.BusinessError;
 import es.uv.uvlive.ui.actions.SessionActions;
 
 public class LoginActivity extends BaseActivity implements SessionActions {
 
     @BindView(R.id.login_user_et)
-    EditText mUser;
+    protected EditText mUser;
 
     @BindView(R.id.login_password_et)
-    EditText mPassword;
+    protected EditText mPassword;
 
     @BindView(R.id.login_spinner)
-    Spinner mSpinner;
+    protected Spinner mSpinner;
+
+    @BindView(R.id.login_b)
+    protected Button loginButton;
 
     private LoginPresenter loginPresenter;
 
@@ -44,6 +49,9 @@ public class LoginActivity extends BaseActivity implements SessionActions {
         super.onCreate(savedInstanceState);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dark_text_spinner_item, LoginPresenter.LoginTypes.getLoginTypesDescriptions(this));
         mSpinner.setAdapter(adapter);
+        // TODO Remove
+        mUser.setText("atraifos");
+        mPassword.setText("atraifos");
         setListeners();
     }
 
@@ -66,8 +74,15 @@ public class LoginActivity extends BaseActivity implements SessionActions {
 
     @OnClick(R.id.login_b)
     public void login() {
+        blockFields();
         loginPresenter.login(mUser.getText().toString(),mPassword.getText().toString(),
                 mSpinner.getSelectedItemPosition());
+    }
+
+    @Override
+    public void onError(BusinessError businessError) {
+        super.onError(businessError);
+        unblockFields();
     }
 
     @Override
@@ -76,11 +91,28 @@ public class LoginActivity extends BaseActivity implements SessionActions {
         finish();
     }
 
+    /*
+    * Private methods
+    * */
     private void hideKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    private void blockFields() {
+        mUser.setEnabled(Boolean.FALSE);
+        mPassword.setEnabled(Boolean.FALSE);
+        mSpinner.setEnabled(Boolean.FALSE);
+        loginButton.setEnabled(Boolean.FALSE);
+    }
+
+    private void unblockFields() {
+        mUser.setEnabled(Boolean.TRUE);
+        mPassword.setEnabled(Boolean.TRUE);
+        mSpinner.setEnabled(Boolean.TRUE);
+        loginButton.setEnabled(Boolean.TRUE);
     }
 }

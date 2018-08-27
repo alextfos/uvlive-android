@@ -53,7 +53,7 @@ public final class ConversationMapper {
     public static ConversationModel getConversationModelFromConversation(@NonNull Conversation conversation) {
         ConversationModel conversationModel = new ConversationModel();
 
-        conversationModel.setId(conversation.getId());
+        conversationModel.setId(conversation.getIdConversation());
         conversationModel.setName(conversation.getName());
         conversationModel.setGrouped(isGroup(conversation.getParticipant1(), conversation.getParticipant2()));
 
@@ -63,10 +63,11 @@ public final class ConversationMapper {
     public static ConversationTable getConversationTableFromConversation(Conversation conversation) {
         ConversationTable conversationTable = new ConversationTable();
 
-        conversationTable.setId(conversation.getId());
+        conversationTable.setId(conversation.getIdConversation());
         conversationTable.setName(conversation.getName());
         conversationTable.setParticipant1(conversation.getParticipant1());
         conversationTable.setGetParticipant2(conversation.getParticipant2());
+        conversationTable.setEndOfListLoaded(conversation.isEndOfListLoaded());
 
         return conversationTable;
     }

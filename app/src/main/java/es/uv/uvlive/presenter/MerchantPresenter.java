@@ -14,6 +14,7 @@ public class MerchantPresenter extends BasePresenter {
     private MerchantActions merchantActions;
 
     public MerchantPresenter(MerchantActions merchantActions) {
+        super();
         this.merchantActions = merchantActions;
     }
 

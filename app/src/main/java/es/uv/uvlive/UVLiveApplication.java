@@ -9,11 +9,13 @@ import android.support.annotation.Nullable;
 import com.crashlytics.android.Crashlytics;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import es.uv.uvlive.data.gateway.UVLiveGateway;
+import es.uv.uvlive.session.Session;
 import es.uv.uvlive.ui.actions.BaseActions;
 import io.fabric.sdk.android.Fabric;
 
@@ -30,7 +32,12 @@ public class UVLiveApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
         Fabric.with(this, new Crashlytics());
 
         //SingletonPattern
@@ -39,8 +46,8 @@ public class UVLiveApplication extends Application {
         FlowManager.init(new FlowConfig.Builder(this)
                 .openDatabasesOnInit(true).build());
 
-        // Don't do this! This is just so cold launches take some time
-        SystemClock.sleep(TimeUnit.SECONDS.toMillis(3));
+        // Initialize App
+        Session.getInstance().loadUser();
     }
 
     public boolean isApplicationInForeground() {

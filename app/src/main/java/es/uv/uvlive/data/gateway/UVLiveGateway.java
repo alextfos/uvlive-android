@@ -24,9 +24,9 @@ import es.uv.uvlive.data.gateway.response.LogListResponse;
 import es.uv.uvlive.data.gateway.response.LoginResponse;
 import es.uv.uvlive.data.gateway.response.MerchantResponse;
 import es.uv.uvlive.data.gateway.response.MessageListResponse;
+import es.uv.uvlive.data.gateway.response.MessageResponse;
 import es.uv.uvlive.data.gateway.response.UserListResponse;
 import es.uv.uvlive.data.gateway.response.ValidateMerchantResponse;
-import es.uv.uvlive.session.Student;
 
 public class UVLiveGateway {
 
@@ -60,7 +60,7 @@ public class UVLiveGateway {
     // Merchant
     private static final String urlBradcastRegister = "merchant/broadcast/register";
     
-    private static String environment = BuildConfig.ENVIRONMENT + "uvlive-api/";
+    private static String environment = BuildConfig.ENVIRONMENT; // + "uvlive-api/";
 
     public static final Gson GSON_CREATOR = new GsonBuilder().create();
 
@@ -131,9 +131,9 @@ public class UVLiveGateway {
         addRequestToQueue(request);
     }
 
-    public void sendMessage(MessageForm messageForm, UVCallback<BaseResponse> callback) {
-        GsonRequest<BaseResponse> request = new GsonRequest<>(environment + urlSend,
-                BaseResponse.class,GSON_CREATOR.toJson(messageForm),callback.Listener,callback.ErrorListener);
+    public void sendMessage(MessageForm messageForm, UVCallback<MessageResponse> callback) {
+        GsonRequest<MessageResponse> request = new GsonRequest<>(environment + urlSend,
+                MessageResponse.class,GSON_CREATOR.toJson(messageForm),callback.Listener,callback.ErrorListener);
         addRequestToQueue(request);
     }
 

@@ -14,6 +14,7 @@ import es.uv.uvlive.data.UVCallback;
 import es.uv.uvlive.data.UVLivePreferences;
 import es.uv.uvlive.data.gateway.GsonRequest;
 import es.uv.uvlive.data.gateway.response.BaseResponse;
+import es.uv.uvlive.presenter.BasePresenter;
 import es.uv.uvlive.session.BusinessError;
 import es.uv.uvlive.ui.actions.BaseActions;
 
@@ -42,6 +43,23 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
             logout();
         }
         Toast.makeText(this,getText(ErrorMapper.getMessage(businessError)),Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (getPresenter() != null) {
+            getPresenter().onStart();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    protected @Nullable BasePresenter getPresenter() {
+        return null;
     }
 
     public void logout() {

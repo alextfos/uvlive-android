@@ -17,6 +17,7 @@ public class UsersPresenter extends BasePresenter {
     private UsersActions actions;
 
     public UsersPresenter(UsersActions actions) {
+        super();
         this.actions = actions;
     }
 

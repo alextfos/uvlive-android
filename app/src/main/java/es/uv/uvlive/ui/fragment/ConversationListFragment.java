@@ -2,6 +2,7 @@ package es.uv.uvlive.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,6 +52,7 @@ public class ConversationListFragment extends BaseFragment implements Conversati
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         initializePresenter();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getActivity().getTitle());
     }
 
     @Override

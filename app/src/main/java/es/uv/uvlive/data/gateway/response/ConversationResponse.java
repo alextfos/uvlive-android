@@ -7,7 +7,7 @@ public class ConversationResponse extends BaseResponse {
     private String participant1;
     private String participant2;
 
-    public int getId(){
+    public int getIdConversation(){
         return idConversation;
     }
 
@@ -15,7 +15,7 @@ public class ConversationResponse extends BaseResponse {
         return name;
     }
 
-    public void setId(int idConversation) {
+    public void setIdConversation(int idConversation) {
         this.idConversation = idConversation;
     }
 

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 
 import es.uv.uvlive.data.database.models.MessageTable;
@@ -13,7 +14,6 @@ import es.uv.uvlive.data.gateway.form.MessageForm;
 import es.uv.uvlive.data.gateway.form.MessagesForm;
 import es.uv.uvlive.data.gateway.response.MessageResponse;
 import es.uv.uvlive.session.Message;
-import es.uv.uvlive.ui.actions.MessageActions;
 import es.uv.uvlive.ui.models.MessageModel;
 import es.uv.uvlive.utils.DateUtils;
 
@@ -26,8 +26,8 @@ public final class MessageMapper {
     /*
     * List Mappers
     * */
-    public static List<Message> getMessageListFromMessageResponseList(int idConversation, List<MessageTable> messageTableList) {
-        ArrayList<Message> messageList = new ArrayList<>();
+    public static LinkedList<Message> getMessageListFromMessageResponseList(int idConversation, List<MessageTable> messageTableList) {
+        LinkedList<Message> messageList = new LinkedList<>();
 
         for (MessageTable messageTable: messageTableList) {
             messageList.add(getMessageFromMessageTable(idConversation,messageTable));
@@ -40,7 +40,7 @@ public final class MessageMapper {
         ArrayList<Message> messageList = new ArrayList<>();
         if (messageResponse != null) {
             for (MessageResponse messageModel : messageResponse) {
-                messageList.add(getMessageFromMessageResponse(messageModel));
+                messageList.add(getMessageFromMessageResponse(idConversation,messageModel));
             }
         }
 
@@ -77,7 +77,7 @@ public final class MessageMapper {
         return message;
     }
 
-    public static Message getMessageFromMessageResponse(MessageResponse messageResponse) {
+    public static Message getMessageFromMessageResponse(int idConversation, MessageResponse messageResponse) {
         Message message = new Message();
 
         message.setMessage(messageResponse.getText());
@@ -86,7 +86,7 @@ public final class MessageMapper {
         /* the response went from BE, then is sent */
         message.setSent(true);
         message.setOwner(messageResponse.getOwner());
-        message.setIdConversation(messageResponse.getIdMessage());
+        message.setIdConversation(idConversation);
 
         return message;
     }
@@ -95,10 +95,14 @@ public final class MessageMapper {
         MessageModel messageModel = new MessageModel();
 
         messageModel.setOwner(message.getOwner());
+        messageModel.setMine(ownerName.equals(message.getOwner()));
         messageModel.setMessage(message.getMessage());
         messageModel.setSended(message.isSent());
-        messageModel.setDate(DateUtils.timestampToStringDate(message.getTimestamp()));
-        messageModel.setMine(ownerName.equals(message.getOwner()));
+        if (messageModel.isMine() && !message.isSent()) {
+            messageModel.setDate(DateUtils.timestampToStringDate(message.getLocalTimestamp()));
+        } else {
+            messageModel.setDate(DateUtils.timestampToStringDate(message.getTimestamp()));
+        }
 
         return messageModel;
     }
@@ -112,11 +116,18 @@ public final class MessageMapper {
         if (message.getIdMessage() > 0) {
             messageTable.setIdMessage(message.getIdMessage());
         }
-        messageTable.setTimestamp(Calendar.getInstance().getTimeInMillis());
+        if (message.getTimestamp() > 0) {
+            messageTable.setTimestamp(message.getTimestamp());
+        } else if (message.getTimestamp() > 0) {
+            messageTable.setTimestamp(message.getLocalTimestamp());
+        } else {
+            messageTable.setTimestamp(0);
+        }
         messageTable.setMessageText(message.getMessage());
         messageTable.setSent(message.isSent());
         messageTable.setIdConversation(message.getIdLocal());
         messageTable.setOwner(message.getOwner());
+        messageTable.setIdConversation(message.getIdConversation());
 
         return messageTable;
     }

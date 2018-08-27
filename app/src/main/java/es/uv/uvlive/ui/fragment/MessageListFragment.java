@@ -1,7 +1,9 @@
 package es.uv.uvlive.ui.fragment;
 
+import android.content.ContextWrapper;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -32,17 +34,16 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
     protected EditText mEditText;
 
     private MessagesPresenter messagesPresenter;
-    private MessageListAdapter messageListAdapter;
     private LinearLayoutManager linearLayoutManager;
     private int idConversation;
 
     private int pastVisiblesItems, visibleItemCount, totalItemCount;
 
     public static MessageListFragment newInstance(int id) {
+        MessageListFragment fragment = new MessageListFragment();
         Bundle arguments = new Bundle();
 
         arguments.putInt(MessageListFragment.ARG_ITEM_ID, id);
-        MessageListFragment fragment = new MessageListFragment();
         fragment.setArguments(arguments);
 
         return fragment;
@@ -67,28 +68,48 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        mRecyclerView.setLayoutManager(linearLayoutManager = new LinearLayoutManager(getActivity()));
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setReverseLayout(Boolean.TRUE);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        MessageListAdapter messageListAdapter = new MessageListAdapter(mRecyclerView);
+        mRecyclerView.setAdapter(messageListAdapter);
+
         scrollRecyclerViewControl();
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             idConversation = getArguments().getInt(ARG_ITEM_ID);
-            messagesPresenter = new MessagesPresenter(idConversation,this);
-            messagesPresenter.getLocalMessages();
-            messagesPresenter.getMessages();
+            messagesPresenter = new MessagesPresenter(idConversation,this, messageListAdapter);
+            messagesPresenter.init();
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(messagesPresenter.getTitle());
         }
 
         mEditText.requestFocus();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            idConversation = savedInstanceState.getInt(ARG_ITEM_ID);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(ARG_ITEM_ID, idConversation);
     }
 
     private void scrollRecyclerViewControl() {
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy < 0) {
+                if (dy < 0 && !MessageListFragment.this.messagesPresenter.isEndOfListLoaded() &&
+                        !MessageListFragment.this.messagesPresenter.isFetchingPreviousMessages()) {
                     visibleItemCount = linearLayoutManager.getChildCount();
                     totalItemCount = linearLayoutManager.getItemCount();
                     pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                        messagesPresenter.getMessages();
+                        messagesPresenter.onTopOfMessageList();
                     }
                 }
             }
@@ -101,26 +122,8 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
     }
 
     @Override
-    public void onMessagesReceived(List<MessageModel> messageList) {
-        messageListAdapter = new MessageListAdapter(messageList);
-        mRecyclerView.setAdapter(messageListAdapter);
-        messageListAdapter.notifyDataSetChanged();
-        mRecyclerView.scrollToPosition(messageList.size()-1);
-    }
-
-    @Override
-    public void getMessages() {
-        messagesPresenter.getFollowingMessages();
-    }
-
-    @Override
     public void onErrorFetchingMessages(BusinessError errorGettingConversation) {
         onError(errorGettingConversation);
-
-        /* TODO
-        if (getActivity() != null) {
-            getActivity().onBackPressed();
-        }*/
     }
 
     @OnClick(R.id.fragment_message_list_send)

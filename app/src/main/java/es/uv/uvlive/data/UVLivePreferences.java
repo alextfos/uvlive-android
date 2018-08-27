@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.scottyab.aescrypt.AESCrypt;
 
 import java.security.GeneralSecurityException;
+import java.util.Map;
 
 import es.uv.uvlive.UVLiveApplication;
 import es.uv.uvlive.session.Admin;
@@ -52,6 +54,16 @@ public class UVLivePreferences {
 
     public UVLivePreferences(Context context) {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    public Map<String,?> getAll() {
+        Map<String, ?> allEntries = mSharedPreferences.getAll();
+
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            Log.d("map values", entry.getKey() + ": " + entry.getValue().toString());
+        }
+
+        return allEntries;
     }
 
     public void saveUser(User user) {
@@ -104,6 +116,7 @@ public class UVLivePreferences {
     public void removePushToken() {
         removeElement(PUSH_TOKEN_KEY);
     }
+
 
     /*
     * Private methods
