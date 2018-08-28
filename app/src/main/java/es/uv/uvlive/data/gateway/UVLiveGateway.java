@@ -60,7 +60,7 @@ public class UVLiveGateway {
     // Merchant
     private static final String urlBradcastRegister = "merchant/broadcast/register";
     
-    private static String environment = BuildConfig.ENVIRONMENT; // + "uvlive-api/";
+    private static String environment = BuildConfig.ENVIRONMENT + "uvlive-api/";
 
     public static final Gson GSON_CREATOR = new GsonBuilder().create();
 

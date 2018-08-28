@@ -49,9 +49,6 @@ public class LoginActivity extends BaseActivity implements SessionActions {
         super.onCreate(savedInstanceState);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dark_text_spinner_item, LoginPresenter.LoginTypes.getLoginTypesDescriptions(this));
         mSpinner.setAdapter(adapter);
-        // TODO Remove
-        mUser.setText("atraifos");
-        mPassword.setText("atraifos");
         setListeners();
     }
 
