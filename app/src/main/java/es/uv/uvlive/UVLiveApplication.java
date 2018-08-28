@@ -27,8 +27,6 @@ public class UVLiveApplication extends Application {
     private static UVLiveApplication mInstance;
     private static UVLiveGateway mUvLiveGateway;
 
-    private static BaseActions sBaseActions;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -37,7 +35,7 @@ public class UVLiveApplication extends Application {
             // You should not init your app in this process.
             return;
         }
-        LeakCanary.install(this);
+//        LeakCanary.install(this);
         Fabric.with(this, new Crashlytics());
 
         //SingletonPattern
@@ -51,33 +49,24 @@ public class UVLiveApplication extends Application {
     }
 
     public boolean isApplicationInForeground() {
-        boolean isActivityFound = false;
         ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = null;
 
         if (activityManager != null) {
-            List<ActivityManager.RunningAppProcessInfo> services = activityManager.getRunningAppProcesses();
+            appProcesses = activityManager.getRunningAppProcesses();
+        }
 
-            if (services.get(0).processName
-                    .equalsIgnoreCase(getPackageName())) {
-                isActivityFound = true;
+        if (appProcesses == null) {
+            return false;
+        }
+
+        final String packageName = getPackageName();
+        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+            if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND && appProcess.processName.equals(packageName)) {
+                return true;
             }
         }
-
-        return isActivityFound;
-    }
-
-    public static void subscribeActions(BaseActions baseActions) {
-        sBaseActions = baseActions;
-    }
-
-    public static void unsubscribeActions(BaseActions baseActions) {
-        if (sBaseActions != null && sBaseActions.equals(baseActions)) {
-            sBaseActions = null;
-        }
-    }
-
-    public static @Nullable BaseActions getBaseActions() {
-        return sBaseActions;
+        return false;
     }
 
     public static UVLiveGateway getUVLiveGateway() {

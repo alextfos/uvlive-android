@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.uv.uvlive.UVLiveApplication;
+import es.uv.uvlive.presenter.BasePresenter;
 import es.uv.uvlive.session.BusinessError;
 import es.uv.uvlive.ui.actions.BaseActions;
 import es.uv.uvlive.ui.actions.ConversationsActions;
@@ -71,55 +72,24 @@ public class UVLiveMessagingService extends FirebaseMessagingService {
         if (OPERATION_GET.equals(type) && OPERATION_MESSAGES.equals(operation)) {
 //            LocalBroadcastManager.getInstance(this).sendBroadcastSync();
             // Application in foreground, the event is managed by the fragment
-            if (getCurrentActions() != null && getCurrentActions() instanceof MessageActions &&
-                    ((MessageActions) getCurrentActions()).getIdConversation() == idConversation &&
-                    !UVLiveApplication.getInstance().isApplicationInForeground()) {
-//                ((MessageActions) getCurrentActions()).getPreviousMessages();
-            } else if (idConversation != -1) {
-//                MessagesPresenter messagesPresenter = new MessagesPresenter(idConversation, this);
-
-//                messagesPresenter.getNewMessages();
+            if (idConversation != -1 && !BasePresenter.notifyMessagesReceived(idConversation)) {
+                // TODO make request and store it in database
             }
+
+            if (!UVLiveApplication.getInstance().isApplicationInForeground()) {
+                notificationManager.sendNewMessagesNotification(idConversation, getString(R.string.notification_messages_title),
+                        getString(R.string.notification_messages_bigContentTitle));
+            }
+
         // GET CONVERSATIONS
         } else if (OPERATION_GET.equals(type) && OPERATION_CONVERSATIONS.equals(operation)) {
             // Application in foreground, the event is managed by the fragment
-            if (getCurrentActions() != null && getCurrentActions() instanceof ConversationsActions &&
-                    UVLiveApplication.getInstance().isApplicationInForeground()) {
-                ((ConversationsActions)getCurrentActions()).getConversations();
-            } else {
-//                ConversationsPresenter conversationsPresenter = new ConversationsPresenter(this);
-//                conversationsPresenter.updateConversations();
+            if (!BasePresenter.notifyConversationListReceived()) {
+                // TODO make request and store it in database
             }
-        }
-    }
 
-    private @Nullable BaseActions getCurrentActions() {
-        return UVLiveApplication.getBaseActions();
-    }
-
-    public void onError(BusinessError businessError) {
-        // Nothing to do here
-    }
-
-    public void onMessagesReceived(List<MessageModel> messageList) {
-        if (messageList != null && !messageList.isEmpty()) {
-            List<String> stringList = new ArrayList<>();
-            for (MessageModel messageModel : messageList) {
-                stringList.add(messageModel.getOwner() + ": " + messageModel.getMessage());
-            }
-            notificationManager.sendMessageNotification(getString(R.string.notification_messages_title),
-                    getString(R.string.notification_messages_bigContentTitle), getString(R.string.notification_messages_text), stringList);
-        }
-    }
-
-    public void onConversationsReceived(List<ConversationModel> conversationModelList) {
-        if (conversationModelList != null && !conversationModelList.isEmpty()) {
-            ConversationModel conversation = conversationModelList.get(conversationModelList.size()-1);
-            if (conversation != null && !StringUtils.isBlank(conversation.getName())) {
-                notificationManager.sendPubliNotification(getString(R.string.notification_new_conversation_title, conversation.getName()),
-                        getString(R.string.notification_new_conversation_text));
-            } else {
-                notificationManager.sendPubliNotification(getString(R.string.notification_new_conversation_title_alt),
+            if (!UVLiveApplication.getInstance().isApplicationInForeground()) {
+                notificationManager.sendNewConversationNotification(getString(R.string.notification_new_conversation_title_alt),
                         getString(R.string.notification_new_conversation_text));
             }
         }

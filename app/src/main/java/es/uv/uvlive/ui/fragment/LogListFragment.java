@@ -30,6 +30,11 @@ public class LogListFragment extends BaseFragment implements LogsActions {
     }
 
     @Override
+    protected void initializePresenter() {
+        //Nothing to do here
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         logList.setLayoutManager(new LinearLayoutManager(getActivity()));
         LogsPresenter logsPresenter = new LogsPresenter(this);

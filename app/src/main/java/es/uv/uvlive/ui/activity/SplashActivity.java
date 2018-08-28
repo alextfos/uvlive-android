@@ -20,6 +20,11 @@ public class SplashActivity extends BaseActivity implements SplashActions {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+    }
+
+    @Override
     public void onNotLogged() {
         startActivity(new Intent(this,LoginActivity.class));
         finish();

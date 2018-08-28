@@ -29,11 +29,13 @@ public class UVLivePreferences {
 
     private static final String BASE_KEY = "es.uv.uvlive.UVLiveSharedPreferences.";
     private static final String STRING_DEFAULT_VALUE = BASE_KEY + "DEFAULT_VALUE";
+    private static final int INT_DEFAULT_VALUE = -1;
     private static final String PASSWORD = "Uv~2017.UVl1v€";
 
     private static final String USER_KEY = BASE_KEY + "USER_KEY";
     private static final String USER_TYPE_KEY = BASE_KEY + "USER_TYPE_KEY";
     private static final String PUSH_TOKEN_KEY = BASE_KEY + "PUSH_TOKEN_KEY";
+    private static final String DEEKLINK_PARAMS_KEY = BASE_KEY + "DEEPLINK_PARAMS_KEY";
 
     private static final Gson GSON_CREATOR = new GsonBuilder().create();
 
@@ -100,6 +102,18 @@ public class UVLivePreferences {
         return null;
     }
 
+    public void saveDeeplinkParams(int idConversation) {
+        saveInt(DEEKLINK_PARAMS_KEY, idConversation);
+    }
+
+    public int getDeeplinkParams() {
+        return getInt(DEEKLINK_PARAMS_KEY);
+    }
+
+    public void removeDeeplinkParams() {
+        removeElement(DEEKLINK_PARAMS_KEY);
+    }
+
     public void removeUser() {
         removeElement(USER_KEY);
     }
@@ -134,5 +148,13 @@ public class UVLivePreferences {
 
     private void saveString(String key, String value) {
         mSharedPreferences.edit().putString(key, value).apply();
+    }
+
+    private int getInt(String key) {
+        return mSharedPreferences.getInt(key, INT_DEFAULT_VALUE);
+    }
+
+    private void saveInt(String key, int value) {
+        mSharedPreferences.edit().putInt(key, value).apply();
     }
 }

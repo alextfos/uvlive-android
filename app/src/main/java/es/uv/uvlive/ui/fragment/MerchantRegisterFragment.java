@@ -62,6 +62,11 @@ public class MerchantRegisterFragment extends BaseFragment {
     }
 
     @Override
+    protected void initializePresenter() {
+        // Nothing to do here
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }

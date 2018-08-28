@@ -5,8 +5,12 @@
     <string name="login_password">Contraseña</string>
     <string name="login_button">Acceder</string>
 
+
     <string name="notification_messages_title">UVLive</string>
-    <string name="notification_messages_bigContentTitle">Tienes %1$d mensajes nuevos</string>
+    <string name="notification_publi_channel">Publicidad</string>
+    <string name="notification_conversations_channel">Conversaciones nuevas</string>
+    <string name="notification_messages_channel">Mensajes nuevos</string>
+    <string name="notification_messages_bigContentTitle">Tienes mensajes nuevos</string>
     <string name="notification_messages_text">Tienes %1$d mensajes nuevos</string>
 
     <string name="notification_new_conversation_title">Se ha creado el canal %1$s</string>
@@ -57,5 +61,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="error_getting_conversation">Error cargando los mensajes</string>
+
+    <!-- Messages -->
+    <string name="messages_send">Send</string>
 
 </resources>

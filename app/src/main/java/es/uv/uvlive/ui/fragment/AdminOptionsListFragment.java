@@ -37,6 +37,11 @@ public class AdminOptionsListFragment extends BaseFragment implements AdminOptio
     }
 
     @Override
+    protected void initializePresenter() {
+        // Nothing to do here
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adminOptionsAdapter = new AdminOptionsAdapter(optionsArrayList,this);

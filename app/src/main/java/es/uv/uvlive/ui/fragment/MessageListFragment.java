@@ -1,6 +1,5 @@
 package es.uv.uvlive.ui.fragment;
 
-import android.content.ContextWrapper;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,17 +10,13 @@ import android.widget.EditText;
 
 import com.example.atraverf.uvlive.R;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.OnClick;
-import es.uv.uvlive.UVLiveApplication;
+import es.uv.uvlive.presenter.BasePresenter;
 import es.uv.uvlive.presenter.MessagesPresenter;
 import es.uv.uvlive.session.BusinessError;
-import es.uv.uvlive.session.Message;
 import es.uv.uvlive.ui.actions.MessageActions;
 import es.uv.uvlive.ui.adapter.MessageListAdapter;
-import es.uv.uvlive.ui.models.MessageModel;
 
 public class MessageListFragment extends BaseFragment implements MessageActions {
 
@@ -55,26 +50,13 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        UVLiveApplication.subscribeActions(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        UVLiveApplication.unsubscribeActions(this);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    protected void initializePresenter() {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setReverseLayout(Boolean.TRUE);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         MessageListAdapter messageListAdapter = new MessageListAdapter(mRecyclerView);
         mRecyclerView.setAdapter(messageListAdapter);
 
-        scrollRecyclerViewControl();
         if (getArguments().containsKey(ARG_ITEM_ID)) {
             idConversation = getArguments().getInt(ARG_ITEM_ID);
             messagesPresenter = new MessagesPresenter(idConversation,this, messageListAdapter);
@@ -82,6 +64,19 @@ public class MessageListFragment extends BaseFragment implements MessageActions 
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(messagesPresenter.getTitle());
         }
 
+    }
+
+    @Nullable
+    @Override
+    protected BasePresenter getPresenter() {
+        return messagesPresenter;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view,savedInstanceState);
+
+        scrollRecyclerViewControl();
         mEditText.requestFocus();
     }
 

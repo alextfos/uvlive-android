@@ -33,6 +33,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
             ButterKnife.bind(this);
         }
         initializePresenter();
+        if (getPresenter() != null) {
+            getPresenter().onCreate();
+        }
     }
 
     protected abstract void initializePresenter();
@@ -46,16 +49,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onDestroy() {
+        super.onDestroy();
         if (getPresenter() != null) {
-            getPresenter().onStart();
+            getPresenter().onDestroy();
         }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 
     protected @Nullable BasePresenter getPresenter() {

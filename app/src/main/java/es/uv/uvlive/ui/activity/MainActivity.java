@@ -23,6 +23,7 @@ import com.example.atraverf.uvlive.R;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import es.uv.uvlive.data.UVLivePreferences;
 import es.uv.uvlive.presenter.LoginPresenter;
 import es.uv.uvlive.presenter.MainPresenter;
 import es.uv.uvlive.session.Admin;

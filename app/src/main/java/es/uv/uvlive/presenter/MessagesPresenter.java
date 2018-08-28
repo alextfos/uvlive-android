@@ -6,12 +6,14 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.uv.uvlive.mappers.ConversationMapper;
 import es.uv.uvlive.mappers.MessageMapper;
 import es.uv.uvlive.session.BusinessCallback;
 import es.uv.uvlive.session.BusinessError;
 import es.uv.uvlive.session.Conversation;
 import es.uv.uvlive.session.Message;
 import es.uv.uvlive.session.RolUV;
+import es.uv.uvlive.session.Session;
 import es.uv.uvlive.ui.actions.MessageActions;
 import es.uv.uvlive.ui.models.MessageModel;
 
@@ -22,7 +24,7 @@ public class MessagesPresenter extends BasePresenter {
     private MessageActions.Adapter adapter;
     private boolean fetchingPreviousMessages = false;
 
-    public MessagesPresenter(int idConversation, MessageActions messageActions, MessageActions.Adapter adapter) {
+    public MessagesPresenter(final int idConversation, MessageActions messageActions, MessageActions.Adapter adapter) {
         this.messageActions = messageActions;
         this.adapter = adapter;
 
@@ -48,6 +50,15 @@ public class MessagesPresenter extends BasePresenter {
 
         }
     }
+
+    public int getIdConversation() {
+        if (isValidConversation()) {
+            return conversation.getIdConversation();
+        } else {
+            return -1;
+        }
+    }
+
 
     public boolean isFetchingPreviousMessages() {
         return fetchingPreviousMessages;
@@ -107,7 +118,7 @@ public class MessagesPresenter extends BasePresenter {
             @Override
             public void onDataReceived(@NonNull List<Message> result) {
                 if (!result.isEmpty()) {
-                    adapter.onMessagesReceived(MessageMapper.getMessageModelListFromMessageList(getUser().getOwnerName(), result));
+                    adapter.addItemListToBottom(MessageMapper.getMessageModelListFromMessageList(getUser().getOwnerName(), result));
                 }
             }
 

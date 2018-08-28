@@ -37,9 +37,14 @@ public class MerchantFragment extends BaseFragment implements MerchantActions {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        setListeners();
+    protected void initializePresenter() {
         presenter = new MerchantPresenter(this);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setListeners();
     }
 
     private void setListeners() {

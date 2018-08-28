@@ -13,9 +13,9 @@ import com.example.atraverf.uvlive.R;
 import java.util.List;
 
 import butterknife.BindView;
-import es.uv.uvlive.UVLiveApplication;
+import es.uv.uvlive.data.UVLivePreferences;
+import es.uv.uvlive.presenter.BasePresenter;
 import es.uv.uvlive.presenter.ConversationsPresenter;
-import es.uv.uvlive.session.Conversation;
 import es.uv.uvlive.ui.actions.ConversationsActions;
 import es.uv.uvlive.ui.activity.MainActivity;
 import es.uv.uvlive.ui.adapter.ConversationsAdapter;
@@ -24,6 +24,7 @@ import es.uv.uvlive.ui.models.ConversationModel;
 public class ConversationListFragment extends BaseFragment implements ConversationsAdapter.OnConversationItemClick, ConversationsActions {
 
     private List<ConversationModel> conversationModelList;
+    private ConversationsPresenter conversationsPresenter;
 
     @BindView(R.id.fragment_conversation_list_rl)
     RecyclerView recyclerView;
@@ -51,24 +52,19 @@ public class ConversationListFragment extends BaseFragment implements Conversati
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        initializePresenter();
+        super.onViewCreated(view,savedInstanceState);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getActivity().getTitle());
     }
 
+    @Nullable
     @Override
-    public void onResume() {
-        super.onResume();
-        UVLiveApplication.subscribeActions(this);
+    protected BasePresenter getPresenter() {
+        return conversationsPresenter;
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        UVLiveApplication.unsubscribeActions(this);
-    }
-
-    private void initializePresenter() {
-        ConversationsPresenter conversationsPresenter = new ConversationsPresenter(this);
+    protected void initializePresenter() {
+        conversationsPresenter = new ConversationsPresenter(this);
         conversationsPresenter.getLocalConversations();
         conversationsPresenter.updateConversations();
     }
@@ -83,6 +79,13 @@ public class ConversationListFragment extends BaseFragment implements Conversati
     @Override
     public void onConversationsReceived(List<ConversationModel> conversationModelList) {
         initalizeList(conversationModelList);
+        int idConversation = UVLivePreferences.getInstance().getDeeplinkParams();
+        if (idConversation > 0) {
+            UVLivePreferences.getInstance().removeDeeplinkParams();
+            if (getActivity() instanceof MainActivity) {
+                ((MainActivity)getActivity()).onItemSelected(idConversation);
+            }
+        }
     }
 
     @Override

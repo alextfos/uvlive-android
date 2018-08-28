@@ -44,6 +44,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageViewHolder> 
         // Add elements to init of list, for that reason the position is zero
         this.messageModelList.addAll(0,messageModelList);
         notifyItemRangeInserted(0,messageModelList.size());
+        recyclerView.smoothScrollToPosition(0);
     }
 
     @Override

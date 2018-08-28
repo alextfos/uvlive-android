@@ -27,21 +27,43 @@ public abstract class BasePresenter {
     }
 
     @CallSuper
-    public void onStart() {
+    public void onCreate() {
         registeredPresenters.add(this);
     }
 
     @CallSuper
-    public void onStop() {
+    public void onDestroy() {
         registeredPresenters.remove(this);
     }
 
-    protected void notifyConversationListReceived() {
-        // TODO
+    public static boolean notifyConversationListReceived() {
+        boolean sended = false;
+
+        if (registeredPresenters != null && !registeredPresenters.isEmpty()) {
+            for (BasePresenter basePresenter : registeredPresenters) {
+                if (basePresenter instanceof ConversationsPresenter) {
+                    ((ConversationsPresenter) basePresenter).updateConversations();
+                    sended = true;
+                    break;
+                }
+            }
+        }
+
+        return sended;
     }
 
-    protected void notifyMessagesReceived() {
-        // TODO
+    public static boolean notifyMessagesReceived(int idConversation) {
+        boolean sended = false;
+
+        if (registeredPresenters != null && !registeredPresenters.isEmpty()) {
+            for (BasePresenter basePresenter : registeredPresenters) {
+                if (basePresenter instanceof MessagesPresenter && ((MessagesPresenter) basePresenter).getIdConversation() == idConversation) {
+                    ((MessagesPresenter) basePresenter).getFollowingMessages();
+                }
+            }
+        }
+
+        return sended;
     }
 
     protected static User getUser() {
