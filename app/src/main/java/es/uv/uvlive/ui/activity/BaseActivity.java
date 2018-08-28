@@ -1,14 +1,19 @@
 package es.uv.uvlive.ui.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+
 import butterknife.ButterKnife;
 import es.uv.uvlive.UVLiveApplication;
+import es.uv.uvlive.data.database.models.ConversationTable;
+import es.uv.uvlive.data.database.models.MessageTable;
 import es.uv.uvlive.mappers.ErrorMapper;
 import es.uv.uvlive.data.UVCallback;
 import es.uv.uvlive.data.UVLivePreferences;
@@ -61,6 +66,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     }
 
     public void logout() {
+        UVLivePreferences.getInstance().removeAll();
+        SQLite.delete().from(MessageTable.class).execute();
+        SQLite.delete().from(ConversationTable.class).execute();
         UVLiveApplication.getUVLiveGateway().logout(new UVCallback<BaseResponse>() {
             @Override
             public void onSuccess(@NonNull BaseResponse baseResponse) {

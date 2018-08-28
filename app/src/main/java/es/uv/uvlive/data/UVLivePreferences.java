@@ -68,6 +68,12 @@ public class UVLivePreferences {
         return allEntries;
     }
 
+    public void removeAll() {
+        for (String key: getAll().keySet()) {
+            removeElement(key);
+        }
+    }
+
     public void saveUser(User user) {
         String serializedUser = GSON_CREATOR.toJson(user);
         try {
