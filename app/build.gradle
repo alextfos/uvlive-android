@@ -1,25 +1,23 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
-apply plugin: 'com.neenbedankt.android-apt'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "es.uv.uvlive"
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion 26
         versionCode 1
         versionName "0.9.0"
-        buildConfigField("String", "ENVIRONMENT", "\"http://slopez.uv.es:8080/\"")
     }
 
     buildTypes {
         debug {
             initWith buildTypes.debug
             minifyEnabled false
-            buildConfigField("String", "ENVIRONMENT", "\"http://192.168.1.128:8080/\"")
+            buildConfigField("String", "ENVIRONMENT", "\"http://192.168.0.128:8080/\"")
 
         }
 
@@ -49,11 +47,17 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
-def googleServicesVersion = '10.2.0'
-def supportLibVersion = '25.2.0'
+def googleServicesVersion = '10.2.1'
+def supportLibVersion = '26.1.0'
 def dbflowVersion = "3.1.1"
+def canaryVersion = "1.5.4"
 
 dependencies {
+    debugCompile group: 'com.squareup.leakcanary', name: 'leakcanary-android', version: "${canaryVersion}"
+    genymotionCompile group: 'com.squareup.leakcanary', name: 'leakcanary-android', version: "${canaryVersion}"
+    releaseCompile group: 'com.squareup.leakcanary', name: 'leakcanary-android-no-op', version: "${canaryVersion}"
+    compile group: 'com.squareup.picasso', name: 'picasso', version: '2.5.2'
+
     compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
         transitive = true;
     } // Crashlytics
@@ -64,7 +68,8 @@ dependencies {
     compile "com.android.support:design:${supportLibVersion}"
     compile "com.google.firebase:firebase-messaging:$googleServicesVersion"
     compile 'com.jakewharton:butterknife:8.5.1'
-    apt 'com.jakewharton:butterknife-compiler:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
     compile 'com.google.code.gson:gson:2.2.4'
     compile files('libs/volley.jar')
 
@@ -72,9 +77,8 @@ dependencies {
     compile "com.android.support:recyclerview-v7:${supportLibVersion}"
     compile "com.android.support:cardview-v7:${supportLibVersion}"
     //compile project(':picasso-2.3.4')
-    compile 'com.squareup.picasso:picasso:2.3.4'
 
-    apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflowVersion}"
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflowVersion}"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflowVersion}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflowVersion}"
     compile 'com.scottyab:aescrypt:0.0.1'

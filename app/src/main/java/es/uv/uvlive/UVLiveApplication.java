@@ -3,8 +3,6 @@ package es.uv.uvlive;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
-import android.os.SystemClock;
-import android.support.annotation.Nullable;
 
 import com.crashlytics.android.Crashlytics;
 import com.raizlabs.android.dbflow.config.FlowConfig;
@@ -12,11 +10,9 @@ import com.raizlabs.android.dbflow.config.FlowManager;
 import com.squareup.leakcanary.LeakCanary;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import es.uv.uvlive.data.gateway.UVLiveGateway;
 import es.uv.uvlive.session.Session;
-import es.uv.uvlive.ui.actions.BaseActions;
 import io.fabric.sdk.android.Fabric;
 
 /**
