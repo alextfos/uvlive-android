@@ -64,5 +64,12 @@
 
     <!-- Messages -->
     <string name="messages_send">Send</string>
+    <string name="error_user_defined">El usuario ya existe</string>
+    <string name="error_user_not_defined">El usuario no exste</string>
+    <string name="error_parameters_incorrect">Su petición no es correcta</string>
+    <string name="error_conversation_not_exists">La conversación no existe</string>
+    <string name="error_user_blocked">Has sido bloqueado por el administrador</string>
+    <string name="error_merchant_not_exists">El comerciante no existe</string>
+    <string name="message_blocked_text">Mensaje no enviado por estar bloqueado</string>
 
 </resources>

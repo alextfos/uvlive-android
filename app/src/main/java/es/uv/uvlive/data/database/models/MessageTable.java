@@ -32,6 +32,9 @@ public class MessageTable extends BaseModel {
     @Column
     protected boolean sent;
 
+    @Column
+    protected boolean blocked;
+
     public long getTimestamp() {
         return timestamp;
     }
@@ -82,6 +85,14 @@ public class MessageTable extends BaseModel {
 
     public String getOwner() {
         return owner;
+    }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
     }
 
     public void setOwner(String owner) {

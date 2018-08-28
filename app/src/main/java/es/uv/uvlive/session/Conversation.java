@@ -221,7 +221,7 @@ public class Conversation {
         message.setOwner(getOwnerName());
         message.setIdConversation(idConversation);
         message.setLocalTimestamp(Calendar.getInstance().getTimeInMillis());
-        message.setTimestamp(0); // We don't know it
+        message.setTimestamp(-1); // We don't know it
         message.setMessage(messageText);
 
         this.messageList.add(0,message);
@@ -249,7 +249,13 @@ public class Conversation {
 
             @Override
             public void onError(int errorCode) {
-                // Nothing to do here
+                BusinessError businessError = ErrorMapper.mapError(errorCode);
+                if (BusinessError.USER_BLOCKED.equals(businessError)) {
+                    message.setBlocked(true);
+                    MessageMapper.getMessageTableFromMessage(message).async().save();
+                    businessCallback.onDataReceived(message);
+                    businessCallback.onError(businessError);
+                }
             }
         });
     }

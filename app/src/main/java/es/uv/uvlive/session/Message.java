@@ -12,6 +12,7 @@ public class Message implements Comparable<Message> {
     private long localTimestamp;
     private boolean sent;
     private String owner;
+    private boolean blocked;
 
     public Message() {
         idLocal = -1;
@@ -82,6 +83,14 @@ public class Message implements Comparable<Message> {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
     }
 
     @Override

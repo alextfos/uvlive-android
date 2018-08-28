@@ -73,6 +73,7 @@ public final class MessageMapper {
         message.setMessage(messageTable.getMessageText());
         message.setSent(messageTable.isSent());
         message.setOwner(messageTable.getOwner());
+        message.setBlocked(messageTable.isBlocked());
 
         return message;
     }
@@ -87,6 +88,7 @@ public final class MessageMapper {
         message.setSent(true);
         message.setOwner(messageResponse.getOwner());
         message.setIdConversation(idConversation);
+        message.setBlocked(false);
 
         return message;
     }
@@ -103,6 +105,7 @@ public final class MessageMapper {
         } else {
             messageModel.setDate(DateUtils.timestampToStringDate(message.getTimestamp()));
         }
+        messageModel.setBlocked(message.isBlocked());
 
         return messageModel;
     }
@@ -118,7 +121,7 @@ public final class MessageMapper {
         }
         if (message.getTimestamp() > 0) {
             messageTable.setTimestamp(message.getTimestamp());
-        } else if (message.getTimestamp() > 0) {
+        } else if (message.getLocalTimestamp() > 0) {
             messageTable.setTimestamp(message.getLocalTimestamp());
         } else {
             messageTable.setTimestamp(0);
@@ -128,6 +131,7 @@ public final class MessageMapper {
         messageTable.setIdConversation(message.getIdLocal());
         messageTable.setOwner(message.getOwner());
         messageTable.setIdConversation(message.getIdConversation());
+        messageTable.setBlocked(message.isBlocked());
 
         return messageTable;
     }

@@ -59,6 +59,16 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
     <TextView
+        android:id="@+id/item_message_blocked_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp"
+        android:paddingBottom="1dp"
+        android:text="@string/message_blocked_text"
+        tools:visibility="visible"
+        android:textColor="@color/colorPrimary"
+        android:background="@color/uv_light_red"
+        android:textSize="13sp"/>
 </LinearLayout>

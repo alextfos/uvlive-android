@@ -76,6 +76,7 @@ public class UsersActivity extends BaseActivity implements UsersActions {
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 

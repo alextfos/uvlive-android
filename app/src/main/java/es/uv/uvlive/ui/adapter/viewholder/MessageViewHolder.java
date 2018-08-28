@@ -29,6 +29,9 @@ public class MessageViewHolder extends BaseViewHolder {
     @BindView(R.id.item_message_card)
     protected CardView card;
 
+    @BindView(R.id.item_message_blocked_text)
+    protected TextView messageBlockedTv;
+
     public static MessageViewHolder newInstance(ViewGroup parent) {
         return new MessageViewHolder(inflateView(parent,R.layout.item_message));
     }
@@ -45,6 +48,11 @@ public class MessageViewHolder extends BaseViewHolder {
         } else {
             card.setCardBackgroundColor(ContextCompat.getColor(card.getContext(), android.R.color.white));
             feedbackIv.setVisibility(View.INVISIBLE);
+        }
+        if (messageModel.isBlocked()) {
+            messageBlockedTv.setVisibility(View.VISIBLE);
+        } else {
+            messageBlockedTv.setVisibility(View.GONE);
         }
         ownerTv.setText(messageModel.getOwner());
         textTv.setText(messageModel.getMessage());

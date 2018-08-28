@@ -7,6 +7,7 @@ public class MessageModel {
     private String owner;
     private String message;
     private String date;
+    private boolean blocked;
 
     public boolean isSended() {
         return sended;
@@ -46,6 +47,14 @@ public class MessageModel {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
     }
 
     @Override

@@ -3,19 +3,15 @@ package es.uv.uvlive.presenter;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import es.uv.uvlive.mappers.ConversationMapper;
 import es.uv.uvlive.mappers.MessageMapper;
 import es.uv.uvlive.session.BusinessCallback;
 import es.uv.uvlive.session.BusinessError;
 import es.uv.uvlive.session.Conversation;
 import es.uv.uvlive.session.Message;
 import es.uv.uvlive.session.RolUV;
-import es.uv.uvlive.session.Session;
 import es.uv.uvlive.ui.actions.MessageActions;
-import es.uv.uvlive.ui.models.MessageModel;
 
 public class MessagesPresenter extends BasePresenter {
 
@@ -58,7 +54,6 @@ public class MessagesPresenter extends BasePresenter {
             return -1;
         }
     }
-
 
     public boolean isFetchingPreviousMessages() {
         return fetchingPreviousMessages;
